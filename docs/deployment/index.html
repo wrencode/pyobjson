@@ -3,9 +3,9 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="Wren J. Rudolph for Wrencode, LLC" /><link rel="canonical" href="https://pypackitup.wrencode.dev/deployment/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="Wren J. Rudolph for Wrencode, LLC" /><link rel="canonical" href="https://pyobjson.wrencode.dev/deployment/" />
       <link rel="shortcut icon" href="../img/favicon.ico" />
-    <title>Deployment - pypackitup - Python Package Template</title>
+    <title>Deployment - pyobjson - Python Object JSON Tool</title>
     <link rel="stylesheet" href="../css/theme.css" />
     <link rel="stylesheet" href="../css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
@@ -67,7 +67,7 @@
               </ul>
               <p class="caption"><span class="caption-text">Package</span></p>
               <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="../helloworld/">Example</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../pyobjson/">pyobjson</a>
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">Tests</span></p>
@@ -82,7 +82,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
       <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="..">pypackitup - Python Package Template</a>
+          <a href="..">pyobjson - Python Object JSON Tool</a>
         
       </nav>
       <div class="wy-nav-content">
@@ -125,7 +125,7 @@
 <p><em>(Required for initial publication on PyPI)</em> Create a <code>.env</code> file by running <code>cp .env.template .env</code> in the command line from the project root directory and paste the PyPI API token from the previous step as the value for <code>UV_PUBLISH_TOKEN</code> (this environment variable is used in the Makefile by <code>uv publish</code> to <a href="https://docs.astral.sh/uv/guides/publish/#publishing-your-package">publish the package using uv</a>).</p>
 </li>
 <li>
-<p><em>(Optional after initial package publication on PyPI)</em> Configure a <em>new</em> <a href="https://pypi.org/manage/project/pypackitup/settings/">package-specific PyPI API token</a> and update the above <code>UV_PUBLISH_TOKEN</code> environment variable in the <code>.env</code> to use it.</p>
+<p><em>(Optional after initial package publication on PyPI)</em> Configure a <em>new</em> <a href="https://pypi.org/help/#apitoken">package-specific PyPI API token</a> and update the above <code>UV_PUBLISH_TOKEN</code> environment variable in the <code>.env</code> to use it.</p>
 </li>
 <li>
 <p><em>(Optional if using Twine)</em> Install <code>twine</code> (if not already installed) with <code>uv add twine</code>.</p>
@@ -181,13 +181,13 @@
 <ul>
 <li><em>(Optional)</em> Run all tests from <code>pytest</code> file:</li>
 </ul>
-<div class="codehilite"><pre><span></span><code>uv<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>-v<span class="w"> </span>-s<span class="w"> </span>tests/test_helloworld.py
+<div class="codehilite"><pre><span></span><code>uv<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>-v<span class="w"> </span>-s<span class="w"> </span>tests/test_pyobjson.py
 </code></pre></div>
 
 <ul>
 <li><em>(Optional)</em> Run <em>specific</em> test from <code>pytest</code> file:</li>
 </ul>
-<div class="codehilite"><pre><span></span><code>uv<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>-v<span class="w"> </span>-s<span class="w"> </span>tests/test_helloworld.py<span class="w"> </span>-k<span class="w"> </span>test_main
+<div class="codehilite"><pre><span></span><code>uv<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>-v<span class="w"> </span>-s<span class="w"> </span>tests/test_pyobjson.py<span class="w"> </span>-k<span class="w"> </span>test_main
 </code></pre></div>
 
 <ul>
@@ -272,7 +272,7 @@ git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </sp
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
         <a href="../readme/" class="btn btn-neutral float-left" title="README"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-        <a href="../helloworld/" class="btn btn-neutral float-right" title="Example">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../pyobjson/" class="btn btn-neutral float-right" title="pyobjson">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -295,14 +295,14 @@ git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </sp
   <span class="rst-current-version" data-toggle="rst-current-version">
     
         <span>
-          <a href="https://github.com/wrencode/pypackitup" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+          <a href="https://github.com/wrencode/pyobjson" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
         </span>
     
     
       <span><a href="../readme/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
-      <span><a href="../helloworld/" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="../pyobjson/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>

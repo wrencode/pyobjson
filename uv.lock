@@ -696,7 +696,7 @@ wheels = [
 ]
 
 [[package]]
-name = "pypackitup"
+name = "pyobjson"
 version = "1.0.0"
 source = { editable = "." }
 

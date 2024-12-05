@@ -1,11 +1,11 @@
 [project]
-name = "pypackitup"
+name = "pyobjson"
 dynamic = ["version"]
 authors = [
     { name="Wren J. Rudolph for Wrencode, LLC", email="dev@wrencode.com" },
 ]
 license = { text = "MIT" }
-description = "Template repository for developing Python packages."
+description = "Utility library for serializing/deserializing custom Python objects to/from JSON."
 readme = "README.md"
 requires-python = ">=3.9"
 classifiers = [
@@ -21,8 +21,8 @@ classifiers = [
 dependencies = []
 
 [project.urls]
-Homepage = "https://github.com/wrencode/pypackitup"
-Issues = "https://github.com/wrencode/pypackitup/issues"
+Homepage = "https://github.com/wrencode/pyobjson"
+Issues = "https://github.com/wrencode/pyobjson/issues"
 
 [build-system]
 requires = ["hatchling"]
@@ -55,7 +55,7 @@ exclude = [
     "scripts"
 ]
 extend-exclude = [
-    "src/pypackitup/__init__.py"
+    "src/pyobjson/__init__.py"
 ]
 line-length = 120
 indent-width = 4

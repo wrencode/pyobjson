@@ -1,11 +1,11 @@
 ### Site metadata ###
 
-site_name: pypackitup - Python Package Template
-site_description: Template repository for developing Python packages.
-site_url: https://pypackitup.wrencode.dev
+site_name: pyobjson - Python Object JSON Tool
+site_description: Utility library for serializing/deserializing custom Python objects to/from JSON.
+site_url: https://pyobjson.wrencode.dev
 site_author: "Wren J. Rudolph for Wrencode, LLC"
 
-repo_url: https://github.com/wrencode/pypackitup
+repo_url: https://github.com/wrencode/pyobjson
 edit_uri: ""
 
 ### Build settings ###
@@ -36,7 +36,7 @@ nav:
   - README: readme.md
   - Deployment: deployment.md
   - Package:
-    - Example: helloworld.md
+    - pyobjson: pyobjson.md
   - Tests:
     - PyTest: tests.md
 

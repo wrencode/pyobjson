@@ -4,17 +4,19 @@
 __author__ = "Wren J. Rudolph for Wrencode, LLC"
 __email__ = "dev@wrencode.com"
 
+from typing import Type
+
 import pytest
 
-from pypackitup.helloworld import PythonPackageTemplate
+from pyobjson.pyobjson import PythonObjectJson
 
 
 @pytest.fixture(scope="module")
-def python_package_template() -> PythonPackageTemplate:
-    """Create a PythonPackageTemplate class object for testing.
+def python_object_json_class() -> Type[PythonObjectJson]:
+    """Provide PythonObjectJson class for testing.
 
     Returns:
-        PythonPackageTemplate: Python package template class instance.
+        Type[PythonObjectJson]: PythonObjectJson class.
 
     """
-    return PythonPackageTemplate()
+    return PythonObjectJson

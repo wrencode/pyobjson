@@ -59,7 +59,11 @@
               </ul>
               <p class="caption"><span class="caption-text">Package</span></p>
               <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="../pyobjson/">pyobjson</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../base/">pyobjson</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../data/">Data Tools</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../utils/">Utilities</a>
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">Tests</span></p>
@@ -70,7 +74,15 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#tests.conftest">conftest</a>
         <ul>
-    <li class="toctree-l3"><a class="reference internal" href="#tests.conftest.python_object_json_class">python_object_json_class</a>
+    <li class="toctree-l3"><a class="reference internal" href="#tests.conftest.ChildChildClass">ChildChildClass</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#tests.conftest.ChildClass">ChildClass</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#tests.conftest.ParentClass">ParentClass</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#tests.conftest.parent_class_with_nested_child_classes">parent_class_with_nested_child_classes</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#tests.conftest.parent_class_json_str">parent_class_json_str</a>
     </li>
         </ul>
     </li>
@@ -184,6 +196,43 @@
 
 
 
+<p><span class="doc-section-title">Classes:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="tests.conftest.ChildChildClass" href="#tests.conftest.ChildChildClass">ChildChildClass</a></code></td>
+            <td>
+              <div class="doc-md-description">
+                <p>ChildChildClass for testing.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="tests.conftest.ChildClass" href="#tests.conftest.ChildClass">ChildClass</a></code></td>
+            <td>
+              <div class="doc-md-description">
+                <p>ChildClass for testing.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="tests.conftest.ParentClass" href="#tests.conftest.ParentClass">ParentClass</a></code></td>
+            <td>
+              <div class="doc-md-description">
+                <p>ParentClass for testing.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
 
 
 <p><span class="doc-section-title">Functions:</span></p>
@@ -196,10 +245,18 @@
       </thead>
       <tbody>
             <tr class="doc-section-item">
-              <td><code><a class="autorefs autorefs-internal" title="tests.conftest.python_object_json_class" href="#tests.conftest.python_object_json_class">python_object_json_class</a></code></td>
+              <td><code><a class="autorefs autorefs-internal" title="tests.conftest.parent_class_with_nested_child_classes" href="#tests.conftest.parent_class_with_nested_child_classes">parent_class_with_nested_child_classes</a></code></td>
               <td>
                 <div class="doc-md-description">
-                  <p>Provide PythonObjectJson class for testing.</p>
+                  <p>Create ParentClass instance for testing.</p>
+                </div>
+              </td>
+            </tr>
+            <tr class="doc-section-item">
+              <td><code><a class="autorefs autorefs-internal" title="tests.conftest.parent_class_json_str" href="#tests.conftest.parent_class_json_str">parent_class_json_str</a></code></td>
+              <td>
+                <div class="doc-md-description">
+                  <p>Create JSON string from ParentClass instance for testing.</p>
                 </div>
               </td>
             </tr>
@@ -219,21 +276,216 @@
 
 
 
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="tests.conftest.ChildChildClass" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">ChildChildClass</span>
+
+
+<a href="#tests.conftest.ChildChildClass" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="pyobjson.base.PythonObjectJson">PythonObjectJson</span></code></p>
+
+
+        <p>ChildChildClass for testing.</p>
+
+
+
+
+
+
+
+
+
+
+              <details class="quote">
+                <summary>Source code in <code>tests/conftest.py</code></summary>
+                <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ChildChildClass</span><span class="p">(</span><span class="n">PythonObjectJson</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;ChildChildClass for testing.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">child_child_class_param</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">child_child_class_param</span> <span class="o">=</span> <span class="n">child_child_class_param</span>
+</code></pre></div></td></tr></table></div>
+              </details>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="tests.conftest.ChildClass" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">ChildClass</span>
+
+
+<a href="#tests.conftest.ChildClass" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="pyobjson.base.PythonObjectJson">PythonObjectJson</span></code></p>
+
+
+        <p>ChildClass for testing.</p>
+
+
+
+
+
+
+
+
+
+
+              <details class="quote">
+                <summary>Source code in <code>tests/conftest.py</code></summary>
+                <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ChildClass</span><span class="p">(</span><span class="n">PythonObjectJson</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;ChildClass for testing.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">child_child_class_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">ChildChildClass</span><span class="p">]):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">child_child_class_list</span> <span class="o">=</span> <span class="n">child_child_class_list</span>
+</code></pre></div></td></tr></table></div>
+              </details>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="tests.conftest.ParentClass" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">ParentClass</span>
+
+
+<a href="#tests.conftest.ParentClass" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="pyobjson.base.PythonObjectJson">PythonObjectJson</span></code></p>
+
+
+        <p>ParentClass for testing.</p>
+
+
+
+
+
+
+
+
+
+
+              <details class="quote">
+                <summary>Source code in <code>tests/conftest.py</code></summary>
+                <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ParentClass</span><span class="p">(</span><span class="n">PythonObjectJson</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;ParentClass for testing.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">child_class_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">ChildClass</span><span class="p">]):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">child_class_list</span> <span class="o">=</span> <span class="n">child_class_list</span>
+</code></pre></div></td></tr></table></div>
+              </details>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
 
 <div class="doc doc-object doc-function">
 
 
-<h3 id="tests.conftest.python_object_json_class" class="doc doc-heading">
-            <span class="doc doc-object-name doc-function-name">python_object_json_class</span>
+<h3 id="tests.conftest.parent_class_with_nested_child_classes" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">parent_class_with_nested_child_classes</span>
 
 
-<a href="#tests.conftest.python_object_json_class" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature codehilite"><pre><span></span><code><span class="nf">python_object_json_class</span><span class="p">()</span>
+<a href="#tests.conftest.parent_class_with_nested_child_classes" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature codehilite"><pre><span></span><code><span class="nf">parent_class_with_nested_child_classes</span><span class="p">()</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
 
-        <p>Provide PythonObjectJson class for testing.</p>
+        <p>Create ParentClass instance for testing.</p>
 
 
 <table class="field-list">
@@ -247,10 +499,10 @@
       <td class="field-body">
         <ul class="first simple">
             <li>
-                  <code><span title="typing.Type">Type</span>[<span title="pyobjson.pyobjson.PythonObjectJson">PythonObjectJson</span>]</code>
-              –
+<b><code>ParentClass</code></b>(                  <code><a class="autorefs autorefs-internal" title="tests.conftest.ParentClass" href="#tests.conftest.ParentClass">ParentClass</a></code>
+)              –
               <div class="doc-md-description">
-                <p>Type[PythonObjectJson]: PythonObjectJson class.</p>
+                <p>Instance of ParentClass.</p>
               </div>
             </li>
         </ul>
@@ -260,23 +512,124 @@
 </table>
             <details class="quote">
               <summary>Source code in <code>tests/conftest.py</code></summary>
-              <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">14</span>
-<span class="normal">15</span>
-<span class="normal">16</span>
-<span class="normal">17</span>
-<span class="normal">18</span>
-<span class="normal">19</span>
-<span class="normal">20</span>
-<span class="normal">21</span>
-<span class="normal">22</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;module&quot;</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">python_object_json_class</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">[</span><span class="n">PythonObjectJson</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Provide PythonObjectJson class for testing.</span>
+              <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;module&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">parent_class_with_nested_child_classes</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">ParentClass</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create ParentClass instance for testing.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        Type[PythonObjectJson]: PythonObjectJson class.</span>
+<span class="sd">        ParentClass: Instance of ParentClass.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">ParentClass</span><span class="p">([</span><span class="n">ChildClass</span><span class="p">([</span><span class="n">ChildChildClass</span><span class="p">(</span><span class="s2">&quot;test_child_child_class_argument&quot;</span><span class="p">)])])</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="tests.conftest.parent_class_json_str" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">parent_class_json_str</span>
+
+
+<a href="#tests.conftest.parent_class_json_str" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature codehilite"><pre><span></span><code><span class="nf">parent_class_json_str</span><span class="p">()</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Create JSON string from ParentClass instance for testing.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+<b><code>str</code></b>(                  <code>str</code>
+)              –
+              <div class="doc-md-description">
+                <p>JSON string derived from serialized ParentClass instance.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+            <details class="quote">
+              <summary>Source code in <code>tests/conftest.py</code></summary>
+              <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span>
+<span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span>
+<span class="normal">79</span>
+<span class="normal">80</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;module&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">parent_class_json_str</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create JSON string from ParentClass instance for testing.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: JSON string derived from serialized ParentClass instance.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">PythonObjectJson</span>
+    <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;conftest.parentclass&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;child_class_list&quot;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="p">{</span>
+                        <span class="s2">&quot;conftest.childclass&quot;</span><span class="p">:</span> <span class="p">{</span>
+                            <span class="s2">&quot;child_child_class_list&quot;</span><span class="p">:</span> <span class="p">[</span>
+                                <span class="p">{</span>
+                                    <span class="s2">&quot;conftest.childchildclass&quot;</span><span class="p">:</span> <span class="p">{</span>
+                                        <span class="s2">&quot;child_child_class_param&quot;</span><span class="p">:</span> <span class="s2">&quot;test_child_child_class_argument&quot;</span>
+                                    <span class="p">}</span>
+                                <span class="p">}</span>
+                            <span class="p">]</span>
+                        <span class="p">}</span>
+                    <span class="p">}</span>
+                <span class="p">]</span>
+            <span class="p">}</span>
+        <span class="p">},</span>
+        <span class="n">ensure_ascii</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">indent</span><span class="o">=</span><span class="mi">2</span>
+    <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -308,7 +661,7 @@
 
 <details class="note" open>
   <summary>Note</summary>
-  <p>Tests pyobjson.py module.</p>
+  <p>Tests pyobjson.base module.</p>
 </details>
 
 
@@ -349,7 +702,7 @@
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../pyobjson/" class="btn btn-neutral float-left" title="pyobjson"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../utils/" class="btn btn-neutral float-left" title="Utilities"><span class="icon icon-circle-arrow-left"></span> Previous</a>
     </div>
 
   <hr/>
@@ -376,7 +729,7 @@
         </span>
     
     
-      <span><a href="../pyobjson/" style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="../utils/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
   </span>

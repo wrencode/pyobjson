@@ -1,53 +1,24 @@
 """Pytest test for Python Object JSON Tool code.
 
 Note:
-    Tests pyobjson.py module.
+    Tests pyobjson.base module.
 
 """
 __author__ = "Wren J. Rudolph for Wrencode, LLC"
 __email__ = "dev@wrencode.com"
 
-import json
-from typing import List
+from conftest import ParentClass
 
 
-def test_serialization_to_json_string(python_object_json_class):
+class TestPythonObjectJson:
 
-    class TestChildClass(python_object_json_class):
+    def test_serialization_to_json_string(self, parent_class_with_nested_child_classes, parent_class_json_str):
+        assert parent_class_with_nested_child_classes.to_json_str() == parent_class_json_str
 
-        def __init__(self, test_param: str):
-            super().__init__()
-            self.test_param = test_param
+    def test_deserialization_from_json_string(self, parent_class_json_str):
+        parent_class_instance = ParentClass([])
+        assert not parent_class_instance.child_class_list
 
-    class TestParentClass(python_object_json_class):
-
-        def __init__(self, test_child_class_list: List[TestChildClass]):
-            super().__init__()
-            self.test_parent_class_list = test_child_class_list
-
-    serialized_test_parent_class = json.dumps(
-        {
-            "testparentclass": {
-                "test_parent_class_list": [
-                    {
-                        "testchildclass": {
-                            "test_param": "test_param_1"
-                        }
-                    },
-                    {
-                        "testchildclass": {
-                            "test_param": "test_param_2"
-                        }
-                    }
-                ]
-            }
-        },
-        ensure_ascii=False,
-        indent=2
-    )
-
-    test_parent_class_instance = TestParentClass(
-        [TestChildClass(test_param="test_param_1"), TestChildClass(test_param="test_param_2")]
-    )
-
-    assert test_parent_class_instance.to_json_str() == serialized_test_parent_class
+        parent_class_instance.from_json_str(parent_class_json_str)
+        assert len(parent_class_instance.child_class_list) == 1
+        assert len(parent_class_instance.child_class_list[0].child_child_class_list) == 1

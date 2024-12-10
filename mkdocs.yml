@@ -36,7 +36,9 @@ nav:
   - README: readme.md
   - Deployment: deployment.md
   - Package:
-    - pyobjson: pyobjson.md
+    - pyobjson: base.md
+    - Data Tools: data.md
+    - Utilities: utils.md
   - Tests:
     - PyTest: tests.md
 

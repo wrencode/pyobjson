@@ -4,19 +4,77 @@
 __author__ = "Wren J. Rudolph for Wrencode, LLC"
 __email__ = "dev@wrencode.com"
 
-from typing import Type
+import json
+from typing import List
 
-import pytest
+from pytest import fixture
 
-from pyobjson.pyobjson import PythonObjectJson
+from pyobjson.base import PythonObjectJson
 
 
-@pytest.fixture(scope="module")
-def python_object_json_class() -> Type[PythonObjectJson]:
-    """Provide PythonObjectJson class for testing.
+class ChildChildClass(PythonObjectJson):
+    """ChildChildClass for testing.
+    """
+
+    def __init__(self, child_child_class_param: str):
+        super().__init__()
+        self.child_child_class_param = child_child_class_param
+
+
+class ChildClass(PythonObjectJson):
+    """ChildClass for testing.
+    """
+
+    def __init__(self, child_child_class_list: List[ChildChildClass]):
+        super().__init__()
+        self.child_child_class_list = child_child_class_list
+
+
+class ParentClass(PythonObjectJson):
+    """ParentClass for testing.
+    """
+
+    def __init__(self, child_class_list: List[ChildClass]):
+        super().__init__()
+        self.child_class_list = child_class_list
+
+
+@fixture(scope="module")
+def parent_class_with_nested_child_classes() -> ParentClass:
+    """Create ParentClass instance for testing.
 
     Returns:
-        Type[PythonObjectJson]: PythonObjectJson class.
+        ParentClass: Instance of ParentClass.
+    """
+    return ParentClass([ChildClass([ChildChildClass("test_child_child_class_argument")])])
+
+
+@fixture(scope="module")
+def parent_class_json_str() -> str:
+    """Create JSON string from ParentClass instance for testing.
+
+    Returns:
+        str: JSON string derived from serialized ParentClass instance.
 
     """
-    return PythonObjectJson
+    return json.dumps(
+        {
+            "conftest.parentclass": {
+                "child_class_list": [
+                    {
+                        "conftest.childclass": {
+                            "child_child_class_list": [
+                                {
+                                    "conftest.childchildclass": {
+                                        "child_child_class_param": "test_child_child_class_argument"
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        ensure_ascii=False,
+        indent=2
+    )

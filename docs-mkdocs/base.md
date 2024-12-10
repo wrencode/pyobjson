@@ -1,6 +1,6 @@
 
 # `pyobjson - Python Object JSON Tool`
 
-::: src.pyobjson.pyobjson
+::: src.pyobjson.base
     show_root_heading: true
     show_source: true

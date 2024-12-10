@@ -30,7 +30,7 @@ test_actions_amd: ## Test package GitHub Actions on ARM architecture using act.
 	act --container-architecture linux/amd64 -j build
 
 build: update lint secure test_code ## Build PyPI packages for distribution.
-	uv build
+	rm -rf dist/ && uv build
 
 verify_build: ## Check PyPI packages for issues.
 	twine check dist/*

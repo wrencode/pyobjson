@@ -11,8 +11,9 @@ __email__ = "dev@wrencode.com"
 from collections.abc import Collection
 from inspect import getfullargspec
 from typing import Dict, List, Any, Type
+from pathlib import Path
 
-from pyobjson.utils import clean_data_dict, derive_custom_class_key
+from pyobjson.utils import clean_data_dict, derive_custom_class_key, derive_typed_key_value_pairs
 
 
 def serialize(custom_class_instance: Any, pyobjson_base_custom_subclasses: List[Type]) -> Dict[str, Any]:
@@ -40,6 +41,8 @@ def serialize(custom_class_instance: Any, pyobjson_base_custom_subclasses: List[
             # TODO: handle serialization of specific classes like set so that they can be deserialized properly
             # serializable_dict[f"{type(val).__name__.lower()}.{att}"] = values
             serializable_dict[att] = values
+        elif isinstance(val, Path):
+            serializable_dict[f"path.{att}"] = str(val)
         else:
             serializable_dict[att] = val
     return {derive_custom_class_key(custom_class_instance.__class__): serializable_dict}
@@ -84,11 +87,11 @@ def deserialize(json_data: Any, pyobjson_base_custom_subclasses_by_key: Dict[str
 
             # assign the remaining class attributes to the created class instance
             vars(class_instance).update(
-                {k: deserialize(v, base_subclasses) for k, v in class_attributes.items()}
+                {k: deserialize(v, base_subclasses) for k, v in derive_typed_key_value_pairs(class_attributes).items()}
             )
 
             return class_instance
         else:
-            return {k: deserialize(v, base_subclasses) for k, v in json_data.items()}
+            return {k: deserialize(v, base_subclasses) for k, v in derive_typed_key_value_pairs(json_data).items()}
     else:
         return json_data

@@ -5,6 +5,7 @@ __author__ = "Wren J. Rudolph for Wrencode, LLC"
 __email__ = "dev@wrencode.com"
 
 import json
+from pathlib import Path
 from typing import List
 
 from pytest import fixture
@@ -36,6 +37,7 @@ class ParentClass(PythonObjectJson):
 
     def __init__(self, child_class_list: List[ChildClass]):
         super().__init__()
+        self.parent_class_file = Path(__name__)
         self.child_class_list = child_class_list
 
 
@@ -60,6 +62,7 @@ def parent_class_json_str() -> str:
     return json.dumps(
         {
             "conftest.parentclass": {
+                "path.parent_class_file": "conftest",
                 "child_class_list": [
                     {
                         "conftest.childclass": {

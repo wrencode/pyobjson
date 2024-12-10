@@ -36,7 +36,7 @@
           <img src="../wrencode-logo.svg" class="logo" alt="Logo"/>
         </a>
         <div class="version">
-          v2.0.0
+          v2.1.0
         </div><div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
       <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
@@ -269,8 +269,7 @@
 </table>
             <details class="quote">
               <summary>Source code in <code>src/pyobjson/data.py</code></summary>
-              <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">18</span>
-<span class="normal">19</span>
+              <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">19</span>
 <span class="normal">20</span>
 <span class="normal">21</span>
 <span class="normal">22</span>
@@ -296,7 +295,10 @@
 <span class="normal">42</span>
 <span class="normal">43</span>
 <span class="normal">44</span>
-<span class="normal">45</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">serialize</span><span class="p">(</span><span class="n">custom_class_instance</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">pyobjson_base_custom_subclasses</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Type</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">serialize</span><span class="p">(</span><span class="n">custom_class_instance</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">pyobjson_base_custom_subclasses</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Type</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Recursive method to serialize custom Python objects into nested dictionaries for conversion to JSON.</span>
 
 <span class="sd">    Args:</span>
@@ -321,6 +323,8 @@
             <span class="c1"># TODO: handle serialization of specific classes like set so that they can be deserialized properly</span>
             <span class="c1"># serializable_dict[f&quot;{type(val).__name__.lower()}.{att}&quot;] = values</span>
             <span class="n">serializable_dict</span><span class="p">[</span><span class="n">att</span><span class="p">]</span> <span class="o">=</span> <span class="n">values</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">Path</span><span class="p">):</span>
+            <span class="n">serializable_dict</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;path.</span><span class="si">{</span><span class="n">att</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">serializable_dict</span><span class="p">[</span><span class="n">att</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
     <span class="k">return</span> <span class="p">{</span><span class="n">derive_custom_class_key</span><span class="p">(</span><span class="n">custom_class_instance</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span> <span class="n">serializable_dict</span><span class="p">}</span>
@@ -403,10 +407,7 @@ PythonObjectJson as keys and subclasses as values.</p>
 </table>
             <details class="quote">
               <summary>Source code in <code>src/pyobjson/data.py</code></summary>
-              <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">48</span>
-<span class="normal">49</span>
-<span class="normal">50</span>
-<span class="normal">51</span>
+              <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">51</span>
 <span class="normal">52</span>
 <span class="normal">53</span>
 <span class="normal">54</span>
@@ -449,7 +450,10 @@ PythonObjectJson as keys and subclasses as values.</p>
 <span class="normal">91</span>
 <span class="normal">92</span>
 <span class="normal">93</span>
-<span class="normal">94</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">deserialize</span><span class="p">(</span><span class="n">json_data</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">pyobjson_base_custom_subclasses_by_key</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Type</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="normal">94</span>
+<span class="normal">95</span>
+<span class="normal">96</span>
+<span class="normal">97</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">deserialize</span><span class="p">(</span><span class="n">json_data</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">pyobjson_base_custom_subclasses_by_key</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Type</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Recursive method to deserialize JSON into typed data structures for conversion to custom Python objects.</span>
 
 <span class="sd">    Args:</span>
@@ -488,12 +492,12 @@ PythonObjectJson as keys and subclasses as values.</p>
 
             <span class="c1"># assign the remaining class attributes to the created class instance</span>
             <span class="nb">vars</span><span class="p">(</span><span class="n">class_instance</span><span class="p">)</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
-                <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">deserialize</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">base_subclasses</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">class_attributes</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+                <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">deserialize</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">base_subclasses</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">derive_typed_key_value_pairs</span><span class="p">(</span><span class="n">class_attributes</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
             <span class="p">)</span>
 
             <span class="k">return</span> <span class="n">class_instance</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">deserialize</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">base_subclasses</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">json_data</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+            <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">deserialize</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">base_subclasses</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">derive_typed_key_value_pairs</span><span class="p">(</span><span class="n">json_data</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">json_data</span>
 </code></pre></div></td></tr></table></div>

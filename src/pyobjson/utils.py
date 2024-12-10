@@ -67,8 +67,12 @@ def derive_typed_key_value_pairs(json_dict: Dict[str, Any]) -> Dict[str, Any]:
     for key, value in json_dict.items():
         if key.count(".") == 1:
             type_str, key = key.split(".")
-            if type_str == "path":
+
+            if type_str == "path":  # handle posix paths
                 value = Path(value)
+            elif type_str == "callable":  # TODO: handle proper serialization and reconstruction of functions
+                pass
+
             derived_key_value_pairs[key] = value
         else:
             # add key-value pair without modification if key is not formatted with a single "." to indicate a value type

@@ -6,11 +6,15 @@ __email__ = "dev@wrencode.com"
 
 import json
 from pathlib import Path
-from typing import List
+from typing import List, Optional, Callable
 
 from pytest import fixture
 
 from pyobjson.base import PythonObjectJson
+
+
+def external_function(param1: str, param2: str):
+    return f"{param1}.{param2}"
 
 
 class ChildChildClass(PythonObjectJson):
@@ -19,7 +23,7 @@ class ChildChildClass(PythonObjectJson):
 
     def __init__(self, child_child_class_param: str):
         super().__init__()
-        self.child_child_class_param = child_child_class_param
+        self.child_child_class_param: str = child_child_class_param
 
 
 class ChildClass(PythonObjectJson):
@@ -28,7 +32,7 @@ class ChildClass(PythonObjectJson):
 
     def __init__(self, child_child_class_list: List[ChildChildClass]):
         super().__init__()
-        self.child_child_class_list = child_child_class_list
+        self.child_child_class_list: List[ChildChildClass] = child_child_class_list
 
 
 class ParentClass(PythonObjectJson):
@@ -37,8 +41,9 @@ class ParentClass(PythonObjectJson):
 
     def __init__(self, child_class_list: List[ChildClass]):
         super().__init__()
-        self.parent_class_file = Path(__name__)
-        self.child_class_list = child_class_list
+        self.parent_class_file: Path = Path(__name__)
+        self.parent_class_external_function: Optional[Callable] = external_function
+        self.child_class_list: List[ChildClass] = child_class_list
 
 
 @fixture(scope="module")
@@ -63,6 +68,7 @@ def parent_class_json_str() -> str:
         {
             "conftest.parentclass": {
                 "path.parent_class_file": "conftest",
+                "callable.parent_class_external_function": "external_function:param1,param2",
                 "child_class_list": [
                     {
                         "conftest.childclass": {

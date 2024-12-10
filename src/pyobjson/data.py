@@ -8,7 +8,7 @@ Attributes:
 __author__ = "Wren J. Rudolph for Wrencode, LLC"
 __email__ = "dev@wrencode.com"
 
-from collections.abc import Collection
+from collections.abc import Collection, Callable
 from inspect import getfullargspec
 from typing import Dict, List, Any, Type
 from pathlib import Path
@@ -43,6 +43,8 @@ def serialize(custom_class_instance: Any, pyobjson_base_custom_subclasses: List[
             serializable_dict[att] = values
         elif isinstance(val, Path):
             serializable_dict[f"path.{att}"] = str(val)
+        elif isinstance(val, Callable):
+            serializable_dict[f"callable.{att}"] = f"{val.__name__}:{','.join(getfullargspec(val).args)}"
         else:
             serializable_dict[att] = val
     return {derive_custom_class_key(custom_class_instance.__class__): serializable_dict}

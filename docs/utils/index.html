@@ -36,7 +36,7 @@
           <img src="../wrencode-logo.svg" class="logo" alt="Logo"/>
         </a>
         <div class="version">
-          v2.1.0
+          v2.2.0
         </div><div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
       <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
@@ -512,7 +512,11 @@ dictionary keys.</p>
 <span class="normal">74</span>
 <span class="normal">75</span>
 <span class="normal">76</span>
-<span class="normal">77</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">derive_typed_key_value_pairs</span><span class="p">(</span><span class="n">json_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="normal">77</span>
+<span class="normal">78</span>
+<span class="normal">79</span>
+<span class="normal">80</span>
+<span class="normal">81</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">derive_typed_key_value_pairs</span><span class="p">(</span><span class="n">json_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Utility method to derive both keys and Python object types from specially formatted dictionary keys and make</span>
 <span class="sd">    their respective values into Python objects of those types.</span>
 
@@ -529,8 +533,12 @@ dictionary keys.</p>
     <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">json_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="k">if</span> <span class="n">key</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
             <span class="n">type_str</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">type_str</span> <span class="o">==</span> <span class="s2">&quot;path&quot;</span><span class="p">:</span>
+
+            <span class="k">if</span> <span class="n">type_str</span> <span class="o">==</span> <span class="s2">&quot;path&quot;</span><span class="p">:</span>  <span class="c1"># handle posix paths</span>
                 <span class="n">value</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">type_str</span> <span class="o">==</span> <span class="s2">&quot;callable&quot;</span><span class="p">:</span>  <span class="c1"># TODO: handle proper serialization and reconstruction of functions</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="kc">None</span>
+
             <span class="n">derived_key_value_pairs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># add key-value pair without modification if key is not formatted with a single &quot;.&quot; to indicate a value type</span>

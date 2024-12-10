@@ -71,7 +71,7 @@ def derive_typed_key_value_pairs(json_dict: Dict[str, Any]) -> Dict[str, Any]:
             if type_str == "path":  # handle posix paths
                 value = Path(value)
             elif type_str == "callable":  # TODO: handle proper serialization and reconstruction of functions
-                pass
+                value = None
 
             derived_key_value_pairs[key] = value
         else:

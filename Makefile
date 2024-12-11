@@ -58,3 +58,6 @@ deploy: docs verify_build ## Deploy PyPI package to PyPI with Twine.
 
 uv_deploy: docs verify_build ## Deploy PyPI package to PyPI with uv.
 	export UV_PUBLISH_URL=https://upload.pypi.org/legacy/ && export UV_PUBLISH_TOKEN=$$(python -c "import os; from dotenv import load_dotenv; load_dotenv(); print(os.environ.get('UV_PUBLISH_TOKEN'))") && uv publish
+
+git_post_deploy:  ## Update git by adding changed files, committing with a message about updating documentation and version number, and pushing
+	git add . && git commit -m 'updated version number and documentation' && git push

@@ -135,13 +135,9 @@ make uv_test_deploy
 make uv_deploy
 ```
 
-* Create a second git commit with updated version number and documentation:
+* Create a second git commit with updated version number and documentation and update the package git repository (`make git_post_deploy`):
 ```shell
 git add .
 git commit -m 'updated version number and documentation'
-```
-
-* Update package git repository:
-```shell
 git push
 ```

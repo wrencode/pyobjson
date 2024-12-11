@@ -36,7 +36,7 @@
           <img src="../wrencode-logo.svg" class="logo" alt="Logo"/>
         </a>
         <div class="version">
-          v3.1.0
+          v4.0.0
         </div><div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
       <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
@@ -180,7 +180,7 @@
               <td><code><a class="autorefs autorefs-internal" title="src.pyobjson.data.extract_typed_key_value_pairs" href="#src.pyobjson.data.extract_typed_key_value_pairs">extract_typed_key_value_pairs</a></code></td>
               <td>
                 <div class="doc-md-description">
-                  <p>Function to extract both keys and Python object types from specially formatted dictionary keys and make their</p>
+                  <p>Function to extract both keys and Python object types from specially formatted dictionary keys and make</p>
                 </div>
               </td>
             </tr>
@@ -345,8 +345,8 @@
 
     <div class="doc doc-contents ">
 
-        <p>Function to extract both keys and Python object types from specially formatted dictionary keys and make their
-respective values into Python objects of those types.</p>
+        <p>Function to extract both keys and Python object types from specially formatted dictionary keys and make
+their respective values into Python objects of those types.</p>
 
 
 <table class="field-list">
@@ -451,10 +451,9 @@ dictionary keys.</p>
 <span class="normal">94</span>
 <span class="normal">95</span>
 <span class="normal">96</span>
-<span class="normal">97</span>
-<span class="normal">98</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">extract_typed_key_value_pairs</span><span class="p">(</span><span class="n">json_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Function to extract both keys and Python object types from specially formatted dictionary keys and make their</span>
-<span class="sd">    respective values into Python objects of those types.</span>
+<span class="normal">97</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">extract_typed_key_value_pairs</span><span class="p">(</span><span class="n">json_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Function to extract both keys and Python object types from specially formatted dictionary keys and make</span>
+<span class="sd">    their respective values into Python objects of those types.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        json_dict (Dict[str, Any]): JSON dictionary that may contain keys in the format type.key_name (e.g.</span>
@@ -467,9 +466,8 @@ dictionary keys.</p>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">derived_key_value_pairs</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">json_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-
+        <span class="c1"># check if key is formatted with a single &quot;.&quot; to indicate a value type</span>
         <span class="k">if</span> <span class="n">key</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-
             <span class="n">type_name</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
             <span class="n">type_category</span> <span class="o">=</span> <span class="kc">None</span>
             <span class="k">if</span> <span class="n">type_name</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
@@ -477,10 +475,10 @@ dictionary keys.</p>
 
             <span class="k">if</span> <span class="n">type_category</span> <span class="o">==</span> <span class="s2">&quot;collection&quot;</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">type_name</span> <span class="o">==</span> <span class="s2">&quot;dict&quot;</span><span class="p">:</span>
-                    <span class="c1"># do nothing because dictionaries are supported in JSON</span>
+                    <span class="c1"># do nothing because JSON supports dictionaries</span>
                     <span class="k">pass</span>
                 <span class="k">elif</span> <span class="n">type_name</span> <span class="o">==</span> <span class="s2">&quot;list&quot;</span><span class="p">:</span>
-                    <span class="c1"># do nothing because lists are supported in JSON</span>
+                    <span class="c1"># do nothing because JSON supports lists</span>
                     <span class="k">pass</span>
                 <span class="k">elif</span> <span class="n">type_name</span> <span class="o">==</span> <span class="s2">&quot;set&quot;</span><span class="p">:</span>
                     <span class="n">value</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
@@ -520,7 +518,7 @@ dictionary keys.</p>
 
 
 <a href="#src.pyobjson.data.serialize" class="headerlink" title="Permanent link">&para;</a></h2>
-<div class="doc-signature codehilite"><pre><span></span><code><span class="nf">serialize</span><span class="p">(</span><span class="n">custom_class_instance</span><span class="p">,</span> <span class="n">pyobjson_base_custom_subclasses</span><span class="p">)</span>
+<div class="doc-signature codehilite"><pre><span></span><code><span class="nf">serialize</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">pyobjson_base_custom_subclasses</span><span class="p">)</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -539,11 +537,11 @@ dictionary keys.</p>
       <td class="field-body">
         <ul class="first simple">
             <li>
-              <b><code>custom_class_instance</code></b>
+              <b><code>obj</code></b>
                   (<code><span title="typing.Any">Any</span></code>)
               –
               <div class="doc-md-description">
-                <p>Custom Python class instance to serialize.</p>
+                <p>Python object to serialize.</p>
               </div>
             </li>
             <li>
@@ -571,7 +569,7 @@ dictionary keys.</p>
       <td class="field-body">
         <ul class="first simple">
             <li>
-                  <code><span title="typing.Dict">Dict</span>[str, <span title="typing.Any">Any</span>]</code>
+                  <code><span title="typing.Any">Any</span></code>
               –
               <div class="doc-md-description">
                 <p>dict[str, Any]: Serializable dictionary.</p>
@@ -584,7 +582,8 @@ dictionary keys.</p>
 </table>
             <details class="quote">
               <summary>Source code in <code>src/pyobjson/data.py</code></summary>
-              <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">101</span>
+              <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">100</span>
+<span class="normal">101</span>
 <span class="normal">102</span>
 <span class="normal">103</span>
 <span class="normal">104</span>
@@ -622,45 +621,62 @@ dictionary keys.</p>
 <span class="normal">136</span>
 <span class="normal">137</span>
 <span class="normal">138</span>
-<span class="normal">139</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">serialize</span><span class="p">(</span><span class="n">custom_class_instance</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">pyobjson_base_custom_subclasses</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Type</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">serialize</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">pyobjson_base_custom_subclasses</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Type</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Recursive function to serialize custom Python objects into nested dictionaries for conversion to JSON.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        custom_class_instance (Any): Custom Python class instance to serialize.</span>
+<span class="sd">        obj (Any): Python object to serialize.</span>
 <span class="sd">        pyobjson_base_custom_subclasses (list[Type]): List of custom Python class subclasses.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        dict[str, Any]: Serializable dictionary.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">serializable_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-    <span class="k">for</span> <span class="n">att</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">unpack_custom_class_vars</span><span class="p">(</span><span class="n">custom_class_instance</span><span class="p">,</span> <span class="n">pyobjson_base_custom_subclasses</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="ow">in</span> <span class="n">pyobjson_base_custom_subclasses</span><span class="p">:</span>
-            <span class="n">serializable_dict</span><span class="p">[</span><span class="n">att</span><span class="p">]</span> <span class="o">=</span> <span class="n">serialize</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">pyobjson_base_custom_subclasses</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
-            <span class="n">serializable_dict</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;collection:dict.</span><span class="si">{</span><span class="n">att</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
-                <span class="n">k</span><span class="p">:</span> <span class="n">serialize</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">pyobjson_base_custom_subclasses</span><span class="p">)</span>
-                <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="ow">in</span> <span class="n">pyobjson_base_custom_subclasses</span>
-                <span class="k">else</span> <span class="n">v</span>
-                <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">val</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
-            <span class="p">}</span>
-        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">set</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
-            <span class="n">values</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">val</span><span class="p">:</span>
-                <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="ow">in</span> <span class="n">pyobjson_base_custom_subclasses</span><span class="p">:</span>
-                    <span class="n">values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">serialize</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">pyobjson_base_custom_subclasses</span><span class="p">))</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
-            <span class="n">serializable_dict</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;collection:</span><span class="si">{</span><span class="n">derive_custom_object_key</span><span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="vm">__class__</span><span class="p">)</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">att</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">values</span>
-        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">Path</span><span class="p">):</span>
-            <span class="n">serializable_dict</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;path.</span><span class="si">{</span><span class="n">att</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">Callable</span><span class="p">):</span>
-            <span class="n">serializable_dict</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;callable.</span><span class="si">{</span><span class="n">att</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">derive_custom_callable_value</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">datetime</span><span class="p">):</span>
-            <span class="n">serializable_dict</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;datetime.</span><span class="si">{</span><span class="n">att</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">serializable_dict</span><span class="p">[</span><span class="n">att</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
-    <span class="k">return</span> <span class="p">{</span><span class="n">derive_custom_object_key</span><span class="p">(</span><span class="n">custom_class_instance</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span> <span class="n">serializable_dict</span><span class="p">}</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="ow">in</span> <span class="n">pyobjson_base_custom_subclasses</span><span class="p">:</span>
+
+        <span class="n">serializable_obj</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">att</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">unpack_custom_class_vars</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">pyobjson_base_custom_subclasses</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="n">att</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;collection:dict.</span><span class="si">{</span><span class="n">att</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">set</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+                <span class="n">att</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;collection:</span><span class="si">{</span><span class="n">derive_custom_object_key</span><span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="vm">__class__</span><span class="p">)</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">att</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">Path</span><span class="p">):</span>
+                <span class="n">att</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;path.</span><span class="si">{</span><span class="n">att</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">Callable</span><span class="p">):</span>
+                <span class="n">att</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;callable.</span><span class="si">{</span><span class="n">att</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">datetime</span><span class="p">):</span>
+                <span class="n">att</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;datetime.</span><span class="si">{</span><span class="n">att</span><span class="si">}</span><span class="s2">&quot;</span>
+
+            <span class="n">serializable_obj</span><span class="p">[</span><span class="n">att</span><span class="p">]</span> <span class="o">=</span> <span class="n">serialize</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">pyobjson_base_custom_subclasses</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">{</span><span class="n">derive_custom_object_key</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span> <span class="n">serializable_obj</span><span class="p">}</span>
+
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">serialize</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">pyobjson_base_custom_subclasses</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">obj</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">set</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">serialize</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">pyobjson_base_custom_subclasses</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">obj</span><span class="p">]</span>
+
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">Path</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">Callable</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">derive_custom_callable_value</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">datetime</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">obj</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">obj</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -740,15 +756,7 @@ PythonObjectJson as keys and subclasses as values.</p>
 </table>
             <details class="quote">
               <summary>Source code in <code>src/pyobjson/data.py</code></summary>
-              <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">142</span>
-<span class="normal">143</span>
-<span class="normal">144</span>
-<span class="normal">145</span>
-<span class="normal">146</span>
-<span class="normal">147</span>
-<span class="normal">148</span>
-<span class="normal">149</span>
-<span class="normal">150</span>
+              <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">150</span>
 <span class="normal">151</span>
 <span class="normal">152</span>
 <span class="normal">153</span>
@@ -782,7 +790,15 @@ PythonObjectJson as keys and subclasses as values.</p>
 <span class="normal">181</span>
 <span class="normal">182</span>
 <span class="normal">183</span>
-<span class="normal">184</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">deserialize</span><span class="p">(</span><span class="n">json_data</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">pyobjson_base_custom_subclasses_by_key</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Type</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="normal">184</span>
+<span class="normal">185</span>
+<span class="normal">186</span>
+<span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span>
+<span class="normal">190</span>
+<span class="normal">191</span>
+<span class="normal">192</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">deserialize</span><span class="p">(</span><span class="n">json_data</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">pyobjson_base_custom_subclasses_by_key</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Type</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Recursive function to deserialize JSON into typed data structures for conversion to custom Python objects.</span>
 
 <span class="sd">    Args:</span>

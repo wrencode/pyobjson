@@ -45,13 +45,14 @@ class ParentClass(PythonObjectJson):
 
     def __init__(self, child_class_dict: Dict[str, ChildClass], child_class_list: List[ChildClass],
                  parent_class_set: Optional[Set[str]], parent_class_tuple: Optional[Tuple[str]],
-                 parent_class_file: Optional[Path], parent_class_external_function: Optional[Callable],
-                 parent_class_datetime: Optional[datetime]):
+                 parent_class_bytes: Optional[bytes], parent_class_file: Optional[Path],
+                 parent_class_external_function: Optional[Callable], parent_class_datetime: Optional[datetime]):
         super().__init__()
         self.child_class_dict: Dict[str, ChildClass] = child_class_dict
         self.child_class_list: List[ChildClass] = child_class_list
         self.parent_class_set: Set[str] = parent_class_set
         self.parent_class_tuple: Tuple[str] = parent_class_tuple
+        self.parent_class_bytes: bytes = parent_class_bytes
         self.parent_class_file: Path = parent_class_file
         self.parent_class_external_function: Optional[Callable] = parent_class_external_function
         self.parent_class_datetime: datetime = parent_class_datetime
@@ -69,6 +70,7 @@ def parent_class_with_nested_child_classes() -> ParentClass:
         [ChildClass([ChildChildClass("test_child_child_class_argument_in_list")])],
         {"test_parent_class_collection_element"},
         ("test_parent_class_collection_element",),
+        b"test_parent_class_collection_element",
         Path(__name__),
         external_function,
         datetime(2024, 1, 1, 0, 0, 0)
@@ -136,6 +138,7 @@ def parent_class_json_str() -> str:
                 "collection:tuple.parent_class_tuple": [
                     "test_parent_class_collection_element"
                 ],
+                "collection:bytes.parent_class_bytes": "dGVzdF9wYXJlbnRfY2xhc3NfY29sbGVjdGlvbl9lbGVtZW50",
                 "path.parent_class_file": "conftest",
                 "callable.parent_class_external_function": "conftest.external_function::param1:str,param2:str",
                 "datetime.parent_class_datetime": "2024-01-01T00:00:00"

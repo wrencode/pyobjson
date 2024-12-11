@@ -8,6 +8,7 @@ Attributes:
 __author__ = "Wren J. Rudolph for Wrencode, LLC"
 __email__ = "dev@wrencode.com"
 
+from base64 import b64decode, b64encode
 from datetime import datetime
 from importlib import import_module
 from inspect import getfullargspec
@@ -75,6 +76,9 @@ def extract_typed_key_value_pairs(json_dict: Dict[str, Any]) -> Dict[str, Any]:
                     value = set(value)
                 elif type_name == "tuple":
                     value = tuple(value)
+                elif type_name == "bytes" or type_name == "bytearray":
+                    value = b64decode(value)
+
             elif type_name == "path":  # handle posix paths
                 value = Path(value)
             elif type_name == "callable":  # handle callables (functions, methods, etc.)
@@ -115,7 +119,7 @@ def serialize(obj: Any, pyobjson_base_custom_subclasses: List[Type]) -> Any:
 
             if isinstance(val, dict):
                 att = f"collection:dict.{att}"
-            elif isinstance(val, (list, set, tuple)):
+            elif isinstance(val, (list, set, tuple, bytes, bytearray)):
                 att = f"collection:{derive_custom_object_key(val.__class__)}.{att}"
             elif isinstance(val, Path):
                 att = f"path.{att}"
@@ -133,6 +137,9 @@ def serialize(obj: Any, pyobjson_base_custom_subclasses: List[Type]) -> Any:
 
     elif isinstance(obj, (list, set, tuple)):
         return [serialize(v, pyobjson_base_custom_subclasses) for v in obj]
+
+    elif isinstance(obj, (bytes, bytearray)):
+        return b64encode(obj).decode("utf-8")
 
     elif isinstance(obj, Path):
         return str(obj)

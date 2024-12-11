@@ -28,6 +28,7 @@ class TestPythonObjectJson:
             None,
             None,
             None,
+            None,
             None
         )
 
@@ -36,6 +37,7 @@ class TestPythonObjectJson:
         assert not parent_class_instance.child_class_list
         assert not parent_class_instance.parent_class_set
         assert not parent_class_instance.parent_class_tuple
+        assert not parent_class_instance.parent_class_bytes
         assert not parent_class_instance.parent_class_file
         assert not parent_class_instance.parent_class_external_function
         assert not parent_class_instance.parent_class_datetime
@@ -61,6 +63,9 @@ class TestPythonObjectJson:
         assert isinstance(parent_class_instance.parent_class_tuple, tuple)
         assert len(parent_class_instance.parent_class_tuple) == 1
         assert parent_class_instance.parent_class_tuple[0] == "test_parent_class_collection_element"
+
+        assert isinstance(parent_class_instance.parent_class_bytes, bytes)
+        assert parent_class_instance.parent_class_bytes == b"test_parent_class_collection_element"
 
         assert isinstance(parent_class_instance.parent_class_file, Path)
         assert str(parent_class_instance.parent_class_file) == "conftest"

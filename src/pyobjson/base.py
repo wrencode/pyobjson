@@ -32,8 +32,8 @@ class PythonObjectJson(object):
     def __str__(self):
         return self.to_json_str()
 
-    # def __repr__(self):
-    #     return self.to_json_str()
+    def __repr__(self):
+        return self.to_json_str()
 
     # @staticmethod
     # def _complex_json_handler(obj: Any) -> Any:

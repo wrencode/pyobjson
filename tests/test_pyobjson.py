@@ -7,7 +7,11 @@ Note:
 __author__ = "Wren J. Rudolph for Wrencode, LLC"
 __email__ = "dev@wrencode.com"
 
-from conftest import ParentClass
+from collections.abc import Callable
+from datetime import datetime
+from pathlib import Path
+
+from conftest import ParentClass, ChildClass, ChildChildClass
 
 
 class TestPythonObjectJson:
@@ -41,12 +45,28 @@ class TestPythonObjectJson:
 
         # check that all ParentClass attributes have values based on the loaded JSON string
         assert len(parent_class_instance.child_class_dict) == 1
+        assert isinstance(parent_class_instance.child_class_dict["child_class_1"], ChildClass)
         assert len(parent_class_instance.child_class_dict["child_class_1"].child_child_class_list) == 1
+
         assert len(parent_class_instance.child_class_list) == 1
+        assert isinstance(parent_class_instance.child_class_list[0], ChildClass)
+
         assert len(parent_class_instance.child_class_list[0].child_child_class_list) == 1
+        assert isinstance(parent_class_instance.child_class_list[0].child_child_class_list[0], ChildChildClass)
+
+        assert isinstance(parent_class_instance.parent_class_set, set)
         assert len(parent_class_instance.parent_class_set) == 1
         assert len(parent_class_instance.parent_class_set.intersection({"test_parent_class_collection_element"})) == 1
+
+        assert isinstance(parent_class_instance.parent_class_tuple, tuple)
         assert len(parent_class_instance.parent_class_tuple) == 1
+        assert parent_class_instance.parent_class_tuple[0] == "test_parent_class_collection_element"
+
+        assert isinstance(parent_class_instance.parent_class_file, Path)
         assert str(parent_class_instance.parent_class_file) == "conftest"
+
+        assert isinstance(parent_class_instance.parent_class_external_function, Callable)
         assert parent_class_instance.parent_class_external_function("hello", "world") == "hello.world"
+
+        assert isinstance(parent_class_instance.parent_class_datetime, datetime)
         assert parent_class_instance.parent_class_datetime.isoformat() == "2024-01-01T00:00:00"

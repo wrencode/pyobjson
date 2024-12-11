@@ -43,8 +43,8 @@ def unpack_custom_class_vars(custom_class_instance: Any, pyobjson_base_custom_su
 
 
 def extract_typed_key_value_pairs(json_dict: Dict[str, Any]) -> Dict[str, Any]:
-    """Function to extract both keys and Python object types from specially formatted dictionary keys and make their
-    respective values into Python objects of those types.
+    """Function to extract both keys and Python object types from specially formatted dictionary keys and make
+    their respective values into Python objects of those types.
 
     Args:
         json_dict (Dict[str, Any]): JSON dictionary that may contain keys in the format type.key_name (e.g.
@@ -57,9 +57,8 @@ def extract_typed_key_value_pairs(json_dict: Dict[str, Any]) -> Dict[str, Any]:
     """
     derived_key_value_pairs = {}
     for key, value in json_dict.items():
-
+        # check if key is formatted with a single "." to indicate a value type
         if key.count(".") == 1:
-
             type_name, key = key.split(".")
             type_category = None
             if type_name.count(":") == 1:
@@ -67,10 +66,10 @@ def extract_typed_key_value_pairs(json_dict: Dict[str, Any]) -> Dict[str, Any]:
 
             if type_category == "collection":
                 if type_name == "dict":
-                    # do nothing because dictionaries are supported in JSON
+                    # do nothing because JSON supports dictionaries
                     pass
                 elif type_name == "list":
-                    # do nothing because lists are supported in JSON
+                    # do nothing because JSON supports lists
                     pass
                 elif type_name == "set":
                     value = set(value)
@@ -98,45 +97,54 @@ def extract_typed_key_value_pairs(json_dict: Dict[str, Any]) -> Dict[str, Any]:
     return derived_key_value_pairs
 
 
-def serialize(custom_class_instance: Any, pyobjson_base_custom_subclasses: List[Type]) -> Dict[str, Any]:
+def serialize(obj: Any, pyobjson_base_custom_subclasses: List[Type]) -> Any:
     """Recursive function to serialize custom Python objects into nested dictionaries for conversion to JSON.
 
     Args:
-        custom_class_instance (Any): Custom Python class instance to serialize.
+        obj (Any): Python object to serialize.
         pyobjson_base_custom_subclasses (list[Type]): List of custom Python class subclasses.
 
     Returns:
         dict[str, Any]: Serializable dictionary.
 
     """
-    serializable_dict = dict()
-    for att, val in unpack_custom_class_vars(custom_class_instance, pyobjson_base_custom_subclasses).items():
-        if type(val) in pyobjson_base_custom_subclasses:
-            serializable_dict[att] = serialize(val, pyobjson_base_custom_subclasses)
-        elif isinstance(val, dict):
-            serializable_dict[f"collection:dict.{att}"] = {
-                k: serialize(v, pyobjson_base_custom_subclasses)
-                if type(v) in pyobjson_base_custom_subclasses
-                else v
-                for k, v in val.items()
-            }
-        elif isinstance(val, (list, set, tuple)):
-            values = []
-            for v in val:
-                if type(v) in pyobjson_base_custom_subclasses:
-                    values.append(serialize(v, pyobjson_base_custom_subclasses))
-                else:
-                    values.append(v)
-            serializable_dict[f"collection:{derive_custom_object_key(val.__class__)}.{att}"] = values
-        elif isinstance(val, Path):
-            serializable_dict[f"path.{att}"] = str(val)
-        elif isinstance(val, Callable):
-            serializable_dict[f"callable.{att}"] = derive_custom_callable_value(val)
-        elif isinstance(val, datetime):
-            serializable_dict[f"datetime.{att}"] = val.isoformat()
-        else:
-            serializable_dict[att] = val
-    return {derive_custom_object_key(custom_class_instance.__class__): serializable_dict}
+    if type(obj) in pyobjson_base_custom_subclasses:
+
+        serializable_obj = {}
+        for att, val in unpack_custom_class_vars(obj, pyobjson_base_custom_subclasses).items():
+
+            if isinstance(val, dict):
+                att = f"collection:dict.{att}"
+            elif isinstance(val, (list, set, tuple)):
+                att = f"collection:{derive_custom_object_key(val.__class__)}.{att}"
+            elif isinstance(val, Path):
+                att = f"path.{att}"
+            elif isinstance(val, Callable):
+                att = f"callable.{att}"
+            elif isinstance(val, datetime):
+                att = f"datetime.{att}"
+
+            serializable_obj[att] = serialize(val, pyobjson_base_custom_subclasses)
+
+        return {derive_custom_object_key(obj.__class__): serializable_obj}
+
+    elif isinstance(obj, dict):
+        return {k: serialize(v, pyobjson_base_custom_subclasses) for k, v in obj.items()}
+
+    elif isinstance(obj, (list, set, tuple)):
+        return [serialize(v, pyobjson_base_custom_subclasses) for v in obj]
+
+    elif isinstance(obj, Path):
+        return str(obj)
+
+    elif isinstance(obj, Callable):
+        return derive_custom_callable_value(obj)
+
+    elif isinstance(obj, datetime):
+        return obj.isoformat()
+
+    else:
+        return obj
 
 
 def deserialize(json_data: Any, pyobjson_base_custom_subclasses_by_key: Dict[str, Type]) -> Any:

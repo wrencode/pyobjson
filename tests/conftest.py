@@ -34,6 +34,9 @@ class ChildClass(PythonObjectJson):
     def __init__(self, child_child_class_list: List[ChildChildClass]):
         super().__init__()
         self.child_child_class_list: List[ChildChildClass] = child_child_class_list
+        self.child_child_class_list_dict: Dict[str, List[ChildChildClass]] = {
+            "child_child_class_list_1": child_child_class_list
+        }
 
 
 class ParentClass(PythonObjectJson):
@@ -92,7 +95,16 @@ def parent_class_json_str() -> str:
                                         "child_child_class_param": "test_child_child_class_argument_in_dict"
                                     }
                                 }
-                            ]
+                            ],
+                            "collection:dict.child_child_class_list_dict": {
+                                "child_child_class_list_1": [
+                                    {
+                                        "conftest.childchildclass": {
+                                            "child_child_class_param": "test_child_child_class_argument_in_dict"
+                                        }
+                                    }
+                                ]
+                            }
                         }
                     }
                 },
@@ -105,7 +117,16 @@ def parent_class_json_str() -> str:
                                         "child_child_class_param": "test_child_child_class_argument_in_list"
                                     }
                                 }
-                            ]
+                            ],
+                            "collection:dict.child_child_class_list_dict": {
+                                "child_child_class_list_1": [
+                                    {
+                                        "conftest.childchildclass": {
+                                            "child_child_class_param": "test_child_child_class_argument_in_list"
+                                        }
+                                    }
+                                ]
+                            }
                         }
                     }
                 ],
@@ -116,9 +137,7 @@ def parent_class_json_str() -> str:
                     "test_parent_class_collection_element"
                 ],
                 "path.parent_class_file": "conftest",
-                "callable.parent_class_external_function": (
-                    "conftest.external_function::param1:str,param2:str"
-                ),
+                "callable.parent_class_external_function": "conftest.external_function::param1:str,param2:str",
                 "datetime.parent_class_datetime": "2024-01-01T00:00:00"
             }
         },

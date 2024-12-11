@@ -32,14 +32,14 @@ def unpack_custom_class_vars(custom_class_instance: Any, pyobjson_base_custom_su
         dict[str, Any]: Dictionary that extracts serializable data from custom objects.
 
     """
-    clean_dict = {}
+    unpacked = {}
     for k, v in vars(custom_class_instance).items():
-        clean_dict[k] = (
+        unpacked[k] = (
             unpack_custom_class_vars(v, pyobjson_base_custom_subclasses)
             if type(v) in pyobjson_base_custom_subclasses
             else v
         )
-    return clean_dict
+    return unpacked
 
 
 def extract_typed_key_value_pairs(json_dict: Dict[str, Any]) -> Dict[str, Any]:

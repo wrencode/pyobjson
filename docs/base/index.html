@@ -36,7 +36,7 @@
           <img src="../wrencode-logo.svg" class="logo" alt="Logo"/>
         </a>
         <div class="version">
-          v2.2.0
+          v3.0.0
         </div><div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
       <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
@@ -434,8 +434,8 @@
     <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_json_str</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">serialize</span><span class="p">()</span>
+    <span class="c1"># def __repr__(self):</span>
+    <span class="c1">#     return self.to_json_str()</span>
 
     <span class="c1"># @staticmethod</span>
     <span class="c1"># def _complex_json_handler(obj: Any) -&gt; Any:</span>
@@ -465,7 +465,7 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># retrieve all class subclasses after base class</span>
-        <span class="k">return</span> <span class="p">{</span><span class="n">derive_custom_class_key</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span> <span class="bp">cls</span> <span class="k">for</span> <span class="bp">cls</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__mro__</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">__subclasses__</span><span class="p">()}</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">derive_custom_object_key</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span> <span class="bp">cls</span> <span class="k">for</span> <span class="bp">cls</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__mro__</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">__subclasses__</span><span class="p">()}</span>
 
     <span class="k">def</span> <span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Class method to serialize the class instance into a serializable dictionary.</span>

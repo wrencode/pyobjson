@@ -36,7 +36,7 @@
           <img src="../wrencode-logo.svg" class="logo" alt="Logo"/>
         </a>
         <div class="version">
-          v2.2.0
+          v3.0.0
         </div><div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
       <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
@@ -67,11 +67,9 @@
     <ul class="current">
     <li class="toctree-l2"><a class="reference internal" href="#src.pyobjson.utils">utils</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#src.pyobjson.utils.clean_data_dict">clean_data_dict</a>
+    <li class="toctree-l2"><a class="reference internal" href="#src.pyobjson.utils.derive_custom_object_key">derive_custom_object_key</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#src.pyobjson.utils.derive_custom_class_key">derive_custom_class_key</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#src.pyobjson.utils.derive_typed_key_value_pairs">derive_typed_key_value_pairs</a>
+    <li class="toctree-l2"><a class="reference internal" href="#src.pyobjson.utils.derive_custom_callable_value">derive_custom_callable_value</a>
     </li>
     </ul>
                   </li>
@@ -167,26 +165,18 @@
       </thead>
       <tbody>
             <tr class="doc-section-item">
-              <td><code><a class="autorefs autorefs-internal" title="src.pyobjson.utils.clean_data_dict" href="#src.pyobjson.utils.clean_data_dict">clean_data_dict</a></code></td>
+              <td><code><a class="autorefs autorefs-internal" title="src.pyobjson.utils.derive_custom_object_key" href="#src.pyobjson.utils.derive_custom_object_key">derive_custom_object_key</a></code></td>
               <td>
                 <div class="doc-md-description">
-                  <p>Recursive utility method to un-type custom class type objects for serialization.</p>
+                  <p>Utility function to derive a key for a custom object representing the fully qualified name of that object.</p>
                 </div>
               </td>
             </tr>
             <tr class="doc-section-item">
-              <td><code><a class="autorefs autorefs-internal" title="src.pyobjson.utils.derive_custom_class_key" href="#src.pyobjson.utils.derive_custom_class_key">derive_custom_class_key</a></code></td>
+              <td><code><a class="autorefs autorefs-internal" title="src.pyobjson.utils.derive_custom_callable_value" href="#src.pyobjson.utils.derive_custom_callable_value">derive_custom_callable_value</a></code></td>
               <td>
                 <div class="doc-md-description">
-                  <p>Utility method to derive a key for a custom class representing the fully qualified name of that class.</p>
-                </div>
-              </td>
-            </tr>
-            <tr class="doc-section-item">
-              <td><code><a class="autorefs autorefs-internal" title="src.pyobjson.utils.derive_typed_key_value_pairs" href="#src.pyobjson.utils.derive_typed_key_value_pairs">derive_typed_key_value_pairs</a></code></td>
-              <td>
-                <div class="doc-md-description">
-                  <p>Utility method to derive both keys and Python object types from specially formatted dictionary keys and make</p>
+                  <p>Utility function to derive a string value from a custom callable object.</p>
                 </div>
               </td>
             </tr>
@@ -210,17 +200,17 @@
 <div class="doc doc-object doc-function">
 
 
-<h2 id="src.pyobjson.utils.clean_data_dict" class="doc doc-heading">
-            <span class="doc doc-object-name doc-function-name">clean_data_dict</span>
+<h2 id="src.pyobjson.utils.derive_custom_object_key" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">derive_custom_object_key</span>
 
 
-<a href="#src.pyobjson.utils.clean_data_dict" class="headerlink" title="Permanent link">&para;</a></h2>
-<div class="doc-signature codehilite"><pre><span></span><code><span class="nf">clean_data_dict</span><span class="p">(</span><span class="n">custom_class_instance</span><span class="p">,</span> <span class="n">pyobjson_base_custom_subclasses</span><span class="p">)</span>
+<a href="#src.pyobjson.utils.derive_custom_object_key" class="headerlink" title="Permanent link">&para;</a></h2>
+<div class="doc-signature codehilite"><pre><span></span><code><span class="nf">derive_custom_object_key</span><span class="p">(</span><span class="n">custom_object</span><span class="p">)</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
 
-        <p>Recursive utility method to un-type custom class type objects for serialization.</p>
+        <p>Utility function to derive a key for a custom object representing the fully qualified name of that object.</p>
 
 
 <table class="field-list">
@@ -234,19 +224,11 @@
       <td class="field-body">
         <ul class="first simple">
             <li>
-              <b><code>custom_class_instance</code></b>
-                  (<code><span title="typing.Any">Any</span></code>)
+              <b><code>custom_object</code></b>
+                  (<code><span title="typing.Type">Type</span></code>)
               –
               <div class="doc-md-description">
-                <p>Custom Python class instance to be serialized.</p>
-              </div>
-            </li>
-            <li>
-              <b><code>pyobjson_base_custom_subclasses</code></b>
-                  (<code>list[<span title="typing.Type">Type</span>]</code>)
-              –
-              <div class="doc-md-description">
-                <p>List of custom Python class subclasses.</p>
+                <p>The custom object for which to derive a key.</p>
               </div>
             </li>
         </ul>
@@ -266,10 +248,10 @@
       <td class="field-body">
         <ul class="first simple">
             <li>
-                  <code><span title="typing.Dict">Dict</span>[str, <span title="typing.Any">Any</span>]</code>
-              –
+<b><code>str</code></b>(                  <code>str</code>
+)              –
               <div class="doc-md-description">
-                <p>dict[str, Any]: Dictionary that extracts serializable data from custom objects.</p>
+                <p>The fully qualified name of the object in lowercase (e.g. module.submodule.object).</p>
               </div>
             </li>
         </ul>
@@ -293,29 +275,21 @@
 <span class="normal">26</span>
 <span class="normal">27</span>
 <span class="normal">28</span>
-<span class="normal">29</span>
-<span class="normal">30</span>
-<span class="normal">31</span>
-<span class="normal">32</span>
-<span class="normal">33</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">clean_data_dict</span><span class="p">(</span><span class="n">custom_class_instance</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">pyobjson_base_custom_subclasses</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Type</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Recursive utility method to un-type custom class type objects for serialization.</span>
+<span class="normal">29</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">derive_custom_object_key</span><span class="p">(</span><span class="n">custom_object</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Type</span><span class="p">,</span> <span class="n">Callable</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Utility function to derive a key for a custom object representing the fully qualified name of that object.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        custom_class_instance (Any): Custom Python class instance to be serialized.</span>
-<span class="sd">        pyobjson_base_custom_subclasses (list[Type]): List of custom Python class subclasses.</span>
+<span class="sd">        custom_object (Type): The custom object for which to derive a key.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        dict[str, Any]: Dictionary that extracts serializable data from custom objects.</span>
+<span class="sd">        str: The fully qualified name of the object in lowercase (e.g. module.submodule.object).</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">clean_dict</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">vars</span><span class="p">(</span><span class="n">custom_class_instance</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="n">clean_dict</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">clean_data_dict</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">pyobjson_base_custom_subclasses</span><span class="p">)</span>
-            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="ow">in</span> <span class="n">pyobjson_base_custom_subclasses</span>
-            <span class="k">else</span> <span class="n">v</span>
-        <span class="p">)</span>
-    <span class="k">return</span> <span class="n">clean_dict</span>
+    <span class="c1"># avoid including module if no module exists or the object is in the Python builtins</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">obj_module</span> <span class="o">:=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">custom_object</span><span class="p">,</span> <span class="s2">&quot;__module__&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span> <span class="ow">and</span> <span class="n">obj_module</span> <span class="o">!=</span> <span class="s2">&quot;builtins&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">obj_module</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">custom_object</span><span class="o">.</span><span class="vm">__qualname__</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">custom_object</span><span class="o">.</span><span class="vm">__qualname__</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -325,17 +299,17 @@
 <div class="doc doc-object doc-function">
 
 
-<h2 id="src.pyobjson.utils.derive_custom_class_key" class="doc doc-heading">
-            <span class="doc doc-object-name doc-function-name">derive_custom_class_key</span>
+<h2 id="src.pyobjson.utils.derive_custom_callable_value" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">derive_custom_callable_value</span>
 
 
-<a href="#src.pyobjson.utils.derive_custom_class_key" class="headerlink" title="Permanent link">&para;</a></h2>
-<div class="doc-signature codehilite"><pre><span></span><code><span class="nf">derive_custom_class_key</span><span class="p">(</span><span class="n">custom_class</span><span class="p">)</span>
+<a href="#src.pyobjson.utils.derive_custom_callable_value" class="headerlink" title="Permanent link">&para;</a></h2>
+<div class="doc-signature codehilite"><pre><span></span><code><span class="nf">derive_custom_callable_value</span><span class="p">(</span><span class="n">custom_callable</span><span class="p">)</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
 
-        <p>Utility method to derive a key for a custom class representing the fully qualified name of that class.</p>
+        <p>Utility function to derive a string value from a custom callable object.</p>
 
 
 <table class="field-list">
@@ -349,11 +323,11 @@
       <td class="field-body">
         <ul class="first simple">
             <li>
-              <b><code>custom_class</code></b>
-                  (<code><span title="typing.Type">Type</span></code>)
+              <b><code>custom_callable</code></b>
+                  (<code><span title="typing.Callable">Callable</span></code>)
               –
               <div class="doc-md-description">
-                <p>The custom class object for which to derive a key.</p>
+                <p>Custom callable object for which to derive a string representation value.</p>
               </div>
             </li>
         </ul>
@@ -376,7 +350,7 @@
 <b><code>str</code></b>(                  <code>str</code>
 )              –
               <div class="doc-md-description">
-                <p>The fully qualified name of the class in lowercase (e.g. module.submodule.class).</p>
+                <p>A string representing the custom callable object that can be used to import and call that object.</p>
               </div>
             </li>
         </ul>
@@ -386,165 +360,29 @@
 </table>
             <details class="quote">
               <summary>Source code in <code>src/pyobjson/utils.py</code></summary>
-              <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">36</span>
+              <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
 <span class="normal">37</span>
 <span class="normal">38</span>
 <span class="normal">39</span>
 <span class="normal">40</span>
 <span class="normal">41</span>
 <span class="normal">42</span>
-<span class="normal">43</span>
-<span class="normal">44</span>
-<span class="normal">45</span>
-<span class="normal">46</span>
-<span class="normal">47</span>
-<span class="normal">48</span>
-<span class="normal">49</span>
-<span class="normal">50</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">derive_custom_class_key</span><span class="p">(</span><span class="n">custom_class</span><span class="p">:</span> <span class="n">Type</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Utility method to derive a key for a custom class representing the fully qualified name of that class.</span>
+<span class="normal">43</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">derive_custom_callable_value</span><span class="p">(</span><span class="n">custom_callable</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Utility function to derive a string value from a custom callable object.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        custom_class (Type): The custom class object for which to derive a key.</span>
+<span class="sd">        custom_callable (Callable): Custom callable object for which to derive a string representation value.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        str: The fully qualified name of the class in lowercase (e.g. module.submodule.class).</span>
+<span class="sd">        str: A string representing the custom callable object that can be used to import and call that object.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># avoid including module if no module exists or the class is in the Python builtins</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">cls_module</span> <span class="o">:=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">custom_class</span><span class="p">,</span> <span class="s2">&quot;__module__&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span> <span class="ow">and</span> <span class="n">cls_module</span> <span class="o">!=</span> <span class="s2">&quot;builtins&quot;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cls_module</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">custom_class</span><span class="o">.</span><span class="vm">__qualname__</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">custom_class</span><span class="o">.</span><span class="vm">__qualname__</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-</code></pre></div></td></tr></table></div>
-            </details>
-    </div>
-
-</div>
-
-<div class="doc doc-object doc-function">
-
-
-<h2 id="src.pyobjson.utils.derive_typed_key_value_pairs" class="doc doc-heading">
-            <span class="doc doc-object-name doc-function-name">derive_typed_key_value_pairs</span>
-
-
-<a href="#src.pyobjson.utils.derive_typed_key_value_pairs" class="headerlink" title="Permanent link">&para;</a></h2>
-<div class="doc-signature codehilite"><pre><span></span><code><span class="nf">derive_typed_key_value_pairs</span><span class="p">(</span><span class="n">json_dict</span><span class="p">)</span>
-</code></pre></div>
-
-    <div class="doc doc-contents ">
-
-        <p>Utility method to derive both keys and Python object types from specially formatted dictionary keys and make
-their respective values into Python objects of those types.</p>
-
-
-<table class="field-list">
-  <colgroup>
-    <col class="field-name" />
-    <col class="field-body" />
-  </colgroup>
-  <tbody valign="top">
-    <tr class="field">
-      <th class="field-name">Parameters:</th>
-      <td class="field-body">
-        <ul class="first simple">
-            <li>
-              <b><code>json_dict</code></b>
-                  (<code><span title="typing.Dict">Dict</span>[str, <span title="typing.Any">Any</span>]</code>)
-              –
-              <div class="doc-md-description">
-                <p>JSON dictionary that may contain keys in the format type.key_name (e.g.
-path.root_directory) with corresponding string values representing Python objects of that type.</p>
-              </div>
-            </li>
-        </ul>
-      </td>
-    </tr>
-  </tbody>
-</table>
-
-<table class="field-list">
-  <colgroup>
-    <col class="field-name" />
-    <col class="field-body" />
-  </colgroup>
-  <tbody valign="top">
-    <tr class="field">
-      <th class="field-name">Returns:</th>
-      <td class="field-body">
-        <ul class="first simple">
-            <li>
-                  <code><span title="typing.Dict">Dict</span>[str, <span title="typing.Any">Any</span>]</code>
-              –
-              <div class="doc-md-description">
-                <p>dict[str, Any]: Dictionary with both keys and Python object values derived from specially formatted JSON
-dictionary keys.</p>
-              </div>
-            </li>
-        </ul>
-      </td>
-    </tr>
-  </tbody>
-</table>
-            <details class="quote">
-              <summary>Source code in <code>src/pyobjson/utils.py</code></summary>
-              <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">53</span>
-<span class="normal">54</span>
-<span class="normal">55</span>
-<span class="normal">56</span>
-<span class="normal">57</span>
-<span class="normal">58</span>
-<span class="normal">59</span>
-<span class="normal">60</span>
-<span class="normal">61</span>
-<span class="normal">62</span>
-<span class="normal">63</span>
-<span class="normal">64</span>
-<span class="normal">65</span>
-<span class="normal">66</span>
-<span class="normal">67</span>
-<span class="normal">68</span>
-<span class="normal">69</span>
-<span class="normal">70</span>
-<span class="normal">71</span>
-<span class="normal">72</span>
-<span class="normal">73</span>
-<span class="normal">74</span>
-<span class="normal">75</span>
-<span class="normal">76</span>
-<span class="normal">77</span>
-<span class="normal">78</span>
-<span class="normal">79</span>
-<span class="normal">80</span>
-<span class="normal">81</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">derive_typed_key_value_pairs</span><span class="p">(</span><span class="n">json_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Utility method to derive both keys and Python object types from specially formatted dictionary keys and make</span>
-<span class="sd">    their respective values into Python objects of those types.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        json_dict (Dict[str, Any]): JSON dictionary that may contain keys in the format type.key_name (e.g.</span>
-<span class="sd">            path.root_directory) with corresponding string values representing Python objects of that type.</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        dict[str, Any]: Dictionary with both keys and Python object values derived from specially formatted JSON</span>
-<span class="sd">            dictionary keys.</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">derived_key_value_pairs</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">json_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="k">if</span> <span class="n">key</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="n">type_str</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
-
-            <span class="k">if</span> <span class="n">type_str</span> <span class="o">==</span> <span class="s2">&quot;path&quot;</span><span class="p">:</span>  <span class="c1"># handle posix paths</span>
-                <span class="n">value</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="n">type_str</span> <span class="o">==</span> <span class="s2">&quot;callable&quot;</span><span class="p">:</span>  <span class="c1"># TODO: handle proper serialization and reconstruction of functions</span>
-                <span class="n">value</span> <span class="o">=</span> <span class="kc">None</span>
-
-            <span class="n">derived_key_value_pairs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="c1"># add key-value pair without modification if key is not formatted with a single &quot;.&quot; to indicate a value type</span>
-            <span class="n">derived_key_value_pairs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
-
-    <span class="k">return</span> <span class="n">derived_key_value_pairs</span>
+    <span class="n">arg_spec_str</span> <span class="o">=</span> <span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">v</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">getfullargspec</span><span class="p">(</span><span class="n">custom_callable</span><span class="p">)</span><span class="o">.</span><span class="n">annotations</span><span class="o">.</span><span class="n">items</span><span class="p">()])</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">derive_custom_object_key</span><span class="p">(</span><span class="n">custom_callable</span><span class="p">)</span><span class="si">}</span><span class="s2">::</span><span class="si">{</span><span class="n">arg_spec_str</span><span class="si">}</span><span class="s2">&quot;</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>

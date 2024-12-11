@@ -13,7 +13,7 @@ from pathlib import Path
 from typing import Dict, Type, Any
 
 from pyobjson.data import serialize, deserialize
-from pyobjson.utils import derive_custom_class_key
+from pyobjson.utils import derive_custom_object_key
 
 
 class PythonObjectJson(object):
@@ -32,8 +32,8 @@ class PythonObjectJson(object):
     def __str__(self):
         return self.to_json_str()
 
-    def __repr__(self):
-        return self.serialize()
+    # def __repr__(self):
+    #     return self.to_json_str()
 
     # @staticmethod
     # def _complex_json_handler(obj: Any) -> Any:
@@ -63,7 +63,7 @@ class PythonObjectJson(object):
 
         """
         # retrieve all class subclasses after base class
-        return {derive_custom_class_key(cls): cls for cls in self.__class__.__mro__[-2].__subclasses__()}
+        return {derive_custom_object_key(cls): cls for cls in self.__class__.__mro__[-2].__subclasses__()}
 
     def serialize(self) -> Dict[str, Any]:
         """Class method to serialize the class instance into a serializable dictionary.

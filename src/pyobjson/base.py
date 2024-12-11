@@ -120,7 +120,7 @@ class PythonObjectJson(object):
             # TODO: fix incorrect file input type warning for json.dump from PyCharm bug https://youtrack.jetbrains.com/issue/PY-73050/openfile.txt-r-return-type-should-be-inferred-as-TextIOWrapper-instead-of-TextIO
             # noinspection PyTypeChecker
             json.dump(
-                serialize(self, list(self._base_subclasses().values())),
+                self.serialize(),
                 json_file_out,
                 ensure_ascii=False,
                 indent=2,

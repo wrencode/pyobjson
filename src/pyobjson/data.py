@@ -115,7 +115,10 @@ def serialize(custom_class_instance: Any, pyobjson_base_custom_subclasses: List[
             serializable_dict[att] = serialize(val, pyobjson_base_custom_subclasses)
         elif isinstance(val, dict):
             serializable_dict[f"collection:dict.{att}"] = {
-                k: serialize(v, pyobjson_base_custom_subclasses) for k, v in val.items()
+                k: serialize(v, pyobjson_base_custom_subclasses)
+                if type(v) in pyobjson_base_custom_subclasses
+                else v
+                for k, v in val.items()
             }
         elif isinstance(val, (list, set, tuple)):
             values = []

@@ -36,7 +36,7 @@
           <img src="../wrencode-logo.svg" class="logo" alt="Logo"/>
         </a>
         <div class="version">
-          v4.2.0
+          v4.2.1
         </div><div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
       <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
@@ -63,6 +63,24 @@
         </ul>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#example">Example</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#output">Output</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#saving-and-loading">Saving and Loading</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#json-files">JSON Files</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#mongodb">MongoDB</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#postgresql">PostgreSQL</a>
+    </li>
+        </ul>
+    </li>
+        </ul>
     </li>
     </ul>
                 </li>
@@ -142,7 +160,19 @@
 <li><a href="#toolchain">Toolchain</a></li>
 </ul>
 </li>
-<li><a href="#usage">Usage</a></li>
+<li><a href="#usage">Usage</a><ul>
+<li><a href="#example">Example</a><ul>
+<li><a href="#output">Output</a></li>
+</ul>
+</li>
+<li><a href="#saving-and-loading">Saving and Loading</a><ul>
+<li><a href="#json-files">JSON Files</a></li>
+<li><a href="#mongodb">MongoDB</a></li>
+<li><a href="#postgresql">PostgreSQL</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 <div class="hide-next-element"></div>
 
@@ -170,7 +200,69 @@
 <hr />
 <p><a name="usage"></a></p>
 <h3 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h3>
-<p><strong><em>COMING SOON!</em></strong></p>
+<p>The <code>pyobjson</code> package is designed to be used as a base class/parent class/superclass to your own custom Python classes in order to provide built-in, convenient serialization/deserialization functionality. Child classes/subclasses of <code>pyobjson.base.PythonObjectJson</code> will automatically have the following methods:</p>
+<ul>
+<li><code>pyobjson.base.PythonObjectJson.serialize()</code>: Create a serializable dictionary from the class instance.</li>
+<li><code>pyobjson.base.PythonObjectJson.to_json_str()</code>: Serialize the class instance to a JSON string.</li>
+<li><code>pyobjson.base.PythonObjectJson.from_json_str(json_str)</code>: Load the class instance from a <code>pyobjson</code>-formatted JSON string.</li>
+<li><code>pyobjson.base.PythonObjectJson.save_to_json_file(json_file_path)</code>: Save the class instance to a JSON file.</li>
+<li><code>pyobjson.base.PythonObjectJson.load_from_json_file(json_file_path)</code>: Load the class instance from a <code>pyobjson</code>-formatted JSON file.</li>
+</ul>
+<p>Please reference the <strong><a href="https://pyobjson.wrencode.dev">documentation at https://pyobjson.wrencode.dev</a></strong> for more detailed usage.</p>
+<p><a name="example"></a></p>
+<h4 id="example">Example<a class="headerlink" href="#example" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span> <span class="nn">pyobjson.base</span> <span class="kn">import</span> <span class="n">PythonObjectJson</span>
+
+<span class="k">class</span> <span class="nc">ChildClass</span><span class="p">(</span><span class="n">PythonObjectJson</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;Hello, World!&quot;</span>
+
+<span class="k">class</span> <span class="nc">ParentClass</span><span class="p">(</span><span class="n">PythonObjectJson</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">child_classes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ChildClass</span><span class="p">()]</span>
+
+<span class="n">parent_class</span> <span class="o">=</span> <span class="n">ParentClass</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">parent_class</span><span class="o">.</span><span class="n">to_json_str</span><span class="p">())</span>
+</code></pre></div>
+
+<p><a name="output"></a></p>
+<h5 id="output">Output<a class="headerlink" href="#output" title="Permanent link">&para;</a></h5>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;__main__.parentclass&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;collection:list.child_classes&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;__main__.childclass&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Hello, World!&quot;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">]</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The above example shows how <code>pyobjson</code> can be used to serialize arbitrary custom Python classes into JSON. Additionally, the above <a href="#output">output</a> JSON can be used to recreate an equivalent class instance by loading the JSON into a custom Python class instance.</p>
+<p><a name="saving-and-loading"></a></p>
+<h4 id="saving-and-loading">Saving and Loading<a class="headerlink" href="#saving-and-loading" title="Permanent link">&para;</a></h4>
+<p>The <code>pyobjson.base.PythonObjectJson</code> parent class <em>also</em> provides built-in methods to save/load arbitrary custom Python classes to/from JSON in several ways.</p>
+<p><a name="json-files"></a></p>
+<h5 id="json-files">JSON Files<a class="headerlink" href="#json-files" title="Permanent link">&para;</a></h5>
+<ul>
+<li><a href="https://www.json.org/json-en.html">JSON</a> files <em>(using </em><em>only</em><em> Python built-in libraries)</em>: Use the <code>PythonObjectJson.save_to_json_file(json_file_path)</code> and <code>PythonObjectJson.load_from_json_file(json_file_path)</code> methods to save/load your custom Python classes to JSON files.</li>
+</ul>
+<p><a name="mongodb"></a></p>
+<h5 id="mongodb">MongoDB<a class="headerlink" href="#mongodb" title="Permanent link">&para;</a></h5>
+<ul>
+<li><a href="https://www.mongodb.com">MongoDB</a> <em>(using <a href="https://pymongo.readthedocs.io/en/stable/"><code>pymongo</code></a>)</em>: <strong><em>COMING SOON!</em></strong></li>
+</ul>
+<p><a name="postgresql"></a></p>
+<h5 id="postgresql">PostgreSQL<a class="headerlink" href="#postgresql" title="Permanent link">&para;</a></h5>
+<ul>
+<li><a href="https://www.postgresql.org">PostgreSQL</a> <em>(using <a href="https://www.psycopg.org"><code>psycopg</code></a>)</em>: <strong><em>COMING SOON!</em></strong></li>
+</ul>
               
             </div>
           </div><footer>

@@ -36,7 +36,7 @@
           <img src="../wrencode-logo.svg" class="logo" alt="Logo"/>
         </a>
         <div class="version">
-          v4.2.0
+          v4.2.1
         </div><div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
       <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
@@ -247,7 +247,7 @@
               <td><code><a class="autorefs autorefs-internal" title="src.pyobjson.base.PythonObjectJson.serialize" href="#src.pyobjson.base.PythonObjectJson.serialize">serialize</a></code></td>
               <td>
                 <div class="doc-md-description">
-                  <p>Class method to serialize the class instance into a serializable dictionary.</p>
+                  <p>Create a serializable dictionary from the class instance.</p>
                 </div>
               </td>
             </tr>
@@ -255,7 +255,7 @@
               <td><code><a class="autorefs autorefs-internal" title="src.pyobjson.base.PythonObjectJson.to_json_str" href="#src.pyobjson.base.PythonObjectJson.to_json_str">to_json_str</a></code></td>
               <td>
                 <div class="doc-md-description">
-                  <p>Serialize the class object to a JSON string.</p>
+                  <p>Serialize the class instance to a JSON string.</p>
                 </div>
               </td>
             </tr>
@@ -263,7 +263,7 @@
               <td><code><a class="autorefs autorefs-internal" title="src.pyobjson.base.PythonObjectJson.from_json_str" href="#src.pyobjson.base.PythonObjectJson.from_json_str">from_json_str</a></code></td>
               <td>
                 <div class="doc-md-description">
-                  <p>Load the class object from a JSON string.</p>
+                  <p>Load the class instance from a JSON string.</p>
                 </div>
               </td>
             </tr>
@@ -271,7 +271,7 @@
               <td><code><a class="autorefs autorefs-internal" title="src.pyobjson.base.PythonObjectJson.save_to_json_file" href="#src.pyobjson.base.PythonObjectJson.save_to_json_file">save_to_json_file</a></code></td>
               <td>
                 <div class="doc-md-description">
-                  <p>Save the class object to a JSON file.</p>
+                  <p>Save the class instance to a JSON file.</p>
                 </div>
               </td>
             </tr>
@@ -279,7 +279,7 @@
               <td><code><a class="autorefs autorefs-internal" title="src.pyobjson.base.PythonObjectJson.load_from_json_file" href="#src.pyobjson.base.PythonObjectJson.load_from_json_file">load_from_json_file</a></code></td>
               <td>
                 <div class="doc-md-description">
-                  <p>Load the class object from a JSON file.</p>
+                  <p>Load the class instance from a JSON file.</p>
                 </div>
               </td>
             </tr>
@@ -416,7 +416,7 @@
         <span class="k">return</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">type</span><span class="p">(</span><span class="n">other</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">vars</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">==</span> <span class="nb">vars</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_base_subclasses</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Type</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create dict with snakecase keys derived from custom object type camelcase class names.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a dictionary with snakecase keys derived from custom object type camelcase class names.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            dict[str, Type]: Dictionary with snakecase strings of all subclasses of PythonObjectJson as keys and</span>
@@ -427,28 +427,28 @@
         <span class="k">return</span> <span class="p">{</span><span class="n">derive_custom_object_key</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span> <span class="bp">cls</span> <span class="k">for</span> <span class="bp">cls</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__mro__</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">__subclasses__</span><span class="p">()}</span>
 
     <span class="k">def</span> <span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Class method to serialize the class instance into a serializable dictionary.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a serializable dictionary from the class instance.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            dict[str, Any]: Serializable dictionary.</span>
+<span class="sd">            dict[str, Any]: Serializable dictionary representing the class instance.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_subclasses</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
 
     <span class="k">def</span> <span class="nf">to_json_str</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Serialize the class object to a JSON string.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Serialize the class instance to a JSON string.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            str: JSON string derived from the serializable version of the class object.</span>
+<span class="sd">            str: JSON string derived from the serializable version of the class instance.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">serialize</span><span class="p">(),</span> <span class="n">ensure_ascii</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">from_json_str</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">json_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Load the class object from a JSON string.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Load the class instance from a JSON string.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            json_str (str): JSON string to be deserialized into the class object.</span>
+<span class="sd">            json_str (str): JSON string to be deserialized into the class instance.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            None</span>
@@ -460,10 +460,10 @@
         <span class="nb">vars</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="o">**</span><span class="nb">vars</span><span class="p">(</span><span class="n">loaded_class_instance</span><span class="p">))</span>
 
     <span class="k">def</span> <span class="nf">save_to_json_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">json_file_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Save the class object to a JSON file.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Save the class instance to a JSON file.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            json_file_path (Path): Target JSON file path to which the class object will be saved.</span>
+<span class="sd">            json_file_path (Path): Target JSON file path to which the class instance will be saved.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            None</span>
@@ -478,10 +478,10 @@
             <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">serialize</span><span class="p">(),</span> <span class="n">json_file_out</span><span class="p">,</span> <span class="n">ensure_ascii</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">load_from_json_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">json_file_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Load the class object from a JSON file.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Load the class instance from a JSON file.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            json_file_path (Path): Target JSON file path from which the class object will be loaded.</span>
+<span class="sd">            json_file_path (Path): Target JSON file path from which the class instance will be loaded.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            None</span>
@@ -585,7 +585,7 @@
 
     <div class="doc doc-contents ">
 
-        <p>Class method to serialize the class instance into a serializable dictionary.</p>
+        <p>Create a serializable dictionary from the class instance.</p>
 
 
 <table class="field-list">
@@ -602,7 +602,7 @@
                   <code><span title="typing.Dict">Dict</span>[str, <span title="typing.Any">Any</span>]</code>
               –
               <div class="doc-md-description">
-                <p>dict[str, Any]: Serializable dictionary.</p>
+                <p>dict[str, Any]: Serializable dictionary representing the class instance.</p>
               </div>
             </li>
         </ul>
@@ -620,10 +620,10 @@
 <span class="normal">60</span>
 <span class="normal">61</span>
 <span class="normal">62</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Class method to serialize the class instance into a serializable dictionary.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a serializable dictionary from the class instance.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        dict[str, Any]: Serializable dictionary.</span>
+<span class="sd">        dict[str, Any]: Serializable dictionary representing the class instance.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_subclasses</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
@@ -646,7 +646,7 @@
 
     <div class="doc doc-contents ">
 
-        <p>Serialize the class object to a JSON string.</p>
+        <p>Serialize the class instance to a JSON string.</p>
 
 
 <table class="field-list">
@@ -663,7 +663,7 @@
 <b><code>str</code></b>(                  <code>str</code>
 )              –
               <div class="doc-md-description">
-                <p>JSON string derived from the serializable version of the class object.</p>
+                <p>JSON string derived from the serializable version of the class instance.</p>
               </div>
             </li>
         </ul>
@@ -681,10 +681,10 @@
 <span class="normal">69</span>
 <span class="normal">70</span>
 <span class="normal">71</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">to_json_str</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Serialize the class object to a JSON string.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Serialize the class instance to a JSON string.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        str: JSON string derived from the serializable version of the class object.</span>
+<span class="sd">        str: JSON string derived from the serializable version of the class instance.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">serialize</span><span class="p">(),</span> <span class="n">ensure_ascii</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
@@ -707,7 +707,7 @@
 
     <div class="doc doc-contents ">
 
-        <p>Load the class object from a JSON string.</p>
+        <p>Load the class instance from a JSON string.</p>
 
 
 <table class="field-list">
@@ -725,7 +725,7 @@
                   (<code>str</code>)
               –
               <div class="doc-md-description">
-                <p>JSON string to be deserialized into the class object.</p>
+                <p>JSON string to be deserialized into the class instance.</p>
               </div>
             </li>
         </ul>
@@ -772,10 +772,10 @@
 <span class="normal">84</span>
 <span class="normal">85</span>
 <span class="normal">86</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">from_json_str</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">json_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Load the class object from a JSON string.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Load the class instance from a JSON string.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        json_str (str): JSON string to be deserialized into the class object.</span>
+<span class="sd">        json_str (str): JSON string to be deserialized into the class instance.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        None</span>
@@ -804,7 +804,7 @@
 
     <div class="doc doc-contents ">
 
-        <p>Save the class object to a JSON file.</p>
+        <p>Save the class instance to a JSON file.</p>
 
 
 <table class="field-list">
@@ -822,7 +822,7 @@
                   (<code><span title="pathlib.Path">Path</span></code>)
               –
               <div class="doc-md-description">
-                <p>Target JSON file path to which the class object will be saved.</p>
+                <p>Target JSON file path to which the class instance will be saved.</p>
               </div>
             </li>
         </ul>
@@ -872,10 +872,10 @@
 <span class="normal">102</span>
 <span class="normal">103</span>
 <span class="normal">104</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">save_to_json_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">json_file_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Save the class object to a JSON file.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Save the class instance to a JSON file.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        json_file_path (Path): Target JSON file path to which the class object will be saved.</span>
+<span class="sd">        json_file_path (Path): Target JSON file path to which the class instance will be saved.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        None</span>
@@ -907,7 +907,7 @@
 
     <div class="doc doc-contents ">
 
-        <p>Load the class object from a JSON file.</p>
+        <p>Load the class instance from a JSON file.</p>
 
 
 <table class="field-list">
@@ -925,7 +925,7 @@
                   (<code><span title="pathlib.Path">Path</span></code>)
               –
               <div class="doc-md-description">
-                <p>Target JSON file path from which the class object will be loaded.</p>
+                <p>Target JSON file path from which the class instance will be loaded.</p>
               </div>
             </li>
         </ul>
@@ -974,10 +974,10 @@
 <span class="normal">119</span>
 <span class="normal">120</span>
 <span class="normal">121</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">load_from_json_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">json_file_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Load the class object from a JSON file.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Load the class instance from a JSON file.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        json_file_path (Path): Target JSON file path from which the class object will be loaded.</span>
+<span class="sd">        json_file_path (Path): Target JSON file path from which the class instance will be loaded.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        None</span>

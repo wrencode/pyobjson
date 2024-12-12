@@ -36,7 +36,7 @@
           <img src="../wrencode-logo.svg" class="logo" alt="Logo"/>
         </a>
         <div class="version">
-          v4.1.0
+          v4.2.0
         </div><div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
       <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
@@ -205,7 +205,7 @@
 
 
 <a href="#src.pyobjson.utils.derive_custom_object_key" class="headerlink" title="Permanent link">&para;</a></h2>
-<div class="doc-signature codehilite"><pre><span></span><code><span class="nf">derive_custom_object_key</span><span class="p">(</span><span class="n">custom_object</span><span class="p">)</span>
+<div class="doc-signature codehilite"><pre><span></span><code><span class="nf">derive_custom_object_key</span><span class="p">(</span><span class="n">custom_object</span><span class="p">,</span> <span class="n">as_lower</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -229,6 +229,16 @@
               –
               <div class="doc-md-description">
                 <p>The custom object for which to derive a key.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>as_lower</code></b>
+                  (<code>bool</code>, default:
+                      <code>True</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Whether the derived key should be returned as a lower case string.</p>
               </div>
             </li>
         </ul>
@@ -275,11 +285,17 @@
 <span class="normal">26</span>
 <span class="normal">27</span>
 <span class="normal">28</span>
-<span class="normal">29</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">derive_custom_object_key</span><span class="p">(</span><span class="n">custom_object</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Type</span><span class="p">,</span> <span class="n">Callable</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">derive_custom_object_key</span><span class="p">(</span><span class="n">custom_object</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Type</span><span class="p">,</span> <span class="n">Callable</span><span class="p">],</span> <span class="n">as_lower</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Utility function to derive a key for a custom object representing the fully qualified name of that object.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        custom_object (Type): The custom object for which to derive a key.</span>
+<span class="sd">        as_lower (bool, optional): Whether the derived key should be returned as a lower case string.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        str: The fully qualified name of the object in lowercase (e.g. module.submodule.object).</span>
@@ -287,9 +303,13 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># avoid including module if no module exists or the object is in the Python builtins</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">obj_module</span> <span class="o">:=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">custom_object</span><span class="p">,</span> <span class="s2">&quot;__module__&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span> <span class="ow">and</span> <span class="n">obj_module</span> <span class="o">!=</span> <span class="s2">&quot;builtins&quot;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">obj_module</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">custom_object</span><span class="o">.</span><span class="vm">__qualname__</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">obj_module</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">custom_object</span><span class="o">.</span><span class="vm">__qualname__</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="k">if</span> <span class="n">as_lower</span>
+            <span class="k">else</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">obj_module</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">custom_object</span><span class="o">.</span><span class="vm">__qualname__</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">custom_object</span><span class="o">.</span><span class="vm">__qualname__</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">custom_object</span><span class="o">.</span><span class="vm">__qualname__</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">if</span> <span class="n">as_lower</span> <span class="k">else</span> <span class="n">custom_object</span><span class="o">.</span><span class="vm">__qualname__</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -360,18 +380,18 @@
 </table>
             <details class="quote">
               <summary>Source code in <code>src/pyobjson/utils.py</code></summary>
-              <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">32</span>
-<span class="normal">33</span>
-<span class="normal">34</span>
-<span class="normal">35</span>
-<span class="normal">36</span>
-<span class="normal">37</span>
+              <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">37</span>
 <span class="normal">38</span>
 <span class="normal">39</span>
 <span class="normal">40</span>
 <span class="normal">41</span>
 <span class="normal">42</span>
-<span class="normal">43</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">derive_custom_callable_value</span><span class="p">(</span><span class="n">custom_callable</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">derive_custom_callable_value</span><span class="p">(</span><span class="n">custom_callable</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Utility function to derive a string value from a custom callable object.</span>
 
 <span class="sd">    Args:</span>

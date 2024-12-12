@@ -36,7 +36,7 @@
           <img src="../wrencode-logo.svg" class="logo" alt="Logo"/>
         </a>
         <div class="version">
-          v4.1.0
+          v4.2.0
         </div><div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
       <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
@@ -810,7 +810,8 @@ PythonObjectJson as keys and subclasses as values.</p>
 <span class="normal">196</span>
 <span class="normal">197</span>
 <span class="normal">198</span>
-<span class="normal">199</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">deserialize</span><span class="p">(</span><span class="n">json_data</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">pyobjson_base_custom_subclasses_by_key</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Type</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="normal">199</span>
+<span class="normal">200</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">deserialize</span><span class="p">(</span><span class="n">json_data</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">pyobjson_base_custom_subclasses_by_key</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Type</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Recursive function to deserialize JSON into typed data structures for conversion to custom Python objects.</span>
 
 <span class="sd">    Args:</span>
@@ -832,21 +833,22 @@ PythonObjectJson as keys and subclasses as values.</p>
             <span class="c1"># noinspection PyPep8Naming</span>
             <span class="n">ClassObject</span> <span class="o">=</span> <span class="n">base_subclasses</span><span class="p">[</span><span class="n">single_key</span><span class="p">]</span>  <span class="c1"># retrieve custom subclass</span>
             <span class="n">class_args</span> <span class="o">=</span> <span class="n">getfullargspec</span><span class="p">(</span><span class="n">ClassObject</span><span class="o">.</span><span class="fm">__init__</span><span class="p">)</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>  <span class="c1"># get __init__ arguments for custom subclass</span>
-            <span class="n">class_attributes</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">json_data</span><span class="p">[</span><span class="n">single_key</span><span class="p">]</span>  <span class="c1"># get JSON to be deserialized</span>
+            <span class="n">class_instance_attributes</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">json_data</span><span class="p">[</span><span class="n">single_key</span><span class="p">]</span>  <span class="c1"># get JSON to be deserialized</span>
 
             <span class="c1"># create an instance of the custom subclass using the __init__ arguments</span>
             <span class="n">class_instance</span> <span class="o">=</span> <span class="n">ClassObject</span><span class="p">(</span>
                 <span class="o">**</span><span class="p">{</span>
                     <span class="n">k</span><span class="p">:</span> <span class="n">deserialize</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">base_subclasses</span><span class="p">)</span>
-                    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">extract_typed_key_value_pairs</span><span class="p">(</span><span class="n">class_attributes</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+                    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">extract_typed_key_value_pairs</span><span class="p">(</span><span class="n">class_instance_attributes</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
                     <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">class_args</span>
                 <span class="p">}</span>
             <span class="p">)</span>
 
             <span class="c1"># assign the remaining class attributes to the created class instance</span>
-            <span class="nb">vars</span><span class="p">(</span><span class="n">class_instance</span><span class="p">)</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
-                <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">deserialize</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">base_subclasses</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">extract_typed_key_value_pairs</span><span class="p">(</span><span class="n">class_attributes</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
-            <span class="p">)</span>
+            <span class="nb">vars</span><span class="p">(</span><span class="n">class_instance</span><span class="p">)</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
+                <span class="n">k</span><span class="p">:</span> <span class="n">deserialize</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">base_subclasses</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">extract_typed_key_value_pairs</span><span class="p">(</span><span class="n">class_instance_attributes</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+            <span class="p">})</span>
 
             <span class="k">return</span> <span class="n">class_instance</span>
         <span class="k">else</span><span class="p">:</span>

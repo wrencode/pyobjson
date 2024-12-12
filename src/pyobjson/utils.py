@@ -12,11 +12,12 @@ from inspect import getfullargspec
 from typing import Type, Callable, Union
 
 
-def derive_custom_object_key(custom_object: Union[Type, Callable]) -> str:
+def derive_custom_object_key(custom_object: Union[Type, Callable], as_lower: bool = True) -> str:
     """Utility function to derive a key for a custom object representing the fully qualified name of that object.
 
     Args:
         custom_object (Type): The custom object for which to derive a key.
+        as_lower (bool, optional): Whether the derived key should be returned as a lower case string.
 
     Returns:
         str: The fully qualified name of the object in lowercase (e.g. module.submodule.object).
@@ -24,9 +25,13 @@ def derive_custom_object_key(custom_object: Union[Type, Callable]) -> str:
     """
     # avoid including module if no module exists or the object is in the Python builtins
     if (obj_module := getattr(custom_object, "__module__", None)) and obj_module != "builtins":
-        return f"{obj_module.lower()}.{custom_object.__qualname__.lower()}"
+        return (
+            f"{obj_module.lower()}.{custom_object.__qualname__.lower()}"
+            if as_lower
+            else f"{obj_module}.{custom_object.__qualname__}"
+        )
     else:
-        return custom_object.__qualname__.lower()
+        return custom_object.__qualname__.lower() if as_lower else custom_object.__qualname__
 
 
 def derive_custom_callable_value(custom_callable: Callable) -> str:

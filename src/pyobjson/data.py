@@ -176,21 +176,22 @@ def deserialize(json_data: Any, pyobjson_base_custom_subclasses_by_key: Dict[str
             # noinspection PyPep8Naming
             ClassObject = base_subclasses[single_key]  # retrieve custom subclass
             class_args = getfullargspec(ClassObject.__init__).args[1:]  # get __init__ arguments for custom subclass
-            class_attributes: Dict[str, Any] = json_data[single_key]  # get JSON to be deserialized
+            class_instance_attributes: Dict[str, Any] = json_data[single_key]  # get JSON to be deserialized
 
             # create an instance of the custom subclass using the __init__ arguments
             class_instance = ClassObject(
                 **{
                     k: deserialize(v, base_subclasses)
-                    for k, v in extract_typed_key_value_pairs(class_attributes).items()
+                    for k, v in extract_typed_key_value_pairs(class_instance_attributes).items()
                     if k in class_args
                 }
             )
 
             # assign the remaining class attributes to the created class instance
-            vars(class_instance).update(
-                {k: deserialize(v, base_subclasses) for k, v in extract_typed_key_value_pairs(class_attributes).items()}
-            )
+            vars(class_instance).update({
+                k: deserialize(v, base_subclasses)
+                for k, v in extract_typed_key_value_pairs(class_instance_attributes).items()
+            })
 
             return class_instance
         else:

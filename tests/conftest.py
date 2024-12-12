@@ -1,13 +1,12 @@
-"""Pytest top-level conftest.py.
+"""Pytest top-level conftest.py."""
 
-"""
 __author__ = "Wren J. Rudolph for Wrencode, LLC"
 __email__ = "dev@wrencode.com"
 
 import json
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Set, Tuple, Optional, Callable
+from typing import Callable, Dict, List, Optional, Set, Tuple
 
 from pytest import fixture
 
@@ -15,12 +14,12 @@ from pyobjson.base import PythonObjectJson
 
 
 def external_function(param1: str, param2: str):
+    """Function for testing."""
     return f"{param1}.{param2}"
 
 
 class ChildChildClass(PythonObjectJson):
-    """ChildChildClass for testing.
-    """
+    """ChildChildClass for testing."""
 
     def __init__(self, child_child_class_param: str):
         super().__init__()
@@ -28,8 +27,7 @@ class ChildChildClass(PythonObjectJson):
 
 
 class ChildClass(PythonObjectJson):
-    """ChildClass for testing.
-    """
+    """ChildClass for testing."""
 
     def __init__(self, child_child_class_list: List[ChildChildClass]):
         super().__init__()
@@ -40,13 +38,19 @@ class ChildClass(PythonObjectJson):
 
 
 class ParentClass(PythonObjectJson):
-    """ParentClass for testing.
-    """
+    """ParentClass for testing."""
 
-    def __init__(self, child_class_dict: Dict[str, ChildClass], child_class_list: List[ChildClass],
-                 parent_class_set: Optional[Set[str]], parent_class_tuple: Optional[Tuple[str]],
-                 parent_class_bytes: Optional[bytes], parent_class_file: Optional[Path],
-                 parent_class_external_function: Optional[Callable], parent_class_datetime: Optional[datetime]):
+    def __init__(
+        self,
+        child_class_dict: Dict[str, ChildClass],
+        child_class_list: List[ChildClass],
+        parent_class_set: Optional[Set[str]],
+        parent_class_tuple: Optional[Tuple[str]],
+        parent_class_bytes: Optional[bytes],
+        parent_class_file: Optional[Path],
+        parent_class_external_function: Optional[Callable],
+        parent_class_datetime: Optional[datetime],
+    ):
         super().__init__()
         self.child_class_dict: Dict[str, ChildClass] = child_class_dict
         self.child_class_list: List[ChildClass] = child_class_list
@@ -64,6 +68,7 @@ def parent_class_with_nested_child_classes() -> ParentClass:
 
     Returns:
         ParentClass: Instance of ParentClass.
+
     """
     return ParentClass(
         {"child_class_1": ChildClass([ChildChildClass("test_child_child_class_argument_in_dict")])},
@@ -73,7 +78,7 @@ def parent_class_with_nested_child_classes() -> ParentClass:
         b"test_parent_class_collection_element",
         Path(__name__),
         external_function,
-        datetime(2024, 1, 1, 0, 0, 0)
+        datetime(2024, 1, 1, 0, 0, 0),
     )
 
 
@@ -106,7 +111,7 @@ def parent_class_json_str() -> str:
                                         }
                                     }
                                 ]
-                            }
+                            },
                         }
                     }
                 },
@@ -128,22 +133,18 @@ def parent_class_json_str() -> str:
                                         }
                                     }
                                 ]
-                            }
+                            },
                         }
                     }
                 ],
-                "collection:set.parent_class_set": [
-                    "test_parent_class_collection_element"
-                ],
-                "collection:tuple.parent_class_tuple": [
-                    "test_parent_class_collection_element"
-                ],
+                "collection:set.parent_class_set": ["test_parent_class_collection_element"],
+                "collection:tuple.parent_class_tuple": ["test_parent_class_collection_element"],
                 "collection:bytes.parent_class_bytes": "dGVzdF9wYXJlbnRfY2xhc3NfY29sbGVjdGlvbl9lbGVtZW50",
                 "path.parent_class_file": "conftest",
                 "callable.parent_class_external_function": "conftest.external_function::param1:str,param2:str",
-                "datetime.parent_class_datetime": "2024-01-01T00:00:00"
+                "datetime.parent_class_datetime": "2024-01-01T00:00:00",
             }
         },
         ensure_ascii=False,
-        indent=2
+        indent=2,
     )

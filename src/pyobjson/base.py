@@ -5,20 +5,20 @@ Attributes:
     __email__ (str): Python package template author email.
 
 """
+
 __author__ = "Wren J. Rudolph for Wrencode, LLC"
 __email__ = "dev@wrencode.com"
 
 import json
 from pathlib import Path
-from typing import Dict, Type, Any
+from typing import Any, Dict, Type
 
-from pyobjson.data import serialize, deserialize
+from pyobjson.data import deserialize, serialize
 from pyobjson.utils import derive_custom_object_key
 
 
 class PythonObjectJson(object):
-    """Base Python Object with JSON serialization and deserialization compatibility.
-    """
+    """Base Python Object with JSON serialization and deserialization compatibility."""
 
     def __init__(self, **kwargs):
         """Instantiate the PythonObjectJson class with all keyword arguments.
@@ -33,26 +33,13 @@ class PythonObjectJson(object):
         return self.to_json_str()
 
     def __repr__(self):
-        return self.to_json_str()
+        return (
+            f"{derive_custom_object_key(self.__class__, as_lower=False)}"
+            f"({','.join([f'{k}={v}' for k, v in vars(self).items()])})"
+        )
 
-    # @staticmethod
-    # def _complex_json_handler(obj: Any) -> Any:
-    #     """Custom handler to allow custom objects to be serialized into JSON.
-    #
-    #     Args:
-    #         obj (Any): Custom object to be serialized into JSON.
-    #
-    #     Returns:
-    #         obj (Any): Serializable version of the custom object.
-    #
-    #     """
-    #     if hasattr(obj, "serialize"):
-    #         return obj.serialize()
-    #     else:
-    #         try:
-    #             return str(obj)
-    #         except TypeError:
-    #             raise TypeError(f"Object of type {type(obj)} with value of {repr(obj)} is not JSON serializable.")
+    def __eq__(self, other):
+        return type(self) is type(other) and vars(self) == vars(other)
 
     def _base_subclasses(self) -> Dict[str, Type]:
         """Create dict with snakecase keys derived from custom object type camelcase class names.
@@ -81,12 +68,7 @@ class PythonObjectJson(object):
             str: JSON string derived from the serializable version of the class object.
 
         """
-        return json.dumps(
-            self.serialize(),
-            ensure_ascii=False,
-            indent=2,
-            # default=self._complex_json_handler,
-        )
+        return json.dumps(self.serialize(), ensure_ascii=False, indent=2)
 
     def from_json_str(self, json_str: str) -> None:
         """Load the class object from a JSON string.
@@ -119,13 +101,7 @@ class PythonObjectJson(object):
         with open(json_file_path, "w", encoding="utf-8") as json_file_out:
             # TODO: fix incorrect file input type warning for json.dump from PyCharm bug https://youtrack.jetbrains.com/issue/PY-73050/openfile.txt-r-return-type-should-be-inferred-as-TextIOWrapper-instead-of-TextIO
             # noinspection PyTypeChecker
-            json.dump(
-                self.serialize(),
-                json_file_out,
-                ensure_ascii=False,
-                indent=2,
-                # default=self._complex_json_handler
-            )
+            json.dump(self.serialize(), json_file_out, ensure_ascii=False, indent=2)
 
     def load_from_json_file(self, json_file_path: Path) -> None:
         """Load the class object from a JSON file.
@@ -138,9 +114,7 @@ class PythonObjectJson(object):
 
         """
         if not json_file_path.exists():
-            raise FileNotFoundError(
-                f"File {json_file_path} does not exist. Unable to load saved data."
-            )
+            raise FileNotFoundError(f"File {json_file_path} does not exist. Unable to load saved data.")
 
         with open(json_file_path, "r", encoding="utf-8") as json_file_in:
             loaded_class_instance = deserialize(json.load(json_file_in), self._base_subclasses())

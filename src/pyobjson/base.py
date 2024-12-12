@@ -42,7 +42,7 @@ class PythonObjectJson(object):
         return type(self) is type(other) and vars(self) == vars(other)
 
     def _base_subclasses(self) -> Dict[str, Type]:
-        """Create dict with snakecase keys derived from custom object type camelcase class names.
+        """Create a dictionary with snakecase keys derived from custom object type camelcase class names.
 
         Returns:
             dict[str, Type]: Dictionary with snakecase strings of all subclasses of PythonObjectJson as keys and
@@ -53,28 +53,28 @@ class PythonObjectJson(object):
         return {derive_custom_object_key(cls): cls for cls in self.__class__.__mro__[-2].__subclasses__()}
 
     def serialize(self) -> Dict[str, Any]:
-        """Class method to serialize the class instance into a serializable dictionary.
+        """Create a serializable dictionary from the class instance.
 
         Returns:
-            dict[str, Any]: Serializable dictionary.
+            dict[str, Any]: Serializable dictionary representing the class instance.
 
         """
         return serialize(self, list(self._base_subclasses().values()))
 
     def to_json_str(self) -> str:
-        """Serialize the class object to a JSON string.
+        """Serialize the class instance to a JSON string.
 
         Returns:
-            str: JSON string derived from the serializable version of the class object.
+            str: JSON string derived from the serializable version of the class instance.
 
         """
         return json.dumps(self.serialize(), ensure_ascii=False, indent=2)
 
     def from_json_str(self, json_str: str) -> None:
-        """Load the class object from a JSON string.
+        """Load the class instance from a JSON string.
 
         Args:
-            json_str (str): JSON string to be deserialized into the class object.
+            json_str (str): JSON string to be deserialized into the class instance.
 
         Returns:
             None
@@ -86,10 +86,10 @@ class PythonObjectJson(object):
         vars(self).update(**vars(loaded_class_instance))
 
     def save_to_json_file(self, json_file_path: Path) -> None:
-        """Save the class object to a JSON file.
+        """Save the class instance to a JSON file.
 
         Args:
-            json_file_path (Path): Target JSON file path to which the class object will be saved.
+            json_file_path (Path): Target JSON file path to which the class instance will be saved.
 
         Returns:
             None
@@ -104,10 +104,10 @@ class PythonObjectJson(object):
             json.dump(self.serialize(), json_file_out, ensure_ascii=False, indent=2)
 
     def load_from_json_file(self, json_file_path: Path) -> None:
-        """Load the class object from a JSON file.
+        """Load the class instance from a JSON file.
 
         Args:
-            json_file_path (Path): Target JSON file path from which the class object will be loaded.
+            json_file_path (Path): Target JSON file path from which the class instance will be loaded.
 
         Returns:
             None

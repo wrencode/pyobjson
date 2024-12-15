@@ -99,11 +99,11 @@ def mongo_connection_params() -> Dict[str, str]:
 
     """
     return {
-        "mongo_host": os.environ.get("MONGO_HOST"),
-        "mongo_port": int(os.environ.get("MONGO_PORT")),
-        "mongo_database": os.environ.get("MONGO_DATABASE"),
-        "mongo_user": os.environ.get("MONGO_ADMIN_USER"),
-        "mongo_password": os.environ.get("MONGO_ADMIN_PASS"),
+        "mongo_host": os.environ.get("MONGO_HOST", "localhost"),
+        "mongo_port": int(os.environ.get("MONGO_PORT", 27017)),
+        "mongo_database": os.environ.get("MONGO_DATABASE", "pyobjson"),
+        "mongo_user": os.environ.get("MONGO_ADMIN_USER", "pyobjson_admin"),
+        "mongo_password": os.environ.get("MONGO_ADMIN_PASS", "<PASSWORD>"),
     }
 
 

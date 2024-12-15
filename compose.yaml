@@ -1,0 +1,28 @@
+
+services:
+
+  mongodb:
+    profiles:
+      - data
+      - mongo
+    image: mongo:${MONGO_VERSION_MAJOR}.${MONGO_VERSION_MINOR}.${MONGO_VERSION_PATCH}
+    platform: linux/arm64/v8
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_ADMIN_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ADMIN_PASS}
+    networks:
+      - pyobjson_net
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    command: mongod --wiredTigerCacheSizeGB 1.0
+
+volumes:
+  mongo_data:
+    driver: local
+
+networks:
+  pyobjson_net:
+    driver: bridge

@@ -5,11 +5,12 @@ Attributes:
     __email__ (str): Python package template author email.
 
 """
+
 __author__ = "Wren J. Rudolph for Wrencode, LLC"
 __email__ = "dev@wrencode.com"
 
 from inspect import getfullargspec
-from typing import Type, Callable, Union
+from typing import Callable, List, Type, Union
 
 
 def derive_custom_object_key(custom_object: Union[Type, Callable], as_lower: bool = True) -> str:
@@ -23,6 +24,9 @@ def derive_custom_object_key(custom_object: Union[Type, Callable], as_lower: boo
         str: The fully qualified name of the object in lowercase (e.g. module.submodule.object).
 
     """
+    if not hasattr(custom_object, "__qualname__"):
+        custom_object = custom_object.__class__
+
     # avoid including module if no module exists or the object is in the Python builtins
     if (obj_module := getattr(custom_object, "__module__", None)) and obj_module != "builtins":
         return (
@@ -44,5 +48,26 @@ def derive_custom_callable_value(custom_callable: Callable) -> str:
         str: A string representing the custom callable object that can be used to import and call that object.
 
     """
-    arg_spec_str = ",".join([f"{k}:{v.__name__}" for k, v in getfullargspec(custom_callable).annotations.items()])
+    arg_spec_str = ",".join(
+        [
+            f"{k}:{v.__name__ if hasattr(v, '__name__') else v.__class__.__name__}"
+            for k, v in getfullargspec(custom_callable).annotations.items()
+        ]
+    )
     return f"{derive_custom_object_key(custom_callable)}::{arg_spec_str}"
+
+
+def get_nested_subclasses(custom_class: Type) -> List[Type]:
+    """Recursive utility function to retrieve all nested subclasses of a custom class.
+
+    Args:
+        custom_class (Type): Custom class from which to recursively retrieve all nested subclasses.
+
+    Returns:
+        list(Type): A list of custom classes derived from the subclass tree of a custom class.
+
+    """
+    custom_subclasses = custom_class.__subclasses__()
+    for custom_subclass in custom_subclasses:
+        custom_subclasses.extend(get_nested_subclasses(custom_subclass))
+    return list(set(custom_subclasses))

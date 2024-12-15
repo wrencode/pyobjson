@@ -32,13 +32,13 @@ extra_javascript:
   - extra.js
 
 nav:
-  - Introduction: index.md
-  - README: readme.md
+  - pyobjson - Python Object JSON Tool: index.md
   - Deployment: deployment.md
   - Package:
-    - pyobjson: base.md
-    - Data Tools: data.md
-    - Utilities: utils.md
+    - pyobjson.base: base.md
+    - pyobjson.data: data.md
+    - pyobjson.utils: utils.md
+    - pyobjson.dao.mongo: mongo.md
   - Tests:
     - PyTest: tests.md
 

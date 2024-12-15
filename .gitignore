@@ -23,3 +23,4 @@ dist/
 
 # testing
 .pytest_cache/
+output/

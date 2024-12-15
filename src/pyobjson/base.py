@@ -10,11 +10,12 @@ __author__ = "Wren J. Rudolph for Wrencode, LLC"
 __email__ = "dev@wrencode.com"
 
 import json
+from inspect import getfullargspec
 from pathlib import Path
 from typing import Any, Dict, Type
 
 from pyobjson.data import deserialize, serialize
-from pyobjson.utils import derive_custom_object_key
+from pyobjson.utils import derive_custom_object_key, get_nested_subclasses
 
 
 class PythonObjectJson(object):
@@ -35,22 +36,23 @@ class PythonObjectJson(object):
     def __repr__(self):
         return (
             f"{derive_custom_object_key(self.__class__, as_lower=False)}"
-            f"({','.join([f'{k}={v}' for k, v in vars(self).items()])})"
+            f"({','.join([f'{k}={v}' for k, v in vars(self).items() if k in getfullargspec(self.__init__).args])})"
         )
 
     def __eq__(self, other):
         return type(self) is type(other) and vars(self) == vars(other)
 
     def _base_subclasses(self) -> Dict[str, Type]:
-        """Create a dictionary with snakecase keys derived from custom object type camelcase class names.
+        """Create a dictionary with snakecase keys derived from custom class names in camelcase mapped to their
+        respective custom classes.
 
         Returns:
             dict[str, Type]: Dictionary with snakecase strings of all subclasses of PythonObjectJson as keys and
             subclasses as values.
 
         """
-        # retrieve all class subclasses after base class
-        return {derive_custom_object_key(cls): cls for cls in self.__class__.__mro__[-2].__subclasses__()}
+        # retrieve all class subclasses (and their nested subclasses) after base class
+        return {derive_custom_object_key(cls): cls for cls in get_nested_subclasses(self.__class__.__mro__[-2])}
 
     def serialize(self) -> Dict[str, Any]:
         """Create a serializable dictionary from the class instance.
@@ -59,7 +61,19 @@ class PythonObjectJson(object):
             dict[str, Any]: Serializable dictionary representing the class instance.
 
         """
-        return serialize(self, list(self._base_subclasses().values()))
+        return serialize(self, list(self._base_subclasses().values()), [])
+
+    def deserialize(self, serializable_dict: Dict[str, Any]) -> Any:
+        """Load data to a class instance from a serializable dictionary.
+
+        Args:
+            serializable_dict (dict[str, Any]): Serializable dictionary representing the class instance.
+
+        Returns:
+            Any: Class instance deserialized from data dictionary.
+
+        """
+        return deserialize(serializable_dict, self._base_subclasses(), base_class_instance=self)
 
     def to_json_str(self) -> str:
         """Serialize the class instance to a JSON string.
@@ -71,7 +85,7 @@ class PythonObjectJson(object):
         return json.dumps(self.serialize(), ensure_ascii=False, indent=2)
 
     def from_json_str(self, json_str: str) -> None:
-        """Load the class instance from a JSON string.
+        """Load a class instance deserialized from a JSON string to the current class instance.
 
         Args:
             json_str (str): JSON string to be deserialized into the class instance.
@@ -80,10 +94,7 @@ class PythonObjectJson(object):
             None
 
         """
-        loaded_class_instance = deserialize(json.loads(json_str), self._base_subclasses())
-
-        # update the class instance attributes with the attributes from the loaded class instance
-        vars(self).update(**vars(loaded_class_instance))
+        self.deserialize(json.loads(json_str))
 
     def save_to_json_file(self, json_file_path: Path) -> None:
         """Save the class instance to a JSON file.
@@ -119,3 +130,28 @@ class PythonObjectJson(object):
         with open(json_file_path, "r", encoding="utf-8") as json_file_in:
             loaded_class_instance = deserialize(json.load(json_file_in), self._base_subclasses())
             vars(self).update(**vars(loaded_class_instance))
+
+
+if __name__ == "__main__":
+    from pathlib import Path
+
+    from dotenv import load_dotenv
+
+    root_dir = Path(__file__).parent.parent.parent
+
+    load_dotenv(root_dir / ".env")
+
+    class CustomClassToJsonFile(PythonObjectJson):
+        def __init__(self, message: str):
+            super().__init__()
+            self.message = message
+
+    custom_class_to_json_file = CustomClassToJsonFile("Hello, World!")
+
+    output_dir = root_dir / "tests" / "output"
+    if not output_dir.is_dir():
+        output_dir.mkdir(parents=True, exist_ok=True)
+
+    custom_class_to_json_file.save_to_json_file(output_dir / "custom_class_to_json_file.json")
+
+    custom_class_to_json_file.load_from_json_file(output_dir / "custom_class_to_json_file.json")

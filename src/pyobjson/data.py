@@ -5,20 +5,21 @@ Attributes:
     __email__ (str): Python package template author email.
 
 """
+
 __author__ = "Wren J. Rudolph for Wrencode, LLC"
 __email__ = "dev@wrencode.com"
 
+import json
 from base64 import b64decode, b64encode
 from datetime import datetime
 from importlib import import_module
 from inspect import getfullargspec
 from pathlib import Path
-from typing import Dict, Any, Type, Callable
-from typing import List
+from typing import Any, Callable, Dict, List, Optional, Type
 
 from pyobjson.utils import (
-    derive_custom_object_key,
     derive_custom_callable_value,
+    derive_custom_object_key,
 )
 
 
@@ -101,22 +102,34 @@ def extract_typed_key_value_pairs(json_dict: Dict[str, Any]) -> Dict[str, Any]:
     return derived_key_value_pairs
 
 
-def serialize(obj: Any, pyobjson_base_custom_subclasses: List[Type]) -> Any:
+def serialize(obj: Any, pyobjson_base_custom_subclasses: List[Type], excluded_attributes: List[str]) -> Any:
     """Recursive function to serialize custom Python objects into nested dictionaries for conversion to JSON.
 
     Args:
         obj (Any): Python object to serialize.
         pyobjson_base_custom_subclasses (list[Type]): List of custom Python class subclasses.
+        excluded_attributes (list[str]): List of attributes to exclude from serialization. Supports substring matching
+            exclusions.
 
     Returns:
         dict[str, Any]: Serializable dictionary.
 
     """
     if type(obj) in pyobjson_base_custom_subclasses:
-
         serializable_obj = {}
-        for att, val in unpack_custom_class_vars(obj, pyobjson_base_custom_subclasses).items():
+        attributes = {k: v for k, v in unpack_custom_class_vars(obj, pyobjson_base_custom_subclasses).items()}
 
+        # filter out excluded attributes
+        if excluded_attributes:
+            excluded_att_keys = set()
+            for att in attributes.keys():
+                for excl_att in excluded_attributes:
+                    if excl_att in att:
+                        excluded_att_keys.add(att)
+
+            attributes = {att: val for att, val in attributes.items() if att not in excluded_att_keys}
+
+        for att, val in attributes.items():
             if isinstance(val, dict):
                 att = f"collection:dict.{att}"
             elif isinstance(val, (list, set, tuple, bytes, bytearray)):
@@ -127,16 +140,24 @@ def serialize(obj: Any, pyobjson_base_custom_subclasses: List[Type]) -> Any:
                 att = f"callable.{att}"
             elif isinstance(val, datetime):
                 att = f"datetime.{att}"
+            else:
+                try:
+                    json.dumps(val)
+                except TypeError as e:
+                    if str(e) == f"Object of type {type(val).__name__} is not JSON serializable":
+                        att = f"repr:{derive_custom_object_key(val.__class__)}"
+                    else:
+                        att = f"UNSERIALIZABLE.{derive_custom_object_key(val.__class__)}"
 
-            serializable_obj[att] = serialize(val, pyobjson_base_custom_subclasses)
+            serializable_obj[att] = serialize(val, pyobjson_base_custom_subclasses, excluded_attributes)
 
         return {derive_custom_object_key(obj.__class__): serializable_obj}
 
     elif isinstance(obj, dict):
-        return {k: serialize(v, pyobjson_base_custom_subclasses) for k, v in obj.items()}
+        return {k: serialize(v, pyobjson_base_custom_subclasses, excluded_attributes) for k, v in obj.items()}
 
     elif isinstance(obj, (list, set, tuple)):
-        return [serialize(v, pyobjson_base_custom_subclasses) for v in obj]
+        return [serialize(v, pyobjson_base_custom_subclasses, excluded_attributes) for v in obj]
 
     elif isinstance(obj, (bytes, bytearray)):
         return b64encode(obj).decode("utf-8")
@@ -151,16 +172,26 @@ def serialize(obj: Any, pyobjson_base_custom_subclasses: List[Type]) -> Any:
         return obj.isoformat()
 
     else:
+        try:
+            json.dumps(obj)
+        except TypeError as e:
+            if str(e) == f"Object of type {type(obj).__name__} is not JSON serializable":
+                return repr(obj)
+            else:
+                return "UNSERIALIZABLE"
         return obj
 
 
-def deserialize(json_data: Any, pyobjson_base_custom_subclasses_by_key: Dict[str, Type]) -> Any:
+def deserialize(
+    json_data: Any, pyobjson_base_custom_subclasses_by_key: Dict[str, Type], base_class_instance: Optional[Any] = None
+) -> Any:
     """Recursive function to deserialize JSON into typed data structures for conversion to custom Python objects.
 
     Args:
         json_data (Any): JSON data to be deserialized.
         pyobjson_base_custom_subclasses_by_key (dict[str, Type]): Dictionary with snakecase strings of all subclasses of
             PythonObjectJson as keys and subclasses as values.
+        base_class_instance (Optional[Any]): Target class instance into which to deserialize JSON data.
 
     Returns:
         obj (Any): Object deserialized from JSON.
@@ -178,22 +209,29 @@ def deserialize(json_data: Any, pyobjson_base_custom_subclasses_by_key: Dict[str
             class_args = getfullargspec(ClassObject.__init__).args[1:]  # get __init__ arguments for custom subclass
             class_instance_attributes: Dict[str, Any] = json_data[single_key]  # get JSON to be deserialized
 
-            # create an instance of the custom subclass using the __init__ arguments
-            class_instance = ClassObject(
-                **{
+            if ClassObject == base_class_instance.__class__:
+                # avoid creating a new class instance if an existing base class instance has been provided
+                class_instance = base_class_instance
+            else:
+                # create an instance of the custom subclass using the __init__ arguments
+                class_instance = ClassObject(
+                    **{
+                        k: deserialize(v, base_subclasses)
+                        for k, v in extract_typed_key_value_pairs(class_instance_attributes).items()
+                        if k in class_args
+                    }
+                )
+
+            # assign the remaining class attributes to the class instance
+            # noinspection PyUnresolvedReferences
+            vars(class_instance).update(
+                {
                     k: deserialize(v, base_subclasses)
                     for k, v in extract_typed_key_value_pairs(class_instance_attributes).items()
-                    if k in class_args
                 }
             )
 
-            # assign the remaining class attributes to the created class instance
-            vars(class_instance).update({
-                k: deserialize(v, base_subclasses)
-                for k, v in extract_typed_key_value_pairs(class_instance_attributes).items()
-            })
-
-            return class_instance
+            return class_instance if not base_class_instance else None
         else:
             return {k: deserialize(v, base_subclasses) for k, v in extract_typed_key_value_pairs(json_data).items()}
     else:

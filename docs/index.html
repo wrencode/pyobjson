@@ -14,7 +14,7 @@
     
       <script>
         // Current page data
-        var mkdocs_page_name = "Introduction";
+        var mkdocs_page_name = "pyobjson - Python Object JSON Tool";
         var mkdocs_page_input_path = "index.md";
         var mkdocs_page_url = "/";
       </script>
@@ -36,7 +36,7 @@
           <img src="wrencode-logo.svg" class="logo" alt="Logo"/>
         </a>
         <div class="version">
-          v4.2.1
+          v4.3.0
         </div><div role="search">
   <form id ="rtd-search-form" class="wy-form" action="./search.html" method="get">
       <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
@@ -46,13 +46,49 @@
 
       <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
-                <li class="toctree-l1 current"><a class="reference internal current" href="#">Introduction</a>
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">pyobjson - Python Object JSON Tool</a>
     <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#table-of-contents">Table of Contents</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#about">About</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#dependencies">Dependencies</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#toolchain">Toolchain</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#json-example">JSON Example</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#json-example-output">JSON Example Output</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#saving-and-loading">Saving and Loading</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#json-files">JSON Files</a>
+        <ul>
+    <li class="toctree-l5"><a class="reference internal" href="#json-file-example">JSON File Example</a>
+    </li>
+    <li class="toctree-l5"><a class="reference internal" href="#json-file-output">JSON File Output</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#mongodb">MongoDB</a>
+        <ul>
+    <li class="toctree-l5"><a class="reference internal" href="#mongodb-example">MongoDB Example</a>
+    </li>
+    <li class="toctree-l5"><a class="reference internal" href="#mongodb-output">MongoDB Output</a>
+    </li>
+        </ul>
+    </li>
+        </ul>
+    </li>
+        </ul>
+    </li>
     </ul>
-                </li>
-              </ul>
-              <ul>
-                <li class="toctree-l1"><a class="reference internal" href="readme/">README</a>
                 </li>
               </ul>
               <ul>
@@ -61,11 +97,13 @@
               </ul>
               <p class="caption"><span class="caption-text">Package</span></p>
               <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="base/">pyobjson</a>
+                  <li class="toctree-l1"><a class="reference internal" href="base/">pyobjson.base</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="data/">Data Tools</a>
+                  <li class="toctree-l1"><a class="reference internal" href="data/">pyobjson.data</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="utils/">Utilities</a>
+                  <li class="toctree-l1"><a class="reference internal" href="utils/">pyobjson.utils</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="mongo/">pyobjson.dao.mongo</a>
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">Tests</span></p>
@@ -87,7 +125,7 @@
         <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href="." class="icon icon-home" aria-label="Docs"></a></li>
-      <li class="breadcrumb-item active">Introduction</li>
+      <li class="breadcrumb-item active">pyobjson - Python Object JSON Tool</li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -96,16 +134,234 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <div class="hide-next-element"></div>
-
-<p><a href="https://github.com/wrencode/python_package_template"><img src="wrencode-logo.svg" width="400"/></a></p>
+                <p>from pyobjson import PythonObjectJson</p>
 <h1 id="pyobjson-python-object-json-tool">pyobjson - Python Object JSON Tool<a class="headerlink" href="#pyobjson-python-object-json-tool" title="Permanent link">&para;</a></h1>
-<p>Please check out the <a href="readme/">README</a> to get started!</p>
+<p>Utility library for serializing/deserializing custom Python objects to/from JSON.</p>
+<p><a href="https://github.com/wrencode/pyobjson/releases/latest"><img alt="GitHub release (latest SemVer)" src="https://img.shields.io/github/v/release/wrencode/pyobjson?color=yellowgreen&amp;label=latest%20release&amp;sort=semver" /></a>
+<a href="https://github.com/wrencode/pyobjson/tags"><img alt="GitHub tag (latest SemVer)" src="https://img.shields.io/github/v/tag/wrencode/pyobjson?color=yellowgreen&amp;label=latest%20version&amp;sort=semver" /></a>
+<a href="https://github.com/wrencode/pyobjson/actions/workflows/python-package.yml"><img alt="GitHub Workflow Status (with event)" src="https://img.shields.io/github/actions/workflow/status/wrencode/pyobjson/python-package.yml?color=brightgreen&amp;label=build" /></a></p>
+<p><a href="https://pypi.python.org/pypi/pyobjson"><img alt="PyPI" src="https://img.shields.io/pypi/v/pyobjson.svg?style=flat" /></a>
+<a href="https://pypi.python.org/pypi/pyobjson"><img alt="PyPI" src="https://img.shields.io/pypi/dm/pyobjson.svg?style=flat" /></a>
+<a href="https://pypi.python.org/pypi/pyobjson"><img alt="PyPI" src="https://img.shields.io/pypi/pyversions/pyobjson.svg?style=flat" /></a>
+<a href="https://pypi.python.org/pypi/pyobjson"><img alt="PyPI" src="https://img.shields.io/pypi/l/pyobjson.svg?style=flat" /></a></p>
+<hr />
+<p><sub><strong><em>Do you like the Python Object JSON Tool? Star the repository on GitHub and please consider helping support its ongoing development:</em></strong></sub></p>
+<p><a href="https://venmo.com/wrencode?txn=pay"><img src="https://raw.githubusercontent.com/wrencode/pyobjson/refs/heads/main/docs/wrencode-donation-venmo-qr-code.jpg" width="300"/></a></p>
+<!-- https://venmo.com/<USER_NAME_1>,<USER_NAME_2>...?txn=<charge|pay>&note=<NOTE>&amount=<AMOUNT> -->
+
+<hr />
+<div class="hide-next-element"></div>
+
+<p><strong><a href="https://pyobjson.wrencode.dev">READ THE DOCS HERE!</a></strong>
+<br/>
+<sup>Detailed documentation can be found at <a href="https://pyobjson.wrencode.dev">https://pyobjson.wrencode.dev</a>.</sup></p>
+<div class="hide-next-element"></div>
+
+<p>&nbsp;</p>
+<div class="hide-next-element"></div>
+
+<h3 id="table-of-contents">Table of Contents<a class="headerlink" href="#table-of-contents" title="Permanent link">&para;</a></h3>
+<div class="hide-next-element"></div>
+
+<ul>
+<li><a href="#about">About</a><ul>
+<li><a href="#dependencies">Dependencies</a></li>
+<li><a href="#toolchain">Toolchain</a></li>
+</ul>
+</li>
+<li><a href="#usage">Usage</a><ul>
+<li><a href="#json-example">JSON Example</a><ul>
+<li><a href="#json-example-output">JSON Example Output</a></li>
+</ul>
+</li>
+<li><a href="#saving-and-loading">Saving and Loading</a><ul>
+<li><a href="#json-files">JSON Files</a><ul>
+<li><a href="#json-file-example">JSON File Example</a></li>
+<li><a href="#json-file-output">JSON File Output</a></li>
+</ul>
+</li>
+<li><a href="#mongodb">MongoDB</a><ul>
+<li><a href="#mongodb-example">MongoDB Example</a></li>
+<li><a href="#mongodb-output">MongoDB Output</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<div class="hide-next-element"></div>
+
+<hr />
+<p><a name="about"></a></p>
+<h3 id="about">About<a class="headerlink" href="#about" title="Permanent link">&para;</a></h3>
+<p>The Python Object JSON Tool is a utility library for serializing/deserializing custom Python objects to/from JSON.</p>
+<p><a name="dependencies"></a></p>
+<h4 id="dependencies">Dependencies<a class="headerlink" href="#dependencies" title="Permanent link">&para;</a></h4>
+<p>The Python Object JSON Tool does not have any third-party dependencies to run the code. It has several development dependencies, which can be seen in the package <code>pyproject.toml</code>.</p>
+<p><a name="toolchain"></a></p>
+<h4 id="toolchain">Toolchain<a class="headerlink" href="#toolchain" title="Permanent link">&para;</a></h4>
+<p>The below tools and resources are used as part of pyobjson:</p>
+<ul>
+<li><a href="https://github.com/astral-sh/uv">uv</a> - package management</li>
+<li><a href="https://github.com/astral-sh/ruff">ruff</a> - code linting</li>
+<li><a href="https://bandit.readthedocs.io/en/latest/">bandit</a> - code security</li>
+<li><a href="https://www.gnu.org/software/make/manual/make.html">make</a> - Makefile build automation</li>
+<li><a href="https://www.mkdocs.org">MkDocs</a> - package documentation</li>
+<li><a href="https://github.com/theskumar/python-dotenv">python-dotenv</a> - programmatic access to environment variables defined in a <code>.env</code> file</li>
+<li><a href="https://docs.pytest.org/en/stable/">pytest</a> - code testing framework</li>
+<li><a href="https://docs.github.com/en/actions">GitHub Actions</a> - CI/CD</li>
+<li><a href="https://github.com/nektos/act">act</a> - GitHub Actions testing</li>
+</ul>
+<hr />
+<p><a name="usage"></a></p>
+<h3 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h3>
+<p>The <code>pyobjson</code> package is designed to be used as a base class/parent class/superclass to your own custom Python classes in order to provide built-in, convenient serialization/deserialization functionality. Child classes/subclasses of <code>pyobjson.base.PythonObjectJson</code> will automatically have the following methods:</p>
+<ul>
+<li><code>pyobjson.base.PythonObjectJson.serialize()</code>: Create a serializable dictionary from the class instance.</li>
+<li><code>pyobjson.base.PythonObjectJson.to_json_str()</code>: Serialize the class instance to a JSON string.</li>
+<li><code>pyobjson.base.PythonObjectJson.from_json_str(json_str)</code>: Load the class instance from a <code>pyobjson</code>-formatted JSON string.</li>
+<li><code>pyobjson.base.PythonObjectJson.save_to_json_file(json_file_path)</code>: Save the class instance to a JSON file.</li>
+<li><code>pyobjson.base.PythonObjectJson.load_from_json_file(json_file_path)</code>: Load the class instance from a <code>pyobjson</code>-formatted JSON file.</li>
+</ul>
+<p>Please reference the <strong><a href="https://pyobjson.wrencode.dev">documentation at https://pyobjson.wrencode.dev</a></strong> for more detailed usage.</p>
+<p><a name="json-example"></a></p>
+<h4 id="json-example">JSON Example<a class="headerlink" href="#json-example" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span> <span class="nn">pyobjson.base</span> <span class="kn">import</span> <span class="n">PythonObjectJson</span>
+
+<span class="k">class</span> <span class="nc">MyOtherClass</span><span class="p">(</span><span class="n">PythonObjectJson</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;Hello, World!&quot;</span>
+
+<span class="k">class</span> <span class="nc">MyClass</span><span class="p">(</span><span class="n">PythonObjectJson</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">my_other_classes</span> <span class="o">=</span> <span class="p">[</span><span class="n">MyOtherClass</span><span class="p">()]</span>
+
+<span class="n">my_class</span> <span class="o">=</span> <span class="n">MyClass</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">my_class</span><span class="o">.</span><span class="n">to_json_str</span><span class="p">())</span>
+</code></pre></div>
+
+<p><a name="json-example-output"></a></p>
+<h5 id="json-example-output">JSON Example Output<a class="headerlink" href="#json-example-output" title="Permanent link">&para;</a></h5>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;__main__.myclass&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;collection:list.my_other_classes&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;__main__.myotherclass&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Hello, World!&quot;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">]</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The above example shows how <code>pyobjson</code> can be used to serialize arbitrary custom Python classes into JSON. Additionally, the above <a href="#json-example-output">JSON example output</a> JSON can be used to recreate an equivalent class instance by loading the JSON into a custom Python class instance.</p>
+<p><a name="saving-and-loading"></a></p>
+<h4 id="saving-and-loading">Saving and Loading<a class="headerlink" href="#saving-and-loading" title="Permanent link">&para;</a></h4>
+<p>The <code>pyobjson.base.PythonObjectJson</code> parent class <em>also</em> provides built-in methods to save/load arbitrary custom Python classes to/from JSON in several ways.</p>
+<p><a name="json-files"></a></p>
+<h5 id="json-files">JSON Files<a class="headerlink" href="#json-files" title="Permanent link">&para;</a></h5>
+<ul>
+<li><a href="https://www.json.org/json-en.html">JSON</a> files <em>(using </em><em>only</em><em> Python built-in libraries)</em>: Use the <code>PythonObjectJson.save_to_json_file(json_file_path)</code> and <code>PythonObjectJson.load_from_json_file(json_file_path)</code> methods to save/load your custom Python subclasses to JSON files.</li>
+</ul>
+<p><a name="json-file-example"></a></p>
+<h6 id="json-file-example">JSON File Example<a class="headerlink" href="#json-file-example" title="Permanent link">&para;</a></h6>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+
+<span class="kn">from</span> <span class="nn">dotenv</span> <span class="kn">import</span> <span class="n">load_dotenv</span>
+
+<span class="kn">from</span> <span class="nn">pyobjson.base</span> <span class="kn">import</span> <span class="n">PythonObjectJson</span>
+
+<span class="n">root_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span>
+
+<span class="n">load_dotenv</span><span class="p">(</span><span class="n">root_dir</span> <span class="o">/</span> <span class="s2">&quot;.env&quot;</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">CustomClassToJsonFile</span><span class="p">(</span><span class="n">PythonObjectJson</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="n">message</span>
+
+
+<span class="n">custom_class_to_json_file</span> <span class="o">=</span> <span class="n">CustomClassToJsonFile</span><span class="p">(</span><span class="s2">&quot;Hello, World!&quot;</span><span class="p">)</span>
+
+<span class="n">output_dir</span> <span class="o">=</span> <span class="n">root_dir</span> <span class="o">/</span> <span class="s2">&quot;output&quot;</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">output_dir</span><span class="o">.</span><span class="n">is_dir</span><span class="p">():</span>
+    <span class="n">output_dir</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">custom_class_to_json_file</span><span class="o">.</span><span class="n">save_to_json_file</span><span class="p">(</span><span class="n">output_dir</span> <span class="o">/</span> <span class="s2">&quot;custom_class_to_json_file.json&quot;</span><span class="p">)</span>
+
+<span class="n">custom_class_to_json_file</span><span class="o">.</span><span class="n">load_from_json_file</span><span class="p">(</span><span class="n">output_dir</span> <span class="o">/</span> <span class="s2">&quot;custom_class_to_json_file.json&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<p><a name="json-file-output"></a></p>
+<h6 id="json-file-output">JSON File Output<a class="headerlink" href="#json-file-output" title="Permanent link">&para;</a></h6>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;__main__.customclasstojsonfile&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Hello, World!&quot;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><a name="mongodb"></a></p>
+<h5 id="mongodb">MongoDB<a class="headerlink" href="#mongodb" title="Permanent link">&para;</a></h5>
+<ul>
+<li><a href="https://www.mongodb.com">MongoDB</a> <em>(using <a href="https://pymongo.readthedocs.io/en/stable/"><code>pymongo</code></a>)</em>: The <code>pyobjson</code> library includes a class called <code>pyobjson.dao.PythonObjectJsonToMongo</code>, which can be used as a superclass for any custom class you wish to be able to easily serialized/deserialize to/from MongoDB. Use the <code>PythonObjectJsonToMongo.save_to_mongo(mongo_collection)</code> and <code>PythonObjectJsonToMongo.load_from_mongo(mongo_collection, document_id)</code> methods to save/load your custom Python subclasses to MongoDB.</li>
+</ul>
+<p><a name="mongodb-example"></a></p>
+<h6 id="mongodb-example">MongoDB Example<a class="headerlink" href="#mongodb-example" title="Permanent link">&para;</a></h6>
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+
+<span class="kn">from</span> <span class="nn">dotenv</span> <span class="kn">import</span> <span class="n">load_dotenv</span>
+
+<span class="kn">from</span> <span class="nn">pyobjson.dao.mongo</span> <span class="kn">import</span> <span class="n">PythonObjectJsonToMongo</span>
+
+<span class="n">load_dotenv</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s2">&quot;.env&quot;</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">CustomClassToMongo</span><span class="p">(</span><span class="n">PythonObjectJsonToMongo</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mongo_host</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">mongo_port</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">mongo_database</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">mongo_user</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">mongo_password</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">mongo_host</span><span class="p">,</span> <span class="n">mongo_port</span><span class="p">,</span> <span class="n">mongo_database</span><span class="p">,</span> <span class="n">mongo_user</span><span class="p">,</span> <span class="n">mongo_password</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;Hello, World!&quot;</span>
+
+
+<span class="n">custom_class_to_mongo</span> <span class="o">=</span> <span class="n">CustomClassToMongo</span><span class="p">(</span>
+    <span class="n">mongo_host</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;MONGO_HOST&quot;</span><span class="p">),</span>
+    <span class="n">mongo_port</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;MONGO_PORT&quot;</span><span class="p">)),</span>
+    <span class="n">mongo_database</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;MONGO_DATABASE&quot;</span><span class="p">),</span>
+    <span class="n">mongo_user</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;MONGO_ADMIN_USER&quot;</span><span class="p">),</span>
+    <span class="n">mongo_password</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;MONGO_ADMIN_PASS&quot;</span><span class="p">),</span>
+<span class="p">)</span>
+
+<span class="n">saved_mongo_document_id</span> <span class="o">=</span> <span class="n">custom_class_to_mongo</span><span class="o">.</span><span class="n">save_to_mongo</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;MONGO_COLLECTION&quot;</span><span class="p">))</span>
+
+<span class="n">custom_class_to_mongo</span><span class="o">.</span><span class="n">load_from_mongo</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;MONGO_COLLECTION&quot;</span><span class="p">),</span> <span class="n">saved_mongo_document_id</span><span class="p">)</span>
+</code></pre></div>
+
+<p><a name="mongodb-output"></a></p>
+<h6 id="mongodb-output">MongoDB Output<a class="headerlink" href="#mongodb-output" title="Permanent link">&para;</a></h6>
+<p><code>print(custom_class_to_mongo)</code>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;__main__.customclasstomongo&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Hello, World!&quot;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><code>print(repr(custom_class_to_mongo))</code>:</p>
+<div class="codehilite"><pre><span></span><code>__main__.CustomClassToMongo<span class="o">(</span><span class="nv">mongo_host</span><span class="o">=</span>localhost,mongo_port<span class="o">=</span><span class="m">27017</span>,mongo_database<span class="o">=</span>pyobjson,mongo_user<span class="o">=</span>&lt;mongodb_user&gt;,mongo_password<span class="o">=</span>&lt;mongodb_password&gt;<span class="o">)</span>
+</code></pre></div>
               
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="readme/" class="btn btn-neutral float-right" title="README">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="deployment/" class="btn btn-neutral float-right" title="Deployment">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -133,7 +389,7 @@
     
     
     
-      <span><a href="readme/" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="deployment/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>
@@ -154,5 +410,5 @@
 
 <!--
 MkDocs version : 1.6.1
-Build Date UTC : 2024-12-12 04:42:12.635804+00:00
+Build Date UTC : 2024-12-15 04:24:13.826866+00:00
 -->

@@ -141,3 +141,5 @@ git add .
 git commit -m 'updated version number and documentation'
 git push
 ```
+
+* *(Optional if releasing a major version)* Go to the [Releases](https://github.com/wrencode/pyobjson/releases) page, click `Draft a new release`, select the latest major version tag, set the title to `Release vX.X.X`, enter release notes, and click `Publish release`.

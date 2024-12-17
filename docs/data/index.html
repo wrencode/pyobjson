@@ -36,7 +36,7 @@
           <img src="../wrencode-logo.svg" class="logo" alt="Logo"/>
         </a>
         <div class="version">
-          v5.1.0
+          v5.1.1
         </div><div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
       <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
@@ -1014,9 +1014,7 @@ Python objects.</p>
 <span class="normal">290</span>
 <span class="normal">291</span>
 <span class="normal">292</span>
-<span class="normal">293</span>
-<span class="normal">294</span>
-<span class="normal">295</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">deserialize</span><span class="p">(</span>
+<span class="normal">293</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">deserialize</span><span class="p">(</span>
     <span class="n">json_data</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
     <span class="n">pyobjson_base_custom_subclasses_by_key</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Type</span><span class="p">],</span>
     <span class="n">base_class_instance</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -1056,13 +1054,11 @@ Python objects.</p>
             <span class="k">else</span><span class="p">:</span>
                 <span class="c1"># extract original attribute names from pyobjson formatted attribute keys</span>
                 <span class="n">extracted_class_instance_atts</span> <span class="o">=</span> <span class="p">{</span><span class="n">att</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">att</span> <span class="ow">in</span> <span class="n">class_instance_attributes</span><span class="o">.</span><span class="n">keys</span><span class="p">()}</span>
-                <span class="c1"># check if any required instnace attributes are missing from the deserialized data</span>
+                <span class="c1"># check if any required instance attributes are missing from the deserialized data</span>
                 <span class="k">if</span> <span class="n">missing_instances_atts</span> <span class="o">:=</span> <span class="nb">set</span><span class="p">(</span><span class="n">class_args</span><span class="p">)</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">extracted_class_instance_atts</span><span class="p">):</span>
                     <span class="k">if</span> <span class="nb">set</span><span class="p">(</span><span class="n">extra_instance_atts</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="o">.</span><span class="n">issuperset</span><span class="p">(</span><span class="n">missing_instances_atts</span><span class="p">):</span>
                         <span class="n">class_instance_attributes</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">extra_instance_atts</span><span class="p">)</span>
                     <span class="k">else</span><span class="p">:</span>
-                        <span class="nb">print</span><span class="p">()</span>
-                        <span class="nb">print</span><span class="p">(</span><span class="n">missing_instances_atts</span><span class="p">)</span>
                         <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
                             <span class="sa">f</span><span class="s2">&quot;Missing required instance attributes &quot;</span>
                             <span class="sa">f</span><span class="s1">&#39;&quot;</span><span class="si">{</span><span class="n">missing_instances_atts</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">extra_instance_atts</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span><span class="si">}</span><span class="s1">&quot; for custom &#39;</span>

@@ -36,7 +36,7 @@
           <img src="../wrencode-logo.svg" class="logo" alt="Logo"/>
         </a>
         <div class="version">
-          v5.1.0
+          v5.1.1
         </div><div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
       <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
@@ -412,7 +412,9 @@
 <span class="normal">170</span>
 <span class="normal">171</span>
 <span class="normal">172</span>
-<span class="normal">173</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">PythonObjectJsonToMongo</span><span class="p">(</span><span class="n">PythonObjectJson</span><span class="p">):</span>
+<span class="normal">173</span>
+<span class="normal">174</span>
+<span class="normal">175</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">PythonObjectJsonToMongo</span><span class="p">(</span><span class="n">PythonObjectJson</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;PythonObjectJson subclass with built-in save/load functionality to/from MongoDB.&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mongo_host</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">mongo_port</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">mongo_database</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">mongo_user</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">mongo_password</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
@@ -526,7 +528,9 @@
 <span class="sd">            ObjectId: The MongoDB document ID to which the custom Python object JSON was saved.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_validate_document_id</span><span class="p">(</span><span class="n">mongo_document_id</span><span class="p">)</span>
+        <span class="c1"># only validate MongoDB document ID if one is provided</span>
+        <span class="k">if</span> <span class="n">mongo_document_id</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_validate_document_id</span><span class="p">(</span><span class="n">mongo_document_id</span><span class="p">)</span>
 
         <span class="n">collection</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate_or_create_collection</span><span class="p">(</span><span class="n">mongo_collection</span><span class="p">)</span>
         <span class="n">document</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">collection</span><span class="o">.</span><span class="n">find_one_and_update</span><span class="p">(</span>
@@ -847,7 +851,9 @@ will result in MongoDB automatically generating a unique document ID.</p>
 <span class="normal">150</span>
 <span class="normal">151</span>
 <span class="normal">152</span>
-<span class="normal">153</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">save_to_mongo</span><span class="p">(</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">save_to_mongo</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span> <span class="n">mongo_collection</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">mongo_document_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">ObjectId</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ObjectId</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Save the custom Python object to a specified MongoDB collection.</span>
@@ -861,7 +867,9 @@ will result in MongoDB automatically generating a unique document ID.</p>
 <span class="sd">        ObjectId: The MongoDB document ID to which the custom Python object JSON was saved.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">_validate_document_id</span><span class="p">(</span><span class="n">mongo_document_id</span><span class="p">)</span>
+    <span class="c1"># only validate MongoDB document ID if one is provided</span>
+    <span class="k">if</span> <span class="n">mongo_document_id</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_validate_document_id</span><span class="p">(</span><span class="n">mongo_document_id</span><span class="p">)</span>
 
     <span class="n">collection</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate_or_create_collection</span><span class="p">(</span><span class="n">mongo_collection</span><span class="p">)</span>
     <span class="n">document</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">collection</span><span class="o">.</span><span class="n">find_one_and_update</span><span class="p">(</span>
@@ -952,9 +960,7 @@ JSON was loaded.</p>
 </table>
             <details class="quote">
               <summary>Source code in <code>src/pyobjson/dao/mongo/base.py</code></summary>
-              <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">155</span>
-<span class="normal">156</span>
-<span class="normal">157</span>
+              <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">157</span>
 <span class="normal">158</span>
 <span class="normal">159</span>
 <span class="normal">160</span>
@@ -970,7 +976,9 @@ JSON was loaded.</p>
 <span class="normal">170</span>
 <span class="normal">171</span>
 <span class="normal">172</span>
-<span class="normal">173</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">load_from_mongo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mongo_collection</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">mongo_document_id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ObjectId</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal">173</span>
+<span class="normal">174</span>
+<span class="normal">175</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">load_from_mongo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mongo_collection</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">mongo_document_id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ObjectId</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Load the JSON values from a specified MongoDB document ID to the custom Python object from a specified</span>
 <span class="sd">    MongoDB collection.</span>
 

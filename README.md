@@ -205,7 +205,7 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-from pyobjson.dao.mongo import PythonObjectJsonToMongo
+from pyobjson.dao.mongo.base import PythonObjectJsonToMongo
 
 load_dotenv(Path(__file__).parent / ".env")
 

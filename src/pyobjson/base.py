@@ -43,11 +43,11 @@ class PythonObjectJson(object):
         return type(self) is type(other) and vars(self) == vars(other)
 
     def _base_subclasses(self) -> Dict[str, Type]:
-        """Create a dictionary with snakecase keys derived from custom class names in camelcase mapped to their
+        """Create a dictionary with lowercase keys derived from custom class names in camelcase mapped to their
         respective custom classes.
 
         Returns:
-            dict[str, Type]: Dictionary with snakecase strings of all subclasses of PythonObjectJson as keys and
+            dict[str, Type]: Dictionary with lowercase strings of all subclasses of PythonObjectJson as keys and
             subclasses as values.
 
         """
@@ -128,8 +128,7 @@ class PythonObjectJson(object):
             raise FileNotFoundError(f"File {json_file_path} does not exist. Unable to load saved data.")
 
         with open(json_file_path, "r", encoding="utf-8") as json_file_in:
-            loaded_class_instance = deserialize(json.load(json_file_in), self._base_subclasses())
-            vars(self).update(**vars(loaded_class_instance))
+            self.deserialize(json.load(json_file_in))
 
 
 if __name__ == "__main__":
@@ -147,6 +146,8 @@ if __name__ == "__main__":
             self.message = message
 
     custom_class_to_json_file = CustomClassToJsonFile("Hello, World!")
+    print(custom_class_to_json_file)
+    print("-" * 100)
 
     output_dir = root_dir / "tests" / "output"
     if not output_dir.is_dir():
@@ -154,4 +155,10 @@ if __name__ == "__main__":
 
     custom_class_to_json_file.save_to_json_file(output_dir / "custom_class_to_json_file.json")
 
+    custom_class_to_json_file.__init__("")
+    print(custom_class_to_json_file)
+    print("-" * 100)
+
     custom_class_to_json_file.load_from_json_file(output_dir / "custom_class_to_json_file.json")
+    print(custom_class_to_json_file)
+    print("-" * 100)

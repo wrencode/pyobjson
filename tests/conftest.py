@@ -4,7 +4,6 @@ __author__ = "Wren J. Rudolph for Wrencode, LLC"
 __email__ = "dev@wrencode.com"
 
 import json
-import os
 from datetime import datetime
 from pathlib import Path
 from typing import Callable, Dict, List, Optional, Set, Tuple
@@ -12,12 +11,11 @@ from typing import Callable, Dict, List, Optional, Set, Tuple
 from pytest import fixture
 
 from pyobjson.base import PythonObjectJson
-from pyobjson.dao.mongo import PythonObjectJsonToMongo
 
 
-def external_function(param1: str, param2: str):
-    """Function for testing."""
-    return f"{param1}.{param2}"
+def ext_func(param_1: str, param_2: str):
+    """Function external_function for testing."""
+    return f"{param_1}.{param_2}"
 
 
 class ThirdClass(PythonObjectJson):
@@ -44,6 +42,7 @@ class FirstClass(PythonObjectJson):
         self,
         second_class_dict: Dict[str, SecondClass],
         second_class_list: List[SecondClass],
+        first_class_attribute: Optional[str],
         first_class_set: Optional[Set[str]],
         first_class_tuple: Optional[Tuple[str]],
         first_class_bytes: Optional[bytes],
@@ -54,34 +53,7 @@ class FirstClass(PythonObjectJson):
         super().__init__()
         self.second_class_dict: Dict[str, SecondClass] = second_class_dict
         self.second_class_list: List[SecondClass] = second_class_list
-        self.first_class_set: Set[str] = first_class_set
-        self.first_class_tuple: Tuple[str] = first_class_tuple
-        self.first_class_bytes: bytes = first_class_bytes
-        self.first_class_file: Path = first_class_file
-        self.first_class_external_function: Optional[Callable] = first_class_external_function
-        self.first_class_datetime: datetime = first_class_datetime
-
-
-class FirstClassToMongo(PythonObjectJsonToMongo):
-    def __init__(
-        self,
-        second_class_dict: Dict[str, SecondClass],
-        second_class_list: List[SecondClass],
-        first_class_set: Optional[Set[str]],
-        first_class_tuple: Optional[Tuple[str]],
-        first_class_bytes: Optional[bytes],
-        first_class_file: Optional[Path],
-        first_class_external_function: Optional[Callable],
-        first_class_datetime: Optional[datetime],
-        mongo_host: str,
-        mongo_port: int,
-        mongo_database: str,
-        mongo_user: str,
-        mongo_password: str,
-    ):
-        super().__init__(mongo_host, mongo_port, mongo_database, mongo_user, mongo_password)
-        self.second_class_dict: Dict[str, SecondClass] = second_class_dict
-        self.second_class_list: List[SecondClass] = second_class_list
+        self.first_class_attribute: str = first_class_attribute
         self.first_class_set: Set[str] = first_class_set
         self.first_class_tuple: Tuple[str] = first_class_tuple
         self.first_class_bytes: bytes = first_class_bytes
@@ -91,60 +63,40 @@ class FirstClassToMongo(PythonObjectJsonToMongo):
 
 
 @fixture(scope="module")
-def mongo_connection_params() -> Dict[str, str]:
-    """Create dictionary of MongoDB connection parameters.
+def external_function() -> Callable:
+    """External function for testing."""
+    return ext_func
+
+
+@fixture(scope="module")
+def first_class_with_empty_arguments() -> FirstClass:
+    """Create FirstClass instance with empty arguments for testing.
 
     Returns:
-        dict[str, str]: MongoDB connection parameters.
+        FirstClass: Instance of FirstClass with all empty arguments.
 
     """
-    return {
-        "mongo_host": os.environ.get("MONGO_HOST", "localhost"),
-        "mongo_port": int(os.environ.get("MONGO_PORT", 27017)),
-        "mongo_database": os.environ.get("MONGO_DATABASE", "pyobjson"),
-        "mongo_user": os.environ.get("MONGO_ADMIN_USER", "pyobjson_admin"),
-        "mongo_password": os.environ.get("MONGO_ADMIN_PASS", "<PASSWORD>"),
-    }
+    return FirstClass({}, [], None, None, None, None, None, None, None)
 
 
 @fixture(scope="module")
-def first_class_with_nested_child_classes() -> FirstClass:
-    """Create ParentClass instance for testing.
+def first_class_with_nested_child_classes(external_function) -> FirstClass:
+    """Create FirstClass instance for testing.
 
     Returns:
-        FirstClass: Instance of ParentClass.
+        FirstClass: Instance of FirstClass.
 
     """
     return FirstClass(
         {"second_class_1": SecondClass([ThirdClass("test_third_class_argument_in_dict")])},
         [SecondClass([ThirdClass("test_third_class_argument_in_list")])],
+        "test_first_class_attribute_string",
         {"test_first_class_collection_element"},
         ("test_first_class_collection_element",),
         b"test_first_class_collection_element",
         Path(__name__),
         external_function,
         datetime(2024, 1, 1, 0, 0, 0),
-    )
-
-
-@fixture(scope="module")
-def first_class_to_mongo_with_nested_child_classes(mongo_connection_params) -> FirstClassToMongo:
-    """Create FirstClassToMongo instance for testing.
-
-    Returns:
-        FirstClassToMongo: Instance of FirstClassToMongo.
-
-    """
-    return FirstClassToMongo(
-        {"second_class_1": SecondClass([ThirdClass("test_third_class_argument_in_dict")])},
-        [SecondClass([ThirdClass("test_third_class_argument_in_list")])],
-        {"test_first_class_collection_element"},
-        ("test_first_class_collection_element",),
-        b"test_first_class_collection_element",
-        Path(__name__),
-        external_function,
-        datetime(2024, 1, 1, 0, 0, 0),
-        **mongo_connection_params,
     )
 
 
@@ -187,29 +139,15 @@ def first_class_json_str() -> str:
                         }
                     }
                 ],
+                "first_class_attribute": "test_first_class_attribute_string",
                 "collection:set.first_class_set": ["test_first_class_collection_element"],
                 "collection:tuple.first_class_tuple": ["test_first_class_collection_element"],
                 "collection:bytes.first_class_bytes": "dGVzdF9maXJzdF9jbGFzc19jb2xsZWN0aW9uX2VsZW1lbnQ=",
                 "path.first_class_file": "conftest",
-                "callable.first_class_external_function": "conftest.external_function::param1:str,param2:str",
+                "callable.first_class_external_function": "conftest.ext_func::param_1:str,param_2:str",
                 "datetime.first_class_datetime": "2024-01-01T00:00:00",
             }
         },
         ensure_ascii=False,
         indent=2,
-    )
-
-
-@fixture(scope="module")
-def first_class_to_mongo_json_str(first_class_json_str) -> str:
-    """Create JSON string from FirstClassToMongo instance for testing.
-
-    Returns:
-        str: JSON string derived from serialized FirstClassToMongo instance.
-
-    """
-    first_class_json = json.loads(first_class_json_str)
-
-    return json.dumps(
-        {"conftest.firstclasstomongo": first_class_json["conftest.firstclass"]}, ensure_ascii=False, indent=2
     )

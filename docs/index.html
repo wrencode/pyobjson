@@ -36,7 +36,7 @@
           <img src="wrencode-logo.svg" class="logo" alt="Logo"/>
         </a>
         <div class="version">
-          v5.0.0
+          v5.1.0
         </div><div role="search">
   <form id ="rtd-search-form" class="wy-form" action="./search.html" method="get">
       <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
@@ -52,6 +52,8 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#about">About</a>
         <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#installation">Installation</a>
+    </li>
     <li class="toctree-l3"><a class="reference internal" href="#dependencies">Dependencies</a>
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#toolchain">Toolchain</a>
@@ -165,6 +167,7 @@
 
 <ul>
 <li><a href="#about">About</a><ul>
+<li><a href="#installation">Installation</a></li>
 <li><a href="#dependencies">Dependencies</a></li>
 <li><a href="#toolchain">Toolchain</a></li>
 </ul>
@@ -195,10 +198,21 @@
 <hr />
 <p><a name="about"></a></p>
 <h3 id="about">About<a class="headerlink" href="#about" title="Permanent link">&para;</a></h3>
-<p>The Python Object JSON Tool is a utility library for serializing/deserializing custom Python objects to/from JSON.</p>
+<p>The Python Object JSON Tool is a utility library for serializing/deserializing custom Python objects to/from JSON by using <code>pyobjson</code> classes as superclasses/parent classes to your custom Python classes.</p>
+<p><a name="installation"></a></p>
+<h4 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h4>
+<p>You can install with <code>pip</code> by running:</p>
+<div class="codehilite"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>pyobjson
+</code></pre></div>
+
+<p><strong><em>Note</em></strong>: If you wish to use <code>pyobjson</code> to serialize/deserialize custom Python objects to/from MongoDB, then you have to install with the optional dependencies:</p>
+<div class="codehilite"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>pyobjson<span class="o">[</span>mongo<span class="o">]</span>
+</code></pre></div>
+
 <p><a name="dependencies"></a></p>
 <h4 id="dependencies">Dependencies<a class="headerlink" href="#dependencies" title="Permanent link">&para;</a></h4>
-<p>The Python Object JSON Tool does not have any third-party dependencies to run the code. It has several development dependencies, which can be seen in the package <code>pyproject.toml</code>.</p>
+<p>The base Python Object JSON Tool does not have any third-party dependencies to run the code. It has several development dependencies, which can be seen in the package <code>pyproject.toml</code>.</p>
+<p>If you wish to use <code>pyobjson</code> to serialize/deserialize custom Python objects to/from MongoDB, then there is an additional dependency on the <a href="https://pymongo.readthedocs.io/en/stable/">PyMongo</a> package.</p>
 <p><a name="toolchain"></a></p>
 <h4 id="toolchain">Toolchain<a class="headerlink" href="#toolchain" title="Permanent link">&para;</a></h4>
 <p>The below tools and resources are used as part of pyobjson:</p>
@@ -410,5 +424,5 @@
 
 <!--
 MkDocs version : 1.6.1
-Build Date UTC : 2024-12-17 11:16:15.785148+00:00
+Build Date UTC : 2024-12-17 15:34:09.774204+00:00
 -->

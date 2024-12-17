@@ -9,7 +9,7 @@ THIS_FILE := $(lastword $(MAKEFILE_LIST))
 help:
 	@$(DOCS_BUILD) -h $(DOCS_OPTS) $(O)
 
-.PHONY: update lint secure test_code test_actions test_actions_amd build verify_build get_version set_version test_docs docs test_deploy deploy help Makefile
+.PHONY: update lint secure test_code test_actions test_actions_amd build verify_build get_version set_version test_docs docs test_deploy uv_test_deploy deploy uv_deploy git_post_deploy git_update_docs help Makefile
 
 update: ## Update all package dependencies.
 	uv sync --all-extras --dev
@@ -61,3 +61,6 @@ uv_deploy: docs verify_build ## Deploy PyPI package to PyPI with uv.
 
 git_post_deploy:  ## Update git by adding changed files, committing with a message about updating documentation and version number, and pushing
 	git add . && git commit -m 'updated version number and documentation' && git push
+
+git_update_docs:  ## Update git by adding changed documentation files, committing with a message about updating documentation, and pushing
+	git add . && git commit -m 'updated documentation' && git push

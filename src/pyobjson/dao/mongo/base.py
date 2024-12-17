@@ -140,7 +140,9 @@ class PythonObjectJsonToMongo(PythonObjectJson):
             ObjectId: The MongoDB document ID to which the custom Python object JSON was saved.
 
         """
-        self._validate_document_id(mongo_document_id)
+        # only validate MongoDB document ID if one is provided
+        if mongo_document_id:
+            self._validate_document_id(mongo_document_id)
 
         collection = self._validate_or_create_collection(mongo_collection)
         document: Dict[str, Any] = collection.find_one_and_update(
@@ -174,11 +176,16 @@ class PythonObjectJsonToMongo(PythonObjectJson):
 
 
 if __name__ == "__main__":
+    from logging import INFO
     from pathlib import Path
 
     from dotenv import load_dotenv
 
+    from pyobjson import get_logger
+
     load_dotenv(Path(__file__).parent.parent.parent.parent.parent / ".env")
+
+    logger = get_logger(__file__, INFO)
 
     class CustomSecondClassToMongo(PythonObjectJsonToMongo):
         def __init__(
@@ -217,7 +224,7 @@ if __name__ == "__main__":
             self.message = first_class_message
             self.custom_second_class_to_mongo.set_message(second_class_message)
 
-    obj_to_mongo = CustomFirstClassToMongo(
+    custom_class_to_mongo = CustomFirstClassToMongo(
         "Hello, World!",
         "Hello, World again!",
         mongo_host=os.environ.get("MONGO_HOST"),
@@ -226,19 +233,18 @@ if __name__ == "__main__":
         mongo_user=os.environ.get("MONGO_ADMIN_USER"),
         mongo_password=os.environ.get("MONGO_ADMIN_PASS"),
     )
-    print(obj_to_mongo)
-    print("-" * 100)
+    logger.info(custom_class_to_mongo)
 
-    saved_document_id = obj_to_mongo.save_to_mongo(os.environ.get("MONGO_COLLECTION"))
-    # saved_document_id = obj_to_mongo.save_to_mongo(os.environ.get("MONGO_COLLECTION"), b"000000000000")  # 12 bytes
-    # saved_document_id = obj_to_mongo.save_to_mongo(
+    saved_document_id = custom_class_to_mongo.save_to_mongo(os.environ.get("MONGO_COLLECTION"))
+    # saved_document_id = custom_class_to_mongo.save_to_mongo(
+    #     os.environ.get("MONGO_COLLECTION"), b"000000000000"
+    # )  # 12 bytes
+    # saved_document_id = custom_class_to_mongo.save_to_mongo(
     #     os.environ.get("MONGO_COLLECTION"), "abababababababababababab"
     # )  # 24-character hexadecimal string
 
-    obj_to_mongo.set_messages("", "")
-    print(obj_to_mongo)
-    print("-" * 100)
+    custom_class_to_mongo.set_messages("", "")
+    logger.info(custom_class_to_mongo)
 
-    obj_to_mongo.load_from_mongo(os.environ.get("MONGO_COLLECTION"), saved_document_id)
-    print(obj_to_mongo)
-    print("-" * 100)
+    custom_class_to_mongo.load_from_mongo(os.environ.get("MONGO_COLLECTION"), saved_document_id)
+    logger.info(custom_class_to_mongo)

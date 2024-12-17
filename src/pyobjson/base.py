@@ -132,9 +132,14 @@ class PythonObjectJson(object):
 
 
 if __name__ == "__main__":
+    from logging import INFO
     from pathlib import Path
 
     from dotenv import load_dotenv
+
+    from pyobjson import get_logger
+
+    logger = get_logger(__file__, INFO)
 
     root_dir = Path(__file__).parent.parent.parent
 
@@ -146,8 +151,7 @@ if __name__ == "__main__":
             self.message = message
 
     custom_class_to_json_file = CustomClassToJsonFile("Hello, World!")
-    print(custom_class_to_json_file)
-    print("-" * 100)
+    logger.info(f"\n{custom_class_to_json_file}")
 
     output_dir = root_dir / "tests" / "output"
     if not output_dir.is_dir():
@@ -156,9 +160,7 @@ if __name__ == "__main__":
     custom_class_to_json_file.save_to_json_file(output_dir / "custom_class_to_json_file.json")
 
     custom_class_to_json_file.__init__("")
-    print(custom_class_to_json_file)
-    print("-" * 100)
+    logger.info(f"\n{custom_class_to_json_file}")
 
     custom_class_to_json_file.load_from_json_file(output_dir / "custom_class_to_json_file.json")
-    print(custom_class_to_json_file)
-    print("-" * 100)
+    logger.info(f"\n{custom_class_to_json_file}")

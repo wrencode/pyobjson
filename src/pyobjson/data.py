@@ -253,13 +253,11 @@ def deserialize(
             else:
                 # extract original attribute names from pyobjson formatted attribute keys
                 extracted_class_instance_atts = {att.split(".")[-1] for att in class_instance_attributes.keys()}
-                # check if any required instnace attributes are missing from the deserialized data
+                # check if any required instance attributes are missing from the deserialized data
                 if missing_instances_atts := set(class_args).difference(extracted_class_instance_atts):
                     if set(extra_instance_atts.keys()).issuperset(missing_instances_atts):
                         class_instance_attributes.update(extra_instance_atts)
                     else:
-                        print()
-                        print(missing_instances_atts)
                         logger.warning(
                             f"Missing required instance attributes "
                             f'"{missing_instances_atts.difference(set(extra_instance_atts.keys()))}" for custom '

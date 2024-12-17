@@ -12,12 +12,12 @@ __email__ = "dev@wrencode.com"
 import os
 import sys
 from logging import getLogger
-from typing import Any, Dict
+from typing import Any, Dict, Optional, Union
 from urllib.parse import quote_plus
 
 from bson.objectid import ObjectId
 from pymongo import MongoClient
-from pymongo.collection import Collection
+from pymongo.collection import Collection, ReturnDocument
 from pymongo.errors import OperationFailure, ServerSelectionTimeoutError
 
 from pyobjson.base import PythonObjectJson
@@ -32,11 +32,11 @@ class PythonObjectJsonToMongo(PythonObjectJson):
     def __init__(self, mongo_host: str, mongo_port: int, mongo_database: str, mongo_user: str, mongo_password: str):
         super().__init__()
 
-        self.mongo_host = mongo_host
-        self.mongo_port = mongo_port
-        self.mongo_database = mongo_database
-        self.mongo_user = mongo_user
-        self.mongo_password = mongo_password
+        self.mongo_host: str = mongo_host
+        self.mongo_port: int = mongo_port
+        self.mongo_database: str = mongo_database
+        self.mongo_user: str = mongo_user
+        self.mongo_password: str = mongo_password
 
     def _get_mongo_client(self):
         """Create a MongoDB connection.
@@ -75,6 +75,24 @@ class PythonObjectJsonToMongo(PythonObjectJson):
 
         return db.get_collection(mongo_collection)
 
+    @staticmethod
+    def _validate_document_id(mongo_document_id: Union[ObjectId, bytes, str]) -> None:
+        """This method checks to see if a given MongoDB document ID is valid.
+
+        Args:
+            mongo_document_id (Union[ObjectId, bytes, str]): The MongoDB document ID to validate.
+
+        Returns:
+            None
+
+        """
+        if not ObjectId.is_valid(mongo_document_id):
+            logger.error(
+                f'Invalid MongoDb document ID "{mongo_document_id}". MongoDB requires document ObjectId values to '
+                f"be either 12 bytes long or a 24-character hexadecimal string."
+            )
+            sys.exit(1)
+
     def serialize(self) -> Dict[str, Any]:
         """Create a serializable dictionary from the class instance that excludes MongoDB-related attributes.
 
@@ -108,36 +126,51 @@ class PythonObjectJsonToMongo(PythonObjectJson):
             extra_instance_atts=extra_instance_attributes,
         )
 
-    def save_to_mongo(self, mongo_collection: str) -> str:
+    def save_to_mongo(
+        self, mongo_collection: str, mongo_document_id: Optional[Union[ObjectId, bytes, str]] = None
+    ) -> ObjectId:
         """Save the custom Python object to a specified MongoDB collection.
 
         Args:
             mongo_collection (str): The name of the MongoDB collection into which to save the custom Python object.
+            mongo_document_id (Optional[ObjectId, bytes, str], optional): MongoDB document ID. Defaults to None, which
+                will result in MongoDB automatically generating a unique document ID.
 
         Returns:
-            The MongoDB document ID to which the custom Python object JSON was saved.
+            ObjectId: The MongoDB document ID to which the custom Python object JSON was saved.
 
         """
-        collection = self._validate_or_create_collection(mongo_collection)
-        return str(collection.insert_one({"custom_class": self.serialize()}).inserted_id)
+        self._validate_document_id(mongo_document_id)
 
-    def load_from_mongo(self, mongo_collection: str, document_id: str) -> None:
+        collection = self._validate_or_create_collection(mongo_collection)
+        document: Dict[str, Any] = collection.find_one_and_update(
+            {"_id": ObjectId(mongo_document_id) if mongo_document_id else ObjectId()},
+            {"$set": {"custom_class": self.serialize()}},
+            projection={"_id": True},  # filter out all fields besides the document ID
+            upsert=True,  # create a new document if it does not exist, otherwise update the existing document
+            return_document=ReturnDocument.AFTER,  # return the updated or created document after the update/creation
+        )
+        return document["_id"]
+
+    def load_from_mongo(self, mongo_collection: str, mongo_document_id: Union[ObjectId, bytes, str]) -> None:
         """Load the JSON values from a specified MongoDB document ID to the custom Python object from a specified
         MongoDB collection.
 
         Args:
             mongo_collection (str): The name of the MongoDB collection from which to load the custom Python object data.
-            document_id (str): The MongoDB document ID from which the custom Python object JSON was loaded.
+            mongo_document_id (Union[ObjectId, bytes, str]): The MongoDB document ID from which the custom Python object
+                JSON was loaded.
 
         Returns:
             None
 
         """
+        self._validate_document_id(mongo_document_id)
+
+        # get MongoDb collection
         collection = self._validate_or_create_collection(mongo_collection)
 
-        custom_class_dict = collection.find_one({"_id": ObjectId(document_id)}).get("custom_class")
-
-        self.deserialize(custom_class_dict)
+        self.deserialize(collection.find_one({"_id": ObjectId(mongo_document_id)}).get("custom_class"))
 
 
 if __name__ == "__main__":
@@ -197,6 +230,10 @@ if __name__ == "__main__":
     print("-" * 100)
 
     saved_document_id = obj_to_mongo.save_to_mongo(os.environ.get("MONGO_COLLECTION"))
+    # saved_document_id = obj_to_mongo.save_to_mongo(os.environ.get("MONGO_COLLECTION"), b"000000000000")  # 12 bytes
+    # saved_document_id = obj_to_mongo.save_to_mongo(
+    #     os.environ.get("MONGO_COLLECTION"), "abababababababababababab"
+    # )  # 24-character hexadecimal string
 
     obj_to_mongo.set_messages("", "")
     print(obj_to_mongo)

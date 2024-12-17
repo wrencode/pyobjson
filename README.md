@@ -40,6 +40,7 @@ Utility library for serializing/deserializing custom Python objects to/from JSON
 <div class="hide-next-element"></div>
 
 * [About](#about)
+    * [Installation](#installation)
     * [Dependencies](#dependencies)
     * [Toolchain](#toolchain)
 * [Usage](#usage)
@@ -60,12 +61,29 @@ Utility library for serializing/deserializing custom Python objects to/from JSON
 <a name="about"></a>
 ### About
 
-The Python Object JSON Tool is a utility library for serializing/deserializing custom Python objects to/from JSON.
+The Python Object JSON Tool is a utility library for serializing/deserializing custom Python objects to/from JSON by using `pyobjson` classes as superclasses/parent classes to your custom Python classes.
+
+<a name="installation"></a>
+#### Installation
+
+You can install with `pip` by running:
+
+```shell
+pip install pyobjson
+```
+
+***Note***: If you wish to use `pyobjson` to serialize/deserialize custom Python objects to/from MongoDB, then you have to install with the optional dependencies:
+
+```shell
+pip install pyobjson[mongo]
+```
 
 <a name="dependencies"></a>
 #### Dependencies
 
-The Python Object JSON Tool does not have any third-party dependencies to run the code. It has several development dependencies, which can be seen in the package `pyproject.toml`.
+The base Python Object JSON Tool does not have any third-party dependencies to run the code. It has several development dependencies, which can be seen in the package `pyproject.toml`.
+
+If you wish to use `pyobjson` to serialize/deserialize custom Python objects to/from MongoDB, then there is an additional dependency on the [PyMongo](https://pymongo.readthedocs.io/en/stable/) package.
 
 <a name="toolchain"></a>
 #### Toolchain

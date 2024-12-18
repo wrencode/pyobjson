@@ -38,6 +38,7 @@ nav:
     - pyobjson.base: base.md
     - pyobjson.data: data.md
     - pyobjson.utils: utils.md
+    - pyobjson.constants: constants.md
     - pyobjson.dao.mongo: mongo.md
   - Tests:
     - PyTest: tests.md

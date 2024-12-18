@@ -36,7 +36,7 @@
           <img src="../wrencode-logo.svg" class="logo" alt="Logo"/>
         </a>
         <div class="version">
-          v5.1.1
+          v6.0.0
         </div><div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
       <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
@@ -70,6 +70,8 @@
     <li class="toctree-l2"><a class="reference internal" href="#src.pyobjson.utils.get_nested_subclasses">get_nested_subclasses</a>
     </li>
     </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../constants/">pyobjson.constants</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../mongo/">pyobjson.dao.mongo</a>
                   </li>
@@ -279,9 +281,7 @@
 </table>
             <details class="quote">
               <summary>Source code in <code>src/pyobjson/utils.py</code></summary>
-              <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">16</span>
-<span class="normal">17</span>
-<span class="normal">18</span>
+              <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">18</span>
 <span class="normal">19</span>
 <span class="normal">20</span>
 <span class="normal">21</span>
@@ -301,7 +301,9 @@
 <span class="normal">35</span>
 <span class="normal">36</span>
 <span class="normal">37</span>
-<span class="normal">38</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">derive_custom_object_key</span><span class="p">(</span><span class="n">custom_object</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Type</span><span class="p">,</span> <span class="n">Callable</span><span class="p">],</span> <span class="n">as_lower</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">derive_custom_object_key</span><span class="p">(</span><span class="n">custom_object</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Type</span><span class="p">,</span> <span class="n">Callable</span><span class="p">],</span> <span class="n">as_lower</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Utility function to derive a key for a custom object representing the fully qualified name of that object.</span>
 
 <span class="sd">    Args:</span>
@@ -394,9 +396,7 @@
 </table>
             <details class="quote">
               <summary>Source code in <code>src/pyobjson/utils.py</code></summary>
-              <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">41</span>
-<span class="normal">42</span>
-<span class="normal">43</span>
+              <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">43</span>
 <span class="normal">44</span>
 <span class="normal">45</span>
 <span class="normal">46</span>
@@ -410,7 +410,9 @@
 <span class="normal">54</span>
 <span class="normal">55</span>
 <span class="normal">56</span>
-<span class="normal">57</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">derive_custom_callable_value</span><span class="p">(</span><span class="n">custom_callable</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">derive_custom_callable_value</span><span class="p">(</span><span class="n">custom_callable</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Utility function to derive a string value from a custom callable object.</span>
 
 <span class="sd">    Args:</span>
@@ -426,7 +428,7 @@
             <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">getfullargspec</span><span class="p">(</span><span class="n">custom_callable</span><span class="p">)</span><span class="o">.</span><span class="n">annotations</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
         <span class="p">]</span>
     <span class="p">)</span>
-    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">derive_custom_object_key</span><span class="p">(</span><span class="n">custom_callable</span><span class="p">)</span><span class="si">}</span><span class="s2">::</span><span class="si">{</span><span class="n">arg_spec_str</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">derive_custom_object_key</span><span class="p">(</span><span class="n">custom_callable</span><span class="p">)</span><span class="si">}{</span><span class="n">DLIM</span><span class="si">}{</span><span class="n">arg_spec_str</span><span class="si">}</span><span class="s2">&quot;</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -497,9 +499,7 @@
 </table>
             <details class="quote">
               <summary>Source code in <code>src/pyobjson/utils.py</code></summary>
-              <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">60</span>
-<span class="normal">61</span>
-<span class="normal">62</span>
+              <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">62</span>
 <span class="normal">63</span>
 <span class="normal">64</span>
 <span class="normal">65</span>
@@ -510,7 +510,9 @@
 <span class="normal">70</span>
 <span class="normal">71</span>
 <span class="normal">72</span>
-<span class="normal">73</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_nested_subclasses</span><span class="p">(</span><span class="n">custom_class</span><span class="p">:</span> <span class="n">Type</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Type</span><span class="p">]:</span>
+<span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_nested_subclasses</span><span class="p">(</span><span class="n">custom_class</span><span class="p">:</span> <span class="n">Type</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Type</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Recursive utility function to retrieve all nested subclasses of a custom class.</span>
 
 <span class="sd">    Args:</span>
@@ -542,7 +544,7 @@
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
         <a href="../data/" class="btn btn-neutral float-left" title="pyobjson.data"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-        <a href="../mongo/" class="btn btn-neutral float-right" title="pyobjson.dao.mongo">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../constants/" class="btn btn-neutral float-right" title="pyobjson.constants">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -572,7 +574,7 @@
       <span><a href="../data/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
-      <span><a href="../mongo/" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="../constants/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>

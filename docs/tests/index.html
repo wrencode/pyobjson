@@ -36,7 +36,7 @@
           <img src="../wrencode-logo.svg" class="logo" alt="Logo"/>
         </a>
         <div class="version">
-          v5.1.1
+          v6.0.0
         </div><div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
       <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
@@ -60,6 +60,8 @@
                   <li class="toctree-l1"><a class="reference internal" href="../data/">pyobjson.data</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../utils/">pyobjson.utils</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../constants/">pyobjson.constants</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../mongo/">pyobjson.dao.mongo</a>
                   </li>
@@ -337,12 +339,12 @@
 
               <details class="quote">
                 <summary>Source code in <code>tests/conftest.py</code></summary>
-                <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">21</span>
-<span class="normal">22</span>
+                <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">22</span>
 <span class="normal">23</span>
 <span class="normal">24</span>
 <span class="normal">25</span>
-<span class="normal">26</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ThirdClass</span><span class="p">(</span><span class="n">PythonObjectJson</span><span class="p">):</span>
+<span class="normal">26</span>
+<span class="normal">27</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ThirdClass</span><span class="p">(</span><span class="n">PythonObjectJson</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;ThirdClass for testing.&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">third_class_param</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
@@ -400,13 +402,13 @@
 
               <details class="quote">
                 <summary>Source code in <code>tests/conftest.py</code></summary>
-                <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">29</span>
-<span class="normal">30</span>
+                <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">30</span>
 <span class="normal">31</span>
 <span class="normal">32</span>
 <span class="normal">33</span>
 <span class="normal">34</span>
-<span class="normal">35</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">SecondClass</span><span class="p">(</span><span class="n">PythonObjectJson</span><span class="p">):</span>
+<span class="normal">35</span>
+<span class="normal">36</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">SecondClass</span><span class="p">(</span><span class="n">PythonObjectJson</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;SecondClass for testing.&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">third_class_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">ThirdClass</span><span class="p">]):</span>
@@ -465,8 +467,7 @@
 
               <details class="quote">
                 <summary>Source code in <code>tests/conftest.py</code></summary>
-                <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">38</span>
-<span class="normal">39</span>
+                <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">39</span>
 <span class="normal">40</span>
 <span class="normal">41</span>
 <span class="normal">42</span>
@@ -489,7 +490,8 @@
 <span class="normal">59</span>
 <span class="normal">60</span>
 <span class="normal">61</span>
-<span class="normal">62</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">FirstClass</span><span class="p">(</span><span class="n">PythonObjectJson</span><span class="p">):</span>
+<span class="normal">62</span>
+<span class="normal">63</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">FirstClass</span><span class="p">(</span><span class="n">PythonObjectJson</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;FirstClass for testing.&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
@@ -555,9 +557,9 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/conftest.py</code></summary>
-              <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">16</span>
-<span class="normal">17</span>
-<span class="normal">18</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">ext_func</span><span class="p">(</span><span class="n">param_1</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">param_2</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+              <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">ext_func</span><span class="p">(</span><span class="n">param_1</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">param_2</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function external_function for testing.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">param_1</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">param_2</span><span class="si">}</span><span class="s2">&quot;</span>
 </code></pre></div></td></tr></table></div>
@@ -583,10 +585,10 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/conftest.py</code></summary>
-              <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">65</span>
-<span class="normal">66</span>
+              <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">66</span>
 <span class="normal">67</span>
-<span class="normal">68</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;module&quot;</span><span class="p">)</span>
+<span class="normal">68</span>
+<span class="normal">69</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;module&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">external_function</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;External function for testing.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">ext_func</span>
@@ -636,15 +638,15 @@
 </table>
             <details class="quote">
               <summary>Source code in <code>tests/conftest.py</code></summary>
-              <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">71</span>
-<span class="normal">72</span>
+              <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">72</span>
 <span class="normal">73</span>
 <span class="normal">74</span>
 <span class="normal">75</span>
 <span class="normal">76</span>
 <span class="normal">77</span>
 <span class="normal">78</span>
-<span class="normal">79</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;module&quot;</span><span class="p">)</span>
+<span class="normal">79</span>
+<span class="normal">80</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;module&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">first_class_with_empty_arguments</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">FirstClass</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Create FirstClass instance with empty arguments for testing.</span>
 
@@ -699,8 +701,7 @@
 </table>
             <details class="quote">
               <summary>Source code in <code>tests/conftest.py</code></summary>
-              <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 82</span>
-<span class="normal"> 83</span>
+              <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 83</span>
 <span class="normal"> 84</span>
 <span class="normal"> 85</span>
 <span class="normal"> 86</span>
@@ -717,7 +718,8 @@
 <span class="normal"> 97</span>
 <span class="normal"> 98</span>
 <span class="normal"> 99</span>
-<span class="normal">100</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;module&quot;</span><span class="p">)</span>
+<span class="normal">100</span>
+<span class="normal">101</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;module&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">first_class_with_nested_child_classes</span><span class="p">(</span><span class="n">external_function</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FirstClass</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Create FirstClass instance for testing.</span>
 
@@ -782,8 +784,7 @@
 </table>
             <details class="quote">
               <summary>Source code in <code>tests/conftest.py</code></summary>
-              <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">103</span>
-<span class="normal">104</span>
+              <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">104</span>
 <span class="normal">105</span>
 <span class="normal">106</span>
 <span class="normal">107</span>
@@ -832,7 +833,8 @@
 <span class="normal">150</span>
 <span class="normal">151</span>
 <span class="normal">152</span>
-<span class="normal">153</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;module&quot;</span><span class="p">)</span>
+<span class="normal">153</span>
+<span class="normal">154</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;module&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">first_class_json_str</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Create JSON string from FirstClass instance for testing.</span>
 
@@ -843,13 +845,13 @@
     <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span>
         <span class="p">{</span>
             <span class="s2">&quot;conftest.firstclass&quot;</span><span class="p">:</span> <span class="p">{</span>
-                <span class="s2">&quot;collection:dict.second_class_dict&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="sa">f</span><span class="s2">&quot;collection</span><span class="si">{</span><span class="n">DLIM</span><span class="si">}</span><span class="s2">dict</span><span class="si">{</span><span class="n">DLIM</span><span class="si">}</span><span class="s2">second_class_dict&quot;</span><span class="p">:</span> <span class="p">{</span>
                     <span class="s2">&quot;second_class_1&quot;</span><span class="p">:</span> <span class="p">{</span>
                         <span class="s2">&quot;conftest.secondclass&quot;</span><span class="p">:</span> <span class="p">{</span>
-                            <span class="s2">&quot;collection:list.third_class_list&quot;</span><span class="p">:</span> <span class="p">[</span>
+                            <span class="sa">f</span><span class="s2">&quot;collection</span><span class="si">{</span><span class="n">DLIM</span><span class="si">}</span><span class="s2">list</span><span class="si">{</span><span class="n">DLIM</span><span class="si">}</span><span class="s2">third_class_list&quot;</span><span class="p">:</span> <span class="p">[</span>
                                 <span class="p">{</span><span class="s2">&quot;conftest.thirdclass&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;third_class_param&quot;</span><span class="p">:</span> <span class="s2">&quot;test_third_class_argument_in_dict&quot;</span><span class="p">}}</span>
                             <span class="p">],</span>
-                            <span class="s2">&quot;collection:dict.third_class_list_dict&quot;</span><span class="p">:</span> <span class="p">{</span>
+                            <span class="sa">f</span><span class="s2">&quot;collection</span><span class="si">{</span><span class="n">DLIM</span><span class="si">}</span><span class="s2">dict</span><span class="si">{</span><span class="n">DLIM</span><span class="si">}</span><span class="s2">third_class_list_dict&quot;</span><span class="p">:</span> <span class="p">{</span>
                                 <span class="s2">&quot;third_class_list_1&quot;</span><span class="p">:</span> <span class="p">[</span>
                                     <span class="p">{</span><span class="s2">&quot;conftest.thirdclass&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;third_class_param&quot;</span><span class="p">:</span> <span class="s2">&quot;test_third_class_argument_in_dict&quot;</span><span class="p">}}</span>
                                 <span class="p">]</span>
@@ -857,13 +859,13 @@
                         <span class="p">}</span>
                     <span class="p">}</span>
                 <span class="p">},</span>
-                <span class="s2">&quot;collection:list.second_class_list&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="sa">f</span><span class="s2">&quot;collection</span><span class="si">{</span><span class="n">DLIM</span><span class="si">}</span><span class="s2">list</span><span class="si">{</span><span class="n">DLIM</span><span class="si">}</span><span class="s2">second_class_list&quot;</span><span class="p">:</span> <span class="p">[</span>
                     <span class="p">{</span>
                         <span class="s2">&quot;conftest.secondclass&quot;</span><span class="p">:</span> <span class="p">{</span>
-                            <span class="s2">&quot;collection:list.third_class_list&quot;</span><span class="p">:</span> <span class="p">[</span>
+                            <span class="sa">f</span><span class="s2">&quot;collection</span><span class="si">{</span><span class="n">DLIM</span><span class="si">}</span><span class="s2">list</span><span class="si">{</span><span class="n">DLIM</span><span class="si">}</span><span class="s2">third_class_list&quot;</span><span class="p">:</span> <span class="p">[</span>
                                 <span class="p">{</span><span class="s2">&quot;conftest.thirdclass&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;third_class_param&quot;</span><span class="p">:</span> <span class="s2">&quot;test_third_class_argument_in_list&quot;</span><span class="p">}}</span>
                             <span class="p">],</span>
-                            <span class="s2">&quot;collection:dict.third_class_list_dict&quot;</span><span class="p">:</span> <span class="p">{</span>
+                            <span class="sa">f</span><span class="s2">&quot;collection</span><span class="si">{</span><span class="n">DLIM</span><span class="si">}</span><span class="s2">dict</span><span class="si">{</span><span class="n">DLIM</span><span class="si">}</span><span class="s2">third_class_list_dict&quot;</span><span class="p">:</span> <span class="p">{</span>
                                 <span class="s2">&quot;third_class_list_1&quot;</span><span class="p">:</span> <span class="p">[</span>
                                     <span class="p">{</span><span class="s2">&quot;conftest.thirdclass&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;third_class_param&quot;</span><span class="p">:</span> <span class="s2">&quot;test_third_class_argument_in_list&quot;</span><span class="p">}}</span>
                                 <span class="p">]</span>
@@ -872,12 +874,12 @@
                     <span class="p">}</span>
                 <span class="p">],</span>
                 <span class="s2">&quot;first_class_attribute&quot;</span><span class="p">:</span> <span class="s2">&quot;test_first_class_attribute_string&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;collection:set.first_class_set&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;test_first_class_collection_element&quot;</span><span class="p">],</span>
-                <span class="s2">&quot;collection:tuple.first_class_tuple&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;test_first_class_collection_element&quot;</span><span class="p">],</span>
-                <span class="s2">&quot;collection:bytes.first_class_bytes&quot;</span><span class="p">:</span> <span class="s2">&quot;dGVzdF9maXJzdF9jbGFzc19jb2xsZWN0aW9uX2VsZW1lbnQ=&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;path.first_class_file&quot;</span><span class="p">:</span> <span class="s2">&quot;conftest&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;callable.first_class_external_function&quot;</span><span class="p">:</span> <span class="s2">&quot;conftest.ext_func::param_1:str,param_2:str&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;datetime.first_class_datetime&quot;</span><span class="p">:</span> <span class="s2">&quot;2024-01-01T00:00:00&quot;</span><span class="p">,</span>
+                <span class="sa">f</span><span class="s2">&quot;collection</span><span class="si">{</span><span class="n">DLIM</span><span class="si">}</span><span class="s2">set</span><span class="si">{</span><span class="n">DLIM</span><span class="si">}</span><span class="s2">first_class_set&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;test_first_class_collection_element&quot;</span><span class="p">],</span>
+                <span class="sa">f</span><span class="s2">&quot;collection</span><span class="si">{</span><span class="n">DLIM</span><span class="si">}</span><span class="s2">tuple</span><span class="si">{</span><span class="n">DLIM</span><span class="si">}</span><span class="s2">first_class_tuple&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;test_first_class_collection_element&quot;</span><span class="p">],</span>
+                <span class="sa">f</span><span class="s2">&quot;collection</span><span class="si">{</span><span class="n">DLIM</span><span class="si">}</span><span class="s2">bytes</span><span class="si">{</span><span class="n">DLIM</span><span class="si">}</span><span class="s2">first_class_bytes&quot;</span><span class="p">:</span> <span class="s2">&quot;dGVzdF9maXJzdF9jbGFzc19jb2xsZWN0aW9uX2VsZW1lbnQ=&quot;</span><span class="p">,</span>
+                <span class="sa">f</span><span class="s2">&quot;path</span><span class="si">{</span><span class="n">DLIM</span><span class="si">}</span><span class="s2">first_class_file&quot;</span><span class="p">:</span> <span class="s2">&quot;conftest&quot;</span><span class="p">,</span>
+                <span class="sa">f</span><span class="s2">&quot;callable</span><span class="si">{</span><span class="n">DLIM</span><span class="si">}</span><span class="s2">first_class_external_function&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;conftest.ext_func</span><span class="si">{</span><span class="n">DLIM</span><span class="si">}</span><span class="s2">param_1:str,param_2:str&quot;</span><span class="p">,</span>
+                <span class="sa">f</span><span class="s2">&quot;datetime</span><span class="si">{</span><span class="n">DLIM</span><span class="si">}</span><span class="s2">first_class_datetime&quot;</span><span class="p">:</span> <span class="s2">&quot;2024-01-01T00:00:00&quot;</span><span class="p">,</span>
             <span class="p">}</span>
         <span class="p">},</span>
         <span class="n">ensure_ascii</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>

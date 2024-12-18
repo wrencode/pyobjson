@@ -44,12 +44,12 @@ class FirstClass(PythonObjectJson):
         second_class_dict: Dict[str, SecondClass],
         second_class_list: List[SecondClass],
         first_class_attribute: Optional[str],
+        first_class_external_function: Optional[Callable],
         first_class_set: Optional[Set[str]],
         first_class_tuple: Optional[Tuple[str]],
         first_class_bytes: Optional[bytes],
-        first_class_file: Optional[Path],
-        first_class_external_function: Optional[Callable],
-        first_class_datetime: Optional[datetime],
+        first_class_file: Optional[Path] = Path(__name__),
+        first_class_datetime: Optional[datetime] = datetime(2024, 1, 1, 0, 0, 0)
     ):
         super().__init__()
         self.second_class_dict: Dict[str, SecondClass] = second_class_dict
@@ -92,12 +92,12 @@ def first_class_with_nested_child_classes(external_function) -> FirstClass:
         {"second_class_1": SecondClass([ThirdClass("test_third_class_argument_in_dict")])},
         [SecondClass([ThirdClass("test_third_class_argument_in_list")])],
         "test_first_class_attribute_string",
+        external_function,
         {"test_first_class_collection_element"},
         ("test_first_class_collection_element",),
         b"test_first_class_collection_element",
         Path(__name__),
-        external_function,
-        datetime(2024, 1, 1, 0, 0, 0),
+        datetime(2024, 1, 1, 0, 0, 0)
     )
 
 

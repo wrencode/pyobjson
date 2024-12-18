@@ -250,7 +250,16 @@ def deserialize(
         if len(json_data) == 1 and (single_key := next(iter(json_data.keys()))) and single_key in base_subclasses:
             # noinspection PyPep8Naming
             ClassObject = base_subclasses[single_key]  # retrieve custom subclass
-            class_args = getfullargspec(ClassObject.__init__).args[1:]  # get __init__ arguments for custom subclass
+
+            # get __init__ arguments for custom subclass
+            class_arg_spec = getfullargspec(ClassObject.__init__)
+            if class_arg_spec.defaults:
+                # exclude the Python self instance parameter and any arguments that have defaults from required args
+                required_class_args = class_arg_spec.args[1:-len(class_arg_spec.defaults)]
+            else:
+                # exclude the Python self instance parameter from required args
+                required_class_args = class_arg_spec.args[1:]
+
             class_instance_attributes: Dict[str, Any] = json_data[single_key]  # get JSON to be deserialized
 
             if ClassObject == base_class_instance.__class__:
@@ -259,8 +268,9 @@ def deserialize(
             else:
                 # extract original attribute names from pyobjson formatted attribute keys
                 extracted_class_instance_atts = {att.split(DLIM)[-1] for att in class_instance_attributes.keys()}
+
                 # check if any required instance attributes are missing from the deserialized data
-                if missing_instances_atts := set(class_args).difference(extracted_class_instance_atts):
+                if missing_instances_atts := set(required_class_args).difference(extracted_class_instance_atts):
                     if set(extra_instance_atts.keys()).issuperset(missing_instances_atts):
                         class_instance_attributes.update(extra_instance_atts)
                     else:
@@ -276,7 +286,7 @@ def deserialize(
                     **{
                         k: deserialize(v, base_subclasses, extra_instance_atts=extra_instance_atts)
                         for k, v in extract_typed_key_value_pairs(class_instance_attributes, base_subclasses).items()
-                        if k in class_args
+                        if k in required_class_args
                     }
                 )
 

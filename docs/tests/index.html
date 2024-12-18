@@ -36,7 +36,7 @@
           <img src="../wrencode-logo.svg" class="logo" alt="Logo"/>
         </a>
         <div class="version">
-          v6.0.0
+          v6.0.1
         </div><div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
       <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
@@ -499,12 +499,12 @@
         <span class="n">second_class_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">SecondClass</span><span class="p">],</span>
         <span class="n">second_class_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">SecondClass</span><span class="p">],</span>
         <span class="n">first_class_attribute</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+        <span class="n">first_class_external_function</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">],</span>
         <span class="n">first_class_set</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span>
         <span class="n">first_class_tuple</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span>
         <span class="n">first_class_bytes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bytes</span><span class="p">],</span>
-        <span class="n">first_class_file</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Path</span><span class="p">],</span>
-        <span class="n">first_class_external_function</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">],</span>
-        <span class="n">first_class_datetime</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">datetime</span><span class="p">],</span>
+        <span class="n">first_class_file</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Path</span><span class="p">]</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__name__</span><span class="p">),</span>
+        <span class="n">first_class_datetime</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">datetime</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime</span><span class="p">(</span><span class="mi">2024</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
     <span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">second_class_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">SecondClass</span><span class="p">]</span> <span class="o">=</span> <span class="n">second_class_dict</span>
@@ -731,12 +731,12 @@
         <span class="p">{</span><span class="s2">&quot;second_class_1&quot;</span><span class="p">:</span> <span class="n">SecondClass</span><span class="p">([</span><span class="n">ThirdClass</span><span class="p">(</span><span class="s2">&quot;test_third_class_argument_in_dict&quot;</span><span class="p">)])},</span>
         <span class="p">[</span><span class="n">SecondClass</span><span class="p">([</span><span class="n">ThirdClass</span><span class="p">(</span><span class="s2">&quot;test_third_class_argument_in_list&quot;</span><span class="p">)])],</span>
         <span class="s2">&quot;test_first_class_attribute_string&quot;</span><span class="p">,</span>
+        <span class="n">external_function</span><span class="p">,</span>
         <span class="p">{</span><span class="s2">&quot;test_first_class_collection_element&quot;</span><span class="p">},</span>
         <span class="p">(</span><span class="s2">&quot;test_first_class_collection_element&quot;</span><span class="p">,),</span>
         <span class="sa">b</span><span class="s2">&quot;test_first_class_collection_element&quot;</span><span class="p">,</span>
         <span class="n">Path</span><span class="p">(</span><span class="vm">__name__</span><span class="p">),</span>
-        <span class="n">external_function</span><span class="p">,</span>
-        <span class="n">datetime</span><span class="p">(</span><span class="mi">2024</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+        <span class="n">datetime</span><span class="p">(</span><span class="mi">2024</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>

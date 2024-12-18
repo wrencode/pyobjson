@@ -12,6 +12,8 @@ __email__ = "dev@wrencode.com"
 from inspect import getfullargspec
 from typing import Callable, List, Type, Union
 
+from pyobjson.constants import DELIMITER as DLIM
+
 
 def derive_custom_object_key(custom_object: Union[Type, Callable], as_lower: bool = True) -> str:
     """Utility function to derive a key for a custom object representing the fully qualified name of that object.
@@ -54,7 +56,7 @@ def derive_custom_callable_value(custom_callable: Callable) -> str:
             for k, v in getfullargspec(custom_callable).annotations.items()
         ]
     )
-    return f"{derive_custom_object_key(custom_callable)}::{arg_spec_str}"
+    return f"{derive_custom_object_key(custom_callable)}{DLIM}{arg_spec_str}"
 
 
 def get_nested_subclasses(custom_class: Type) -> List[Type]:

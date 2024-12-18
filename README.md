@@ -143,7 +143,7 @@ print(my_class.to_json_str())
 ```json
 {
   "__main__.myclass": {
-    "collection:list.my_other_classes": [
+    "collection::::list::::my_other_classes": [
       {
         "__main__.myotherclass": {
           "message": "Hello, World!"

@@ -19,6 +19,7 @@ from logging import getLogger
 from pathlib import Path
 from typing import Any, Callable, Dict, List, Optional, Type
 
+from pyobjson.constants import DELIMITER as DLIM, UNSERIALIZABLE
 from pyobjson.utils import (
     derive_custom_callable_value,
     derive_custom_object_key,
@@ -89,13 +90,18 @@ def extract_typed_key_value_pairs(
     derived_key_value_pairs = {}
     for key, value in json_dict.items():
         # check if value is a custom object that will be deserialized as its respective object type or if key is
-        # formatted with a single "." to indicate a Python builtin value type
-        if key not in pyobjson_base_custom_subclasses_by_key.keys() and key.count(".") == 1:
-            # check if key is formatted with a single "." to indicate a value type
-            type_name, key = key.split(".")
-            type_category = None
-            if type_name.count(":") == 1:
-                type_category, type_name = type_name.split(":")
+        # formatted with a custom delimiter to indicate a Python builtin value type
+        if key not in pyobjson_base_custom_subclasses_by_key.keys() and (delimiters := key.count(DLIM)):
+            # keys formatted with one custom delimiter indicate a value type
+            if delimiters == 1:
+                type_category = None
+                type_name, key = key.split(DLIM)
+            # keys formatted with two custom delimiters indicate a value type category and a value type
+            elif delimiters == 2:
+                type_category, type_name, key = key.split(DLIM)
+            # keys formatted with more than two custom delimiters are not supported by pyobjson
+            else:
+                raise ValueError(f"JSON data ({key}: {value}) is not compatible with pyobjson.")
 
             if type_category == "collection":
                 if type_name == "dict":
@@ -114,8 +120,8 @@ def extract_typed_key_value_pairs(
             elif type_name == "path":  # handle posix paths
                 value = Path(value)
             elif type_name == "callable":  # handle callables (functions, methods, etc.)
-                # extract the callable components from a value with format module.callable::arg1:type1,arg2:type2
-                callable_path, callable_args = value.split("::", 1)
+                # extract the callable components from a value with format module.callable[DLIM]arg1:type1,arg2:type2
+                callable_path, callable_args = value.split(DLIM, 1)
                 # extract the callable module and name
                 module, callable_name = callable_path.rsplit(".", 1)
                 # use the callable module and name to import the callable itself and set it to the value
@@ -162,23 +168,23 @@ def serialize(obj: Any, pyobjson_base_custom_subclasses: List[Type], excluded_at
                     # unpack custom_class_vars()
                     pass
                 else:
-                    att = f"collection:dict.{att}"
+                    att = f"collection{DLIM}dict{DLIM}{att}"
             elif isinstance(val, (list, set, tuple, bytes, bytearray)):
-                att = f"collection:{derive_custom_object_key(val.__class__)}.{att}"
+                att = f"collection{DLIM}{derive_custom_object_key(val.__class__)}{DLIM}{att}"
             elif isinstance(val, Path):
-                att = f"path.{att}"
+                att = f"path{DLIM}{att}"
             elif isinstance(val, Callable):
-                att = f"callable.{att}"
+                att = f"callable{DLIM}{att}"
             elif isinstance(val, datetime):
-                att = f"datetime.{att}"
+                att = f"datetime{DLIM}{att}"
             else:
                 try:
                     json.dumps(val)
                 except TypeError as e:
                     if str(e) == f"Object of type {type(val).__name__} is not JSON serializable":
-                        att = f"repr:{derive_custom_object_key(val.__class__)}"
+                        att = f"repr{DLIM}{derive_custom_object_key(val.__class__)}"
                     else:
-                        att = f"UNSERIALIZABLE.{derive_custom_object_key(val.__class__)}"
+                        att = f"{UNSERIALIZABLE}{DLIM}{derive_custom_object_key(val.__class__)}"
 
             serializable_obj[att] = serialize(val, pyobjson_base_custom_subclasses, excluded_attributes)
 
@@ -206,10 +212,10 @@ def serialize(obj: Any, pyobjson_base_custom_subclasses: List[Type], excluded_at
         try:
             json.dumps(obj)
         except TypeError as e:
-            if str(e) == f"Object of type {type(obj).__name__} is not JSON serializable":
+            if str(e) == f"Object of type {type(obj).__name__} is not JSON serializable.":
                 return repr(obj)
             else:
-                return "UNSERIALIZABLE"
+                return UNSERIALIZABLE
         return obj
 
 
@@ -252,7 +258,7 @@ def deserialize(
                 class_instance = base_class_instance
             else:
                 # extract original attribute names from pyobjson formatted attribute keys
-                extracted_class_instance_atts = {att.split(".")[-1] for att in class_instance_attributes.keys()}
+                extracted_class_instance_atts = {att.split(DLIM)[-1] for att in class_instance_attributes.keys()}
                 # check if any required instance attributes are missing from the deserialized data
                 if missing_instances_atts := set(class_args).difference(extracted_class_instance_atts):
                     if set(extra_instance_atts.keys()).issuperset(missing_instances_atts):

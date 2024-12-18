@@ -11,6 +11,7 @@ from typing import Callable, Dict, List, Optional, Set, Tuple
 from pytest import fixture
 
 from pyobjson.base import PythonObjectJson
+from pyobjson.constants import DELIMITER as DLIM
 
 
 def ext_func(param_1: str, param_2: str):
@@ -111,13 +112,13 @@ def first_class_json_str() -> str:
     return json.dumps(
         {
             "conftest.firstclass": {
-                "collection:dict.second_class_dict": {
+                f"collection{DLIM}dict{DLIM}second_class_dict": {
                     "second_class_1": {
                         "conftest.secondclass": {
-                            "collection:list.third_class_list": [
+                            f"collection{DLIM}list{DLIM}third_class_list": [
                                 {"conftest.thirdclass": {"third_class_param": "test_third_class_argument_in_dict"}}
                             ],
-                            "collection:dict.third_class_list_dict": {
+                            f"collection{DLIM}dict{DLIM}third_class_list_dict": {
                                 "third_class_list_1": [
                                     {"conftest.thirdclass": {"third_class_param": "test_third_class_argument_in_dict"}}
                                 ]
@@ -125,13 +126,13 @@ def first_class_json_str() -> str:
                         }
                     }
                 },
-                "collection:list.second_class_list": [
+                f"collection{DLIM}list{DLIM}second_class_list": [
                     {
                         "conftest.secondclass": {
-                            "collection:list.third_class_list": [
+                            f"collection{DLIM}list{DLIM}third_class_list": [
                                 {"conftest.thirdclass": {"third_class_param": "test_third_class_argument_in_list"}}
                             ],
-                            "collection:dict.third_class_list_dict": {
+                            f"collection{DLIM}dict{DLIM}third_class_list_dict": {
                                 "third_class_list_1": [
                                     {"conftest.thirdclass": {"third_class_param": "test_third_class_argument_in_list"}}
                                 ]
@@ -140,12 +141,12 @@ def first_class_json_str() -> str:
                     }
                 ],
                 "first_class_attribute": "test_first_class_attribute_string",
-                "collection:set.first_class_set": ["test_first_class_collection_element"],
-                "collection:tuple.first_class_tuple": ["test_first_class_collection_element"],
-                "collection:bytes.first_class_bytes": "dGVzdF9maXJzdF9jbGFzc19jb2xsZWN0aW9uX2VsZW1lbnQ=",
-                "path.first_class_file": "conftest",
-                "callable.first_class_external_function": "conftest.ext_func::param_1:str,param_2:str",
-                "datetime.first_class_datetime": "2024-01-01T00:00:00",
+                f"collection{DLIM}set{DLIM}first_class_set": ["test_first_class_collection_element"],
+                f"collection{DLIM}tuple{DLIM}first_class_tuple": ["test_first_class_collection_element"],
+                f"collection{DLIM}bytes{DLIM}first_class_bytes": "dGVzdF9maXJzdF9jbGFzc19jb2xsZWN0aW9uX2VsZW1lbnQ=",
+                f"path{DLIM}first_class_file": "conftest",
+                f"callable{DLIM}first_class_external_function": f"conftest.ext_func{DLIM}param_1:str,param_2:str",
+                f"datetime{DLIM}first_class_datetime": "2024-01-01T00:00:00",
             }
         },
         ensure_ascii=False,

@@ -14,12 +14,13 @@ import sys
 from base64 import b64decode, b64encode
 from datetime import datetime
 from importlib import import_module
-from inspect import getfullargspec
+from inspect import getfullargspec, isfunction, ismethod
 from logging import getLogger
 from pathlib import Path
 from typing import Any, Callable, Dict, List, Optional, Type
 
-from pyobjson.constants import DELIMITER as DLIM, UNSERIALIZABLE
+from pyobjson.constants import DELIMITER as DLIM
+from pyobjson.constants import UNSERIALIZABLE
 from pyobjson.utils import (
     derive_custom_callable_value,
     derive_custom_object_key,
@@ -116,16 +117,20 @@ def extract_typed_key_value_pairs(
                     value = tuple(value)
                 elif type_name == "bytes" or type_name == "bytearray":
                     value = b64decode(value)
+            elif type_category == "callable":
+                if type_name == "function":
+                    # extract the callable components from a value with format
+                    # module.callable[DLIM]callable_type[DLIM]arg1:type1,arg2:type2
+                    callable_path, callable_args = value.split(DLIM, 1)
+                    # extract the callable module and name
+                    module, callable_name = callable_path.rsplit(".", 1)
+                    # use the callable module and name to import the callable itself and set it to the value
+                    value = getattr(import_module(module), callable_name)
+                elif type_name == "method":
+                    raise ValueError(f"JSON data ({key}: {value}) is not compatible with pyobjson.")
 
             elif type_name == "path":  # handle posix paths
                 value = Path(value)
-            elif type_name == "callable":  # handle callables (functions, methods, etc.)
-                # extract the callable components from a value with format module.callable[DLIM]arg1:type1,arg2:type2
-                callable_path, callable_args = value.split(DLIM, 1)
-                # extract the callable module and name
-                module, callable_name = callable_path.rsplit(".", 1)
-                # use the callable module and name to import the callable itself and set it to the value
-                value = getattr(import_module(module), callable_name)
             elif type_name == "datetime":  # handle datetime objects
                 value = datetime.fromisoformat(value)
             else:
@@ -174,7 +179,14 @@ def serialize(obj: Any, pyobjson_base_custom_subclasses: List[Type], excluded_at
             elif isinstance(val, Path):
                 att = f"path{DLIM}{att}"
             elif isinstance(val, Callable):
-                att = f"callable{DLIM}{att}"
+                if isfunction(val):
+                    callable_type = f"function{DLIM}"
+                elif ismethod(val):
+                    callable_type = f"method{DLIM}"
+                else:
+                    callable_type = None
+
+                att = f"callable{DLIM}{callable_type if callable_type else ''}{att}"
             elif isinstance(val, datetime):
                 att = f"datetime{DLIM}{att}"
             else:

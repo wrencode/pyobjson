@@ -36,7 +36,7 @@
           <img src="../wrencode-logo.svg" class="logo" alt="Logo"/>
         </a>
         <div class="version">
-          v6.0.1
+          v6.1.0
         </div><div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
       <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
@@ -302,8 +302,7 @@ exclusions.</p>
 </table>
             <details class="quote">
               <summary>Source code in <code>src/pyobjson/data.py</code></summary>
-              <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">31</span>
-<span class="normal">32</span>
+              <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">32</span>
 <span class="normal">33</span>
 <span class="normal">34</span>
 <span class="normal">35</span>
@@ -341,7 +340,8 @@ exclusions.</p>
 <span class="normal">67</span>
 <span class="normal">68</span>
 <span class="normal">69</span>
-<span class="normal">70</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">unpack_custom_class_vars</span><span class="p">(</span>
+<span class="normal">70</span>
+<span class="normal">71</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">unpack_custom_class_vars</span><span class="p">(</span>
     <span class="n">custom_class_instance</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">pyobjson_base_custom_subclasses</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Type</span><span class="p">],</span> <span class="n">excluded_attributes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Recursive function to un-type custom class type objects for serialization.</span>
@@ -465,8 +465,7 @@ dictionary keys.</p>
 </table>
             <details class="quote">
               <summary>Source code in <code>src/pyobjson/data.py</code></summary>
-              <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 73</span>
-<span class="normal"> 74</span>
+              <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 74</span>
 <span class="normal"> 75</span>
 <span class="normal"> 76</span>
 <span class="normal"> 77</span>
@@ -528,7 +527,12 @@ dictionary keys.</p>
 <span class="normal">133</span>
 <span class="normal">134</span>
 <span class="normal">135</span>
-<span class="normal">136</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">extract_typed_key_value_pairs</span><span class="p">(</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">extract_typed_key_value_pairs</span><span class="p">(</span>
     <span class="n">json_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">pyobjson_base_custom_subclasses_by_key</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Type</span><span class="p">]</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function to extract both keys and Python object types from specially formatted dictionary keys and make</span>
@@ -574,16 +578,20 @@ dictionary keys.</p>
                     <span class="n">value</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
                 <span class="k">elif</span> <span class="n">type_name</span> <span class="o">==</span> <span class="s2">&quot;bytes&quot;</span> <span class="ow">or</span> <span class="n">type_name</span> <span class="o">==</span> <span class="s2">&quot;bytearray&quot;</span><span class="p">:</span>
                     <span class="n">value</span> <span class="o">=</span> <span class="n">b64decode</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">type_category</span> <span class="o">==</span> <span class="s2">&quot;callable&quot;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">type_name</span> <span class="o">==</span> <span class="s2">&quot;function&quot;</span><span class="p">:</span>
+                    <span class="c1"># extract the callable components from a value with format</span>
+                    <span class="c1"># module.callable[DLIM]callable_type[DLIM]arg1:type1,arg2:type2</span>
+                    <span class="n">callable_path</span><span class="p">,</span> <span class="n">callable_args</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">DLIM</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+                    <span class="c1"># extract the callable module and name</span>
+                    <span class="n">module</span><span class="p">,</span> <span class="n">callable_name</span> <span class="o">=</span> <span class="n">callable_path</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+                    <span class="c1"># use the callable module and name to import the callable itself and set it to the value</span>
+                    <span class="n">value</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">import_module</span><span class="p">(</span><span class="n">module</span><span class="p">),</span> <span class="n">callable_name</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">type_name</span> <span class="o">==</span> <span class="s2">&quot;method&quot;</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;JSON data (</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">) is not compatible with pyobjson.&quot;</span><span class="p">)</span>
 
             <span class="k">elif</span> <span class="n">type_name</span> <span class="o">==</span> <span class="s2">&quot;path&quot;</span><span class="p">:</span>  <span class="c1"># handle posix paths</span>
                 <span class="n">value</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="n">type_name</span> <span class="o">==</span> <span class="s2">&quot;callable&quot;</span><span class="p">:</span>  <span class="c1"># handle callables (functions, methods, etc.)</span>
-                <span class="c1"># extract the callable components from a value with format module.callable[DLIM]arg1:type1,arg2:type2</span>
-                <span class="n">callable_path</span><span class="p">,</span> <span class="n">callable_args</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">DLIM</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-                <span class="c1"># extract the callable module and name</span>
-                <span class="n">module</span><span class="p">,</span> <span class="n">callable_name</span> <span class="o">=</span> <span class="n">callable_path</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-                <span class="c1"># use the callable module and name to import the callable itself and set it to the value</span>
-                <span class="n">value</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">import_module</span><span class="p">(</span><span class="n">module</span><span class="p">),</span> <span class="n">callable_name</span><span class="p">)</span>
             <span class="k">elif</span> <span class="n">type_name</span> <span class="o">==</span> <span class="s2">&quot;datetime&quot;</span><span class="p">:</span>  <span class="c1"># handle datetime objects</span>
                 <span class="n">value</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">fromisoformat</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
@@ -683,12 +691,7 @@ exclusions.</p>
 </table>
             <details class="quote">
               <summary>Source code in <code>src/pyobjson/data.py</code></summary>
-              <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">139</span>
-<span class="normal">140</span>
-<span class="normal">141</span>
-<span class="normal">142</span>
-<span class="normal">143</span>
-<span class="normal">144</span>
+              <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">144</span>
 <span class="normal">145</span>
 <span class="normal">146</span>
 <span class="normal">147</span>
@@ -763,7 +766,19 @@ exclusions.</p>
 <span class="normal">216</span>
 <span class="normal">217</span>
 <span class="normal">218</span>
-<span class="normal">219</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">serialize</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">pyobjson_base_custom_subclasses</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Type</span><span class="p">],</span> <span class="n">excluded_attributes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="normal">219</span>
+<span class="normal">220</span>
+<span class="normal">221</span>
+<span class="normal">222</span>
+<span class="normal">223</span>
+<span class="normal">224</span>
+<span class="normal">225</span>
+<span class="normal">226</span>
+<span class="normal">227</span>
+<span class="normal">228</span>
+<span class="normal">229</span>
+<span class="normal">230</span>
+<span class="normal">231</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">serialize</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">pyobjson_base_custom_subclasses</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Type</span><span class="p">],</span> <span class="n">excluded_attributes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Recursive function to serialize custom Python objects into nested dictionaries for conversion to JSON.</span>
 
 <span class="sd">    Args:</span>
@@ -801,7 +816,14 @@ exclusions.</p>
             <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">Path</span><span class="p">):</span>
                 <span class="n">att</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;path</span><span class="si">{</span><span class="n">DLIM</span><span class="si">}{</span><span class="n">att</span><span class="si">}</span><span class="s2">&quot;</span>
             <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">Callable</span><span class="p">):</span>
-                <span class="n">att</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;callable</span><span class="si">{</span><span class="n">DLIM</span><span class="si">}{</span><span class="n">att</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="k">if</span> <span class="n">isfunction</span><span class="p">(</span><span class="n">val</span><span class="p">):</span>
+                    <span class="n">callable_type</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;function</span><span class="si">{</span><span class="n">DLIM</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="k">elif</span> <span class="n">ismethod</span><span class="p">(</span><span class="n">val</span><span class="p">):</span>
+                    <span class="n">callable_type</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;method</span><span class="si">{</span><span class="n">DLIM</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">callable_type</span> <span class="o">=</span> <span class="kc">None</span>
+
+                <span class="n">att</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;callable</span><span class="si">{</span><span class="n">DLIM</span><span class="si">}{</span><span class="n">callable_type</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">callable_type</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="si">}{</span><span class="n">att</span><span class="si">}</span><span class="s2">&quot;</span>
             <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">datetime</span><span class="p">):</span>
                 <span class="n">att</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;datetime</span><span class="si">{</span><span class="n">DLIM</span><span class="si">}{</span><span class="n">att</span><span class="si">}</span><span class="s2">&quot;</span>
             <span class="k">else</span><span class="p">:</span>
@@ -949,19 +971,7 @@ Python objects.</p>
 </table>
             <details class="quote">
               <summary>Source code in <code>src/pyobjson/data.py</code></summary>
-              <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">222</span>
-<span class="normal">223</span>
-<span class="normal">224</span>
-<span class="normal">225</span>
-<span class="normal">226</span>
-<span class="normal">227</span>
-<span class="normal">228</span>
-<span class="normal">229</span>
-<span class="normal">230</span>
-<span class="normal">231</span>
-<span class="normal">232</span>
-<span class="normal">233</span>
-<span class="normal">234</span>
+              <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">234</span>
 <span class="normal">235</span>
 <span class="normal">236</span>
 <span class="normal">237</span>
@@ -1036,7 +1046,19 @@ Python objects.</p>
 <span class="normal">306</span>
 <span class="normal">307</span>
 <span class="normal">308</span>
-<span class="normal">309</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">deserialize</span><span class="p">(</span>
+<span class="normal">309</span>
+<span class="normal">310</span>
+<span class="normal">311</span>
+<span class="normal">312</span>
+<span class="normal">313</span>
+<span class="normal">314</span>
+<span class="normal">315</span>
+<span class="normal">316</span>
+<span class="normal">317</span>
+<span class="normal">318</span>
+<span class="normal">319</span>
+<span class="normal">320</span>
+<span class="normal">321</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">deserialize</span><span class="p">(</span>
     <span class="n">json_data</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
     <span class="n">pyobjson_base_custom_subclasses_by_key</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Type</span><span class="p">],</span>
     <span class="n">base_class_instance</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>

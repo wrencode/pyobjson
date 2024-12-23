@@ -36,7 +36,7 @@
           <img src="../wrencode-logo.svg" class="logo" alt="Logo"/>
         </a>
         <div class="version">
-          v6.1.0
+          v6.2.0
         </div><div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
       <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
@@ -69,10 +69,6 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#src.pyobjson.dao.mongo.base.PythonObjectJsonToMongo">PythonObjectJsonToMongo</a>
         <ul>
-    <li class="toctree-l3"><a class="reference internal" href="#src.pyobjson.dao.mongo.base.PythonObjectJsonToMongo.serialize">serialize</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#src.pyobjson.dao.mongo.base.PythonObjectJsonToMongo.deserialize">deserialize</a>
-    </li>
     <li class="toctree-l3"><a class="reference internal" href="#src.pyobjson.dao.mongo.base.PythonObjectJsonToMongo.save_to_mongo">save_to_mongo</a>
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#src.pyobjson.dao.mongo.base.PythonObjectJsonToMongo.load_from_mongo">load_from_mongo</a>
@@ -232,22 +228,6 @@
       </thead>
       <tbody>
             <tr class="doc-section-item">
-              <td><code><a class="autorefs autorefs-internal" title="src.pyobjson.dao.mongo.base.PythonObjectJsonToMongo.serialize" href="#src.pyobjson.dao.mongo.base.PythonObjectJsonToMongo.serialize">serialize</a></code></td>
-              <td>
-                <div class="doc-md-description">
-                  <p>Create a serializable dictionary from the class instance that excludes MongoDB-related attributes.</p>
-                </div>
-              </td>
-            </tr>
-            <tr class="doc-section-item">
-              <td><code><a class="autorefs autorefs-internal" title="src.pyobjson.dao.mongo.base.PythonObjectJsonToMongo.deserialize" href="#src.pyobjson.dao.mongo.base.PythonObjectJsonToMongo.deserialize">deserialize</a></code></td>
-              <td>
-                <div class="doc-md-description">
-                  <p>Load data to a class instance from a serializable dictionary and add in MongoDB-related attributes.</p>
-                </div>
-              </td>
-            </tr>
-            <tr class="doc-section-item">
               <td><code><a class="autorefs autorefs-internal" title="src.pyobjson.dao.mongo.base.PythonObjectJsonToMongo.save_to_mongo" href="#src.pyobjson.dao.mongo.base.PythonObjectJsonToMongo.save_to_mongo">save_to_mongo</a></code></td>
               <td>
                 <div class="doc-md-description">
@@ -270,7 +250,8 @@
 
               <details class="quote">
                 <summary>Source code in <code>src/pyobjson/dao/mongo/base.py</code></summary>
-                <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 29</span>
+                <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 28</span>
+<span class="normal"> 29</span>
 <span class="normal"> 30</span>
 <span class="normal"> 31</span>
 <span class="normal"> 32</span>
@@ -381,47 +362,11 @@
 <span class="normal">137</span>
 <span class="normal">138</span>
 <span class="normal">139</span>
-<span class="normal">140</span>
-<span class="normal">141</span>
-<span class="normal">142</span>
-<span class="normal">143</span>
-<span class="normal">144</span>
-<span class="normal">145</span>
-<span class="normal">146</span>
-<span class="normal">147</span>
-<span class="normal">148</span>
-<span class="normal">149</span>
-<span class="normal">150</span>
-<span class="normal">151</span>
-<span class="normal">152</span>
-<span class="normal">153</span>
-<span class="normal">154</span>
-<span class="normal">155</span>
-<span class="normal">156</span>
-<span class="normal">157</span>
-<span class="normal">158</span>
-<span class="normal">159</span>
-<span class="normal">160</span>
-<span class="normal">161</span>
-<span class="normal">162</span>
-<span class="normal">163</span>
-<span class="normal">164</span>
-<span class="normal">165</span>
-<span class="normal">166</span>
-<span class="normal">167</span>
-<span class="normal">168</span>
-<span class="normal">169</span>
-<span class="normal">170</span>
-<span class="normal">171</span>
-<span class="normal">172</span>
-<span class="normal">173</span>
-<span class="normal">174</span>
-<span class="normal">175</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">PythonObjectJsonToMongo</span><span class="p">(</span><span class="n">PythonObjectJson</span><span class="p">):</span>
+<span class="normal">140</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">PythonObjectJsonToMongo</span><span class="p">(</span><span class="n">PythonObjectJson</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;PythonObjectJson subclass with built-in save/load functionality to/from MongoDB.&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mongo_host</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">mongo_port</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">mongo_database</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">mongo_user</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">mongo_password</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">excluded_attributes</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;(^mongo_[A-Za-z]*)&quot;</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mongo_host</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">mongo_host</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mongo_port</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">mongo_port</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mongo_database</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">mongo_database</span>
@@ -482,39 +427,6 @@
                 <span class="sa">f</span><span class="s2">&quot;be either 12 bytes long or a 24-character hexadecimal string.&quot;</span>
             <span class="p">)</span>
             <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a serializable dictionary from the class instance that excludes MongoDB-related attributes.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            dict[str, Any]: Serializable dictionary representing the class instance without MongoDB-related attributes.</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_subclasses</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span> <span class="p">[</span><span class="s2">&quot;mongo_&quot;</span><span class="p">])</span>
-
-    <span class="k">def</span> <span class="nf">deserialize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">serializable_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Load data to a class instance from a serializable dictionary and add in MongoDB-related attributes.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            serializable_dict (dict[str, Any]): Serializable dictionary representing the class instance.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            Any: Class instance deserialized from data dictionary including MongoDB-related attributes.</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">extra_instance_attributes</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;mongo_host&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">mongo_host</span><span class="p">,</span>
-            <span class="s2">&quot;mongo_port&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">mongo_port</span><span class="p">,</span>
-            <span class="s2">&quot;mongo_database&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">mongo_database</span><span class="p">,</span>
-            <span class="s2">&quot;mongo_user&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">mongo_user</span><span class="p">,</span>
-            <span class="s2">&quot;mongo_password&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">mongo_password</span><span class="p">,</span>
-        <span class="p">}</span>
-        <span class="k">return</span> <span class="n">deserialize</span><span class="p">(</span>
-            <span class="n">serializable_dict</span><span class="p">,</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_base_subclasses</span><span class="p">(),</span>
-            <span class="n">base_class_instance</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span>
-            <span class="n">extra_instance_atts</span><span class="o">=</span><span class="n">extra_instance_attributes</span><span class="p">,</span>
-        <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">save_to_mongo</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">mongo_collection</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">mongo_document_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">ObjectId</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
@@ -577,182 +489,6 @@
 
 
 
-
-<div class="doc doc-object doc-function">
-
-
-<h3 id="src.pyobjson.dao.mongo.base.PythonObjectJsonToMongo.serialize" class="doc doc-heading">
-            <span class="doc doc-object-name doc-function-name">serialize</span>
-
-
-<a href="#src.pyobjson.dao.mongo.base.PythonObjectJsonToMongo.serialize" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature codehilite"><pre><span></span><code><span class="nf">serialize</span><span class="p">()</span>
-</code></pre></div>
-
-    <div class="doc doc-contents ">
-
-        <p>Create a serializable dictionary from the class instance that excludes MongoDB-related attributes.</p>
-
-
-<table class="field-list">
-  <colgroup>
-    <col class="field-name" />
-    <col class="field-body" />
-  </colgroup>
-  <tbody valign="top">
-    <tr class="field">
-      <th class="field-name">Returns:</th>
-      <td class="field-body">
-        <ul class="first simple">
-            <li>
-                  <code><span title="typing.Dict">Dict</span>[str, <span title="typing.Any">Any</span>]</code>
-              –
-              <div class="doc-md-description">
-                <p>dict[str, Any]: Serializable dictionary representing the class instance without MongoDB-related attributes.</p>
-              </div>
-            </li>
-        </ul>
-      </td>
-    </tr>
-  </tbody>
-</table>
-            <details class="quote">
-              <summary>Source code in <code>src/pyobjson/dao/mongo/base.py</code></summary>
-              <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 96</span>
-<span class="normal"> 97</span>
-<span class="normal"> 98</span>
-<span class="normal"> 99</span>
-<span class="normal">100</span>
-<span class="normal">101</span>
-<span class="normal">102</span>
-<span class="normal">103</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a serializable dictionary from the class instance that excludes MongoDB-related attributes.</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        dict[str, Any]: Serializable dictionary representing the class instance without MongoDB-related attributes.</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_subclasses</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span> <span class="p">[</span><span class="s2">&quot;mongo_&quot;</span><span class="p">])</span>
-</code></pre></div></td></tr></table></div>
-            </details>
-    </div>
-
-</div>
-
-<div class="doc doc-object doc-function">
-
-
-<h3 id="src.pyobjson.dao.mongo.base.PythonObjectJsonToMongo.deserialize" class="doc doc-heading">
-            <span class="doc doc-object-name doc-function-name">deserialize</span>
-
-
-<a href="#src.pyobjson.dao.mongo.base.PythonObjectJsonToMongo.deserialize" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature codehilite"><pre><span></span><code><span class="nf">deserialize</span><span class="p">(</span><span class="n">serializable_dict</span><span class="p">)</span>
-</code></pre></div>
-
-    <div class="doc doc-contents ">
-
-        <p>Load data to a class instance from a serializable dictionary and add in MongoDB-related attributes.</p>
-
-
-<table class="field-list">
-  <colgroup>
-    <col class="field-name" />
-    <col class="field-body" />
-  </colgroup>
-  <tbody valign="top">
-    <tr class="field">
-      <th class="field-name">Parameters:</th>
-      <td class="field-body">
-        <ul class="first simple">
-            <li>
-              <b><code>serializable_dict</code></b>
-                  (<code>dict[str, <span title="typing.Any">Any</span>]</code>)
-              –
-              <div class="doc-md-description">
-                <p>Serializable dictionary representing the class instance.</p>
-              </div>
-            </li>
-        </ul>
-      </td>
-    </tr>
-  </tbody>
-</table>
-
-<table class="field-list">
-  <colgroup>
-    <col class="field-name" />
-    <col class="field-body" />
-  </colgroup>
-  <tbody valign="top">
-    <tr class="field">
-      <th class="field-name">Returns:</th>
-      <td class="field-body">
-        <ul class="first simple">
-            <li>
-<b><code>Any</code></b>(                  <code><span title="typing.Any">Any</span></code>
-)              –
-              <div class="doc-md-description">
-                <p>Class instance deserialized from data dictionary including MongoDB-related attributes.</p>
-              </div>
-            </li>
-        </ul>
-      </td>
-    </tr>
-  </tbody>
-</table>
-            <details class="quote">
-              <summary>Source code in <code>src/pyobjson/dao/mongo/base.py</code></summary>
-              <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">105</span>
-<span class="normal">106</span>
-<span class="normal">107</span>
-<span class="normal">108</span>
-<span class="normal">109</span>
-<span class="normal">110</span>
-<span class="normal">111</span>
-<span class="normal">112</span>
-<span class="normal">113</span>
-<span class="normal">114</span>
-<span class="normal">115</span>
-<span class="normal">116</span>
-<span class="normal">117</span>
-<span class="normal">118</span>
-<span class="normal">119</span>
-<span class="normal">120</span>
-<span class="normal">121</span>
-<span class="normal">122</span>
-<span class="normal">123</span>
-<span class="normal">124</span>
-<span class="normal">125</span>
-<span class="normal">126</span>
-<span class="normal">127</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">deserialize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">serializable_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Load data to a class instance from a serializable dictionary and add in MongoDB-related attributes.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        serializable_dict (dict[str, Any]): Serializable dictionary representing the class instance.</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        Any: Class instance deserialized from data dictionary including MongoDB-related attributes.</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">extra_instance_attributes</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;mongo_host&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">mongo_host</span><span class="p">,</span>
-        <span class="s2">&quot;mongo_port&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">mongo_port</span><span class="p">,</span>
-        <span class="s2">&quot;mongo_database&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">mongo_database</span><span class="p">,</span>
-        <span class="s2">&quot;mongo_user&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">mongo_user</span><span class="p">,</span>
-        <span class="s2">&quot;mongo_password&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">mongo_password</span><span class="p">,</span>
-    <span class="p">}</span>
-    <span class="k">return</span> <span class="n">deserialize</span><span class="p">(</span>
-        <span class="n">serializable_dict</span><span class="p">,</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_base_subclasses</span><span class="p">(),</span>
-        <span class="n">base_class_instance</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span>
-        <span class="n">extra_instance_atts</span><span class="o">=</span><span class="n">extra_instance_attributes</span><span class="p">,</span>
-    <span class="p">)</span>
-</code></pre></div></td></tr></table></div>
-            </details>
-    </div>
-
-</div>
 
 <div class="doc doc-object doc-function">
 
@@ -829,33 +565,33 @@ will result in MongoDB automatically generating a unique document ID.</p>
 </table>
             <details class="quote">
               <summary>Source code in <code>src/pyobjson/dao/mongo/base.py</code></summary>
-              <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">129</span>
-<span class="normal">130</span>
-<span class="normal">131</span>
-<span class="normal">132</span>
-<span class="normal">133</span>
-<span class="normal">134</span>
-<span class="normal">135</span>
-<span class="normal">136</span>
-<span class="normal">137</span>
-<span class="normal">138</span>
-<span class="normal">139</span>
-<span class="normal">140</span>
-<span class="normal">141</span>
-<span class="normal">142</span>
-<span class="normal">143</span>
-<span class="normal">144</span>
-<span class="normal">145</span>
-<span class="normal">146</span>
-<span class="normal">147</span>
-<span class="normal">148</span>
-<span class="normal">149</span>
-<span class="normal">150</span>
-<span class="normal">151</span>
-<span class="normal">152</span>
-<span class="normal">153</span>
-<span class="normal">154</span>
-<span class="normal">155</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">save_to_mongo</span><span class="p">(</span>
+              <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">save_to_mongo</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span> <span class="n">mongo_collection</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">mongo_document_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">ObjectId</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ObjectId</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Save the custom Python object to a specified MongoDB collection.</span>
@@ -962,25 +698,25 @@ JSON was loaded.</p>
 </table>
             <details class="quote">
               <summary>Source code in <code>src/pyobjson/dao/mongo/base.py</code></summary>
-              <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">157</span>
-<span class="normal">158</span>
-<span class="normal">159</span>
-<span class="normal">160</span>
-<span class="normal">161</span>
-<span class="normal">162</span>
-<span class="normal">163</span>
-<span class="normal">164</span>
-<span class="normal">165</span>
-<span class="normal">166</span>
-<span class="normal">167</span>
-<span class="normal">168</span>
-<span class="normal">169</span>
-<span class="normal">170</span>
-<span class="normal">171</span>
-<span class="normal">172</span>
-<span class="normal">173</span>
-<span class="normal">174</span>
-<span class="normal">175</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">load_from_mongo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mongo_collection</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">mongo_document_id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ObjectId</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+              <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">load_from_mongo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mongo_collection</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">mongo_document_id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ObjectId</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Load the JSON values from a specified MongoDB document ID to the custom Python object from a specified</span>
 <span class="sd">    MongoDB collection.</span>
 

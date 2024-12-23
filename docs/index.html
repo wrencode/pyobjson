@@ -36,7 +36,7 @@
           <img src="wrencode-logo.svg" class="logo" alt="Logo"/>
         </a>
         <div class="version">
-          v6.1.0
+          v6.2.0
         </div><div role="search">
   <form id ="rtd-search-form" class="wy-form" action="./search.html" method="get">
       <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
@@ -87,6 +87,14 @@
         </ul>
     </li>
         </ul>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#custom-subclasses">Custom Subclasses</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#serialization">Serialization</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#deserialization">Deserialization</a>
     </li>
         </ul>
     </li>
@@ -149,7 +157,8 @@
 <a href="https://pypi.python.org/pypi/pyobjson"><img alt="PyPI" src="https://img.shields.io/pypi/pyversions/pyobjson.svg?style=flat" /></a>
 <a href="https://pypi.python.org/pypi/pyobjson"><img alt="PyPI" src="https://img.shields.io/pypi/l/pyobjson.svg?style=flat" /></a></p>
 <hr />
-<p><sub><strong><em>Do you like the Python Object JSON Tool? Star the repository on GitHub and please consider helping support its ongoing development:</em></strong></sub></p>
+<p><sub><strong><em>Do you like the Python Object JSON Tool? Star the repository on GitHub and please consider helping support its
+ongoing development:</em></strong></sub></p>
 <p><a href="https://venmo.com/wrencode?txn=pay"><img src="https://raw.githubusercontent.com/wrencode/pyobjson/refs/heads/main/docs/wrencode-donation-venmo-qr-code.jpg" width="300"/></a></p>
 <!-- https://venmo.com/<USER_NAME_1>,<USER_NAME_2>...?txn=<charge|pay>&note=<NOTE>&amount=<AMOUNT> -->
 
@@ -194,27 +203,36 @@
 </li>
 </ul>
 </li>
+<li><a href="#custom-subclasses">Custom Subclasses</a><ul>
+<li><a href="#serialization">Serialization</a></li>
+<li><a href="#deserialization">Deserialization</a></li>
+</ul>
+</li>
 </ul>
 <div class="hide-next-element"></div>
 
 <hr />
 <p><a name="about"></a></p>
 <h3 id="about">About<a class="headerlink" href="#about" title="Permanent link">&para;</a></h3>
-<p>The Python Object JSON Tool is a utility library for serializing/deserializing custom Python objects to/from JSON by using <code>pyobjson</code> classes as superclasses/parent classes to your custom Python classes.</p>
+<p>The Python Object JSON Tool is a utility library for serializing/deserializing custom Python objects to/from JSON by
+using <code>pyobjson</code> classes as superclasses/parent classes to your custom Python classes.</p>
 <p><a name="installation"></a></p>
 <h4 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h4>
 <p>You can install with <code>pip</code> by running:</p>
 <div class="codehilite"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>pyobjson
 </code></pre></div>
 
-<p><strong><em>Note</em></strong>: If you wish to use <code>pyobjson</code> to serialize/deserialize custom Python objects to/from MongoDB, then you have to install with the optional dependencies:</p>
+<p><strong><em>Note</em></strong>: If you wish to use <code>pyobjson</code> to serialize/deserialize custom Python objects to/from MongoDB, then you have
+to install with the optional dependencies:</p>
 <div class="codehilite"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>pyobjson<span class="o">[</span>mongo<span class="o">]</span>
 </code></pre></div>
 
 <p><a name="dependencies"></a></p>
 <h4 id="dependencies">Dependencies<a class="headerlink" href="#dependencies" title="Permanent link">&para;</a></h4>
-<p>The base Python Object JSON Tool does not have any third-party dependencies to run the code. It has several development dependencies, which can be seen in the package <code>pyproject.toml</code>.</p>
-<p>If you wish to use <code>pyobjson</code> to serialize/deserialize custom Python objects to/from MongoDB, then there is an additional dependency on the <a href="https://pymongo.readthedocs.io/en/stable/">PyMongo</a> package.</p>
+<p>The base Python Object JSON Tool does not have any third-party dependencies to run the code. It has several development
+dependencies, which can be seen in the package <code>pyproject.toml</code>.</p>
+<p>If you wish to use <code>pyobjson</code> to serialize/deserialize custom Python objects to/from MongoDB, then there is an
+additional dependency on the <a href="https://pymongo.readthedocs.io/en/stable/">PyMongo</a> package.</p>
 <p><a name="toolchain"></a></p>
 <h4 id="toolchain">Toolchain<a class="headerlink" href="#toolchain" title="Permanent link">&para;</a></h4>
 <p>The below tools and resources are used as part of pyobjson:</p>
@@ -224,7 +242,8 @@
 <li><a href="https://bandit.readthedocs.io/en/latest/">bandit</a> - code security</li>
 <li><a href="https://www.gnu.org/software/make/manual/make.html">make</a> - Makefile build automation</li>
 <li><a href="https://www.mkdocs.org">MkDocs</a> - package documentation</li>
-<li><a href="https://github.com/theskumar/python-dotenv">python-dotenv</a> - programmatic access to environment variables defined in a <code>.env</code> file</li>
+<li><a href="https://github.com/theskumar/python-dotenv">python-dotenv</a> - programmatic access to environment variables defined in
+  a <code>.env</code> file</li>
 <li><a href="https://docs.pytest.org/en/stable/">pytest</a> - code testing framework</li>
 <li><a href="https://docs.github.com/en/actions">GitHub Actions</a> - CI/CD</li>
 <li><a href="https://github.com/nektos/act">act</a> - GitHub Actions testing</li>
@@ -232,18 +251,24 @@
 <hr />
 <p><a name="usage"></a></p>
 <h3 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h3>
-<p>The <code>pyobjson</code> package is designed to be used as a base class/parent class/superclass to your own custom Python classes in order to provide built-in, convenient serialization/deserialization functionality. Child classes/subclasses of <code>pyobjson.base.PythonObjectJson</code> will automatically have the following methods:</p>
+<p>The <code>pyobjson</code> package is designed to be used as a base class/parent class/superclass to your own custom Python classes
+in order to provide built-in, convenient serialization/deserialization functionality. Child classes/subclasses of
+<code>pyobjson.base.PythonObjectJson</code> will automatically have the following methods:</p>
 <ul>
 <li><code>pyobjson.base.PythonObjectJson.serialize()</code>: Create a serializable dictionary from the class instance.</li>
 <li><code>pyobjson.base.PythonObjectJson.to_json_str()</code>: Serialize the class instance to a JSON string.</li>
-<li><code>pyobjson.base.PythonObjectJson.from_json_str(json_str)</code>: Load the class instance from a <code>pyobjson</code>-formatted JSON string.</li>
+<li><code>pyobjson.base.PythonObjectJson.from_json_str(json_str)</code>: Load the class instance from a <code>pyobjson</code>-formatted JSON
+  string.</li>
 <li><code>pyobjson.base.PythonObjectJson.save_to_json_file(json_file_path)</code>: Save the class instance to a JSON file.</li>
-<li><code>pyobjson.base.PythonObjectJson.load_from_json_file(json_file_path)</code>: Load the class instance from a <code>pyobjson</code>-formatted JSON file.</li>
+<li><code>pyobjson.base.PythonObjectJson.load_from_json_file(json_file_path)</code>: Load the class instance from a <code>pyobjson</code>
+  -formatted JSON file.</li>
 </ul>
-<p>Please reference the <strong><a href="https://pyobjson.wrencode.dev">documentation at https://pyobjson.wrencode.dev</a></strong> for more detailed usage.</p>
+<p>Please reference the <strong><a href="https://pyobjson.wrencode.dev">documentation at https://pyobjson.wrencode.dev</a></strong> for more
+detailed usage.</p>
 <p><a name="json-example"></a></p>
 <h4 id="json-example">JSON Example<a class="headerlink" href="#json-example" title="Permanent link">&para;</a></h4>
 <div class="codehilite"><pre><span></span><code><span class="kn">from</span> <span class="nn">pyobjson.base</span> <span class="kn">import</span> <span class="n">PythonObjectJson</span>
+
 
 <span class="k">class</span> <span class="nc">MyOtherClass</span><span class="p">(</span><span class="n">PythonObjectJson</span><span class="p">):</span>
 
@@ -251,10 +276,12 @@
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;Hello, World!&quot;</span>
 
+
 <span class="k">class</span> <span class="nc">MyClass</span><span class="p">(</span><span class="n">PythonObjectJson</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">my_other_classes</span> <span class="o">=</span> <span class="p">[</span><span class="n">MyOtherClass</span><span class="p">()]</span>
+
 
 <span class="n">my_class</span> <span class="o">=</span> <span class="n">MyClass</span><span class="p">()</span>
 
@@ -276,14 +303,19 @@
 <span class="p">}</span>
 </code></pre></div>
 
-<p>The above example shows how <code>pyobjson</code> can be used to serialize arbitrary custom Python classes into JSON. Additionally, the above <a href="#json-example-output">JSON example output</a> JSON can be used to recreate an equivalent class instance by loading the JSON into a custom Python class instance.</p>
+<p>The above example shows how <code>pyobjson</code> can be used to serialize arbitrary custom Python classes into JSON. Additionally,
+the above <a href="#json-example-output">JSON example output</a> JSON can be used to recreate an equivalent class instance by
+loading the JSON into a custom Python class instance.</p>
 <p><a name="saving-and-loading"></a></p>
 <h4 id="saving-and-loading">Saving and Loading<a class="headerlink" href="#saving-and-loading" title="Permanent link">&para;</a></h4>
-<p>The <code>pyobjson.base.PythonObjectJson</code> parent class <em>also</em> provides built-in methods to save/load arbitrary custom Python classes to/from JSON in several ways.</p>
+<p>The <code>pyobjson.base.PythonObjectJson</code> parent class <em>also</em> provides built-in methods to save/load arbitrary custom Python
+classes to/from JSON in several ways.</p>
 <p><a name="json-files"></a></p>
 <h5 id="json-files">JSON Files<a class="headerlink" href="#json-files" title="Permanent link">&para;</a></h5>
 <ul>
-<li><a href="https://www.json.org/json-en.html">JSON</a> files <em>(using </em><em>only</em><em> Python built-in libraries)</em>: Use the <code>PythonObjectJson.save_to_json_file(json_file_path)</code> and <code>PythonObjectJson.load_from_json_file(json_file_path)</code> methods to save/load your custom Python subclasses to JSON files.</li>
+<li><a href="https://www.json.org/json-en.html">JSON</a> files <em>(using </em><em>only</em><em> Python built-in libraries)</em>: Use the
+  <code>PythonObjectJson.save_to_json_file(json_file_path)</code> and <code>PythonObjectJson.load_from_json_file(json_file_path)</code>
+  methods to save/load your custom Python subclasses to JSON files.</li>
 </ul>
 <p><a name="json-file-example"></a></p>
 <h6 id="json-file-example">JSON File Example<a class="headerlink" href="#json-file-example" title="Permanent link">&para;</a></h6>
@@ -327,7 +359,12 @@
 <p><a name="mongodb"></a></p>
 <h5 id="mongodb">MongoDB<a class="headerlink" href="#mongodb" title="Permanent link">&para;</a></h5>
 <ul>
-<li><a href="https://www.mongodb.com">MongoDB</a> <em>(using <a href="https://pymongo.readthedocs.io/en/stable/"><code>pymongo</code></a>)</em>: The <code>pyobjson</code> library includes a class called <code>pyobjson.dao.PythonObjectJsonToMongo</code>, which can be used as a superclass for any custom class you wish to be able to easily serialized/deserialize to/from MongoDB. Use the <code>PythonObjectJsonToMongo.save_to_mongo(mongo_collection)</code> and <code>PythonObjectJsonToMongo.load_from_mongo(mongo_collection, document_id)</code> methods to save/load your custom Python subclasses to MongoDB.</li>
+<li><a href="https://www.mongodb.com">MongoDB</a> <em>(using <a href="https://pymongo.readthedocs.io/en/stable/"><code>pymongo</code></a>)</em>: The <code>pyobjson</code>
+  library includes a class called <code>pyobjson.dao.PythonObjectJsonToMongo</code>, which can be used as a superclass for any
+  custom class you wish to be able to easily serialized/deserialize to/from MongoDB. Use the
+  <code>PythonObjectJsonToMongo.save_to_mongo(mongo_collection)</code> and
+  <code>PythonObjectJsonToMongo.load_from_mongo(mongo_collection, document_id)</code> methods to save/load your custom Python
+  subclasses to MongoDB.</li>
 </ul>
 <p><a name="mongodb-example"></a></p>
 <h6 id="mongodb-example">MongoDB Example<a class="headerlink" href="#mongodb-example" title="Permanent link">&para;</a></h6>
@@ -373,6 +410,39 @@
 <p><code>print(repr(custom_class_to_mongo))</code>:</p>
 <div class="codehilite"><pre><span></span><code>__main__.CustomClassToMongo<span class="o">(</span><span class="nv">mongo_host</span><span class="o">=</span>localhost,mongo_port<span class="o">=</span><span class="m">27017</span>,mongo_database<span class="o">=</span>pyobjson,mongo_user<span class="o">=</span>&lt;mongodb_user&gt;,mongo_password<span class="o">=</span>&lt;mongodb_password&gt;<span class="o">)</span>
 </code></pre></div>
+
+<hr />
+<p><a name="custom-subclasses"></a></p>
+<h3 id="custom-subclasses">Custom Subclasses<a class="headerlink" href="#custom-subclasses" title="Permanent link">&para;</a></h3>
+<p>The <code>PythonObjectJson</code> base class in <code>pyobjson</code> is designed to be extended using your own custom subclasses. The
+built-in <code>PythonObjectJsonToMongo</code> class is an example of this functionality, but it can be adapted to work for
+additional use cases as well.</p>
+<p><a name="serialization"></a></p>
+<h4 id="serialization">Serialization<a class="headerlink" href="#serialization" title="Permanent link">&para;</a></h4>
+<p>If you have a custom class with attributes that contain data you wish to exclude from the <code>pyobjson</code> serialized output (
+anything from sensitive data like credentials to objects that are not compatible with <code>pyobjson</code>), you can provide a
+list of attribute names (or a list of valid regular expressions) to the <code>excluded_attributes</code> parameter in the
+<code>PythonObjectJson.__init__(...)</code>, and <code>pyobjson</code> will automatically exclude any attributes that match those provided
+during serialization.</p>
+<p>If you <em>only</em> provide values for <code>excluded_attributes</code>, then <code>pyobjson</code> will exclude those attributes from <em>all</em> custom
+classes being serialized within the root custom class. However, you can also provide a list of class identifiers (like
+<code>pyobjson.dao.mongo.base.pythonobjectjsontomongo</code> to the <code>class_keys_for_excluded_attributes</code> parameter in the
+<code>PythonObjectJson.__init__(...)</code>, as derived using the <code>pyobjson.utils.derive_custom_object_key</code> function), in which
+case <code>pyobjson</code> will <em>only</em> exclude the provided <code>excluded_attributes</code> from the classes in
+<code>class_keys_for_excluded_attributes</code>.</p>
+<p><a name="deserialization"></a></p>
+<h4 id="deserialization">Deserialization<a class="headerlink" href="#deserialization" title="Permanent link">&para;</a></h4>
+<p>Similar to the approach for <a href="#serialization">custom subclass serialization</a>, if you have a custom class with extra
+attributes you wish to include during deserialization, you can provide a list of attribute names (or a list of valid
+regular expressions) to the <code>extra_attributes</code> parameters in the <code>PythonObjectJson.__init__(...)</code>, and <code>pyobjson</code> will
+attempt to re-apply those attributes during deserialization by pulling the values for those extra attributes from the
+custom class instance onto which you are deserializing data.</p>
+<p>If you <em>only</em> provide values for <code>extra_attributes</code>, then <code>pyobjson</code> will attempt to add those attributes to <em>all</em>
+custom classes being deserialized onto the root custom class. However, you can also provide a list of class
+identifiers (like <code>pyobjson.dao.mongo.base.pythonobjectjsontomongo</code> to the <code>class_keys_for_extra_attributes</code> parameter
+in the <code>PythonObjectJson.__init__(...)</code>, as derived using the <code>pyobjson.utils.derive_custom_object_key</code> function), in
+which case <code>pyobjson</code> will <em>only</em> attempt to add the provided <code>extra_attributes</code> to the classes in
+<code>class_keys_for_extra_attributes</code>.</p>
               
             </div>
           </div><footer>
@@ -426,5 +496,5 @@
 
 <!--
 MkDocs version : 1.6.1
-Build Date UTC : 2024-12-19 04:21:28.083291+00:00
+Build Date UTC : 2024-12-23 18:51:30.335386+00:00
 -->

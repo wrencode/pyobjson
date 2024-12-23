@@ -12,22 +12,67 @@ __email__ = "dev@wrencode.com"
 import json
 from inspect import getfullargspec
 from pathlib import Path
-from typing import Any, Dict, Type
+from re import search
+from typing import Any, Dict, List, Optional, Type
 
 from pyobjson.data import deserialize, serialize
-from pyobjson.utils import derive_custom_object_key, get_nested_subclasses
+from pyobjson.utils import derive_custom_object_key, get_nested_subclasses, validate_regex
 
 
 class PythonObjectJson(object):
     """Base Python Object with JSON serialization and deserialization compatibility."""
 
-    def __init__(self, **kwargs):
+    def __init__(
+        self,
+        excluded_attributes: Optional[List[str]] = None,
+        class_keys_for_excluded_attributes: Optional[List[str]] = None,
+        extra_attributes: Optional[List[str]] = None,
+        class_keys_for_extra_attributes: Optional[List[str]] = None,
+        **kwargs,
+    ):
         """Instantiate the PythonObjectJson class with all keyword arguments.
 
         Args:
+            excluded_attributes (Optional[list[str]], optional): List of Python class attributes to exclude during
+                serialization. Defaults to None.
+            class_keys_for_excluded_attributes (Optional[list[str]], optional): List of Python class keys for which to
+                exclude attributes provided in excluded_attributes during serialization. If no class keys are provided,
+                all attributes provided in excluded_attributes will be excluded from all classes during serialization.
+            extra_attributes (Optional[list[str]], optional): List of Python class attributes to provide as additional
+                Python class instantiation arguments during deserialization. If no extra attributes are provided,
+                defaults to the values in excluded_attributes.
+            class_keys_for_extra_attributes (Optional[list[str]], optional): List of Python class keys for which to
+                provide additional Python class instantiation arguments provided in extra_attributes during
+                deserialization. If no class keys are provided, any attributes provided in extra_attributes will be
+                provided as Python class instantiation arguments to all classes during deserialization. If no class keys
+                for extra attributes are provided, defaults to the values in class_keys_for_excluded_attributes.
             kwargs (dict): Key/value pairs to be passed to the PythonObjectJson class.
 
         """
+        # always exclude pyobjson attributes during serialization and include them as extra attributes during
+        # deserialization
+        pyobjson_attributes = [
+            "excluded_attributes",
+            "class_keys_for_excluded_attributes",
+            "extra_attributes",
+            "class_keys_for_extra_attributes",
+        ]
+        self.excluded_attributes = pyobjson_attributes
+        if excluded_attributes:
+            # check if all excluded attributes are valid regex
+            validate_regex(excluded_attributes)
+            self.excluded_attributes.extend(excluded_attributes)
+        self.class_keys_for_excluded_attributes = class_keys_for_excluded_attributes or []
+        self.extra_attributes = pyobjson_attributes
+        if extra_attributes:
+            # check if all extra attributes are valid regex
+            validate_regex(extra_attributes)
+            self.extra_attributes.extend(extra_attributes)
+        else:
+            self.extra_attributes.extend(set(self.excluded_attributes).difference(pyobjson_attributes))
+        self.class_keys_for_extra_attributes = (
+            class_keys_for_extra_attributes or self.class_keys_for_excluded_attributes
+        )
         vars(self).update(kwargs)
 
     def __str__(self):
@@ -61,7 +106,12 @@ class PythonObjectJson(object):
             dict[str, Any]: Serializable dictionary representing the class instance.
 
         """
-        return serialize(self, list(self._base_subclasses().values()), [])
+        return serialize(
+            self,
+            list(self._base_subclasses().values()),
+            self.excluded_attributes,
+            self.class_keys_for_excluded_attributes,
+        )
 
     def deserialize(self, serializable_dict: Dict[str, Any]) -> Any:
         """Load data to a class instance from a serializable dictionary.
@@ -73,7 +123,26 @@ class PythonObjectJson(object):
             Any: Class instance deserialized from data dictionary.
 
         """
-        return deserialize(serializable_dict, self._base_subclasses(), base_class_instance=self)
+        extra_attributes = {}
+        for att in self.extra_attributes:
+            instance_atts = vars(self)
+            # include extra attribute if it is defined in instance onto which data is being deserialized
+            if att in instance_atts.keys():
+                extra_attributes[att] = vars(self).get(att)
+            else:
+                for inst_att in instance_atts.keys():
+                    # include all attributes defined in instance onto which data is being deserialized that match the
+                    # extra attribute regex
+                    if search(rf"{att}", inst_att):
+                        extra_attributes[inst_att] = vars(self).get(inst_att)
+
+        return deserialize(
+            serializable_dict,
+            self._base_subclasses(),
+            base_class_instance=self,
+            extra_attributes=extra_attributes,
+            class_keys_for_extra_attributes=self.class_keys_for_extra_attributes,
+        )
 
     def to_json_str(self) -> str:
         """Serialize the class instance to a JSON string.

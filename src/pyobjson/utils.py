@@ -10,9 +10,34 @@ __author__ = "Wren J. Rudolph for Wrencode, LLC"
 __email__ = "dev@wrencode.com"
 
 from inspect import getfullargspec
+from re import compile, error
 from typing import Callable, List, Type, Union
 
 from pyobjson.constants import DELIMITER as DLIM
+
+
+def validate_regex(regex: Union[str, List[str]]) -> None:
+    """Utility function to check if a regular expression is valid.
+
+    Args:
+        regex (Union[str, list[str]]): Regular expression string or list of strings to validate.
+
+    Returns:
+        None
+
+    """
+    if isinstance(regex, str):
+        regex = [regex]
+
+    invalid_regex = []
+    for expr in regex:
+        try:
+            compile(expr)
+        except error:
+            invalid_regex.append(expr)
+
+    if invalid_regex:
+        raise ValueError(f"Invalid regex provided: {invalid_regex}")
 
 
 def derive_custom_object_key(custom_object: Union[Type, Callable], as_lower: bool = True) -> str:

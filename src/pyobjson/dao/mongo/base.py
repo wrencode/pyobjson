@@ -21,7 +21,6 @@ from pymongo.collection import Collection, ReturnDocument
 from pymongo.errors import OperationFailure, ServerSelectionTimeoutError
 
 from pyobjson.base import PythonObjectJson
-from pyobjson.data import deserialize, serialize
 
 logger = getLogger(__name__)
 
@@ -30,8 +29,7 @@ class PythonObjectJsonToMongo(PythonObjectJson):
     """PythonObjectJson subclass with built-in save/load functionality to/from MongoDB."""
 
     def __init__(self, mongo_host: str, mongo_port: int, mongo_database: str, mongo_user: str, mongo_password: str):
-        super().__init__()
-
+        super().__init__(excluded_attributes=["(^mongo_[A-Za-z]*)"])
         self.mongo_host: str = mongo_host
         self.mongo_port: int = mongo_port
         self.mongo_database: str = mongo_database
@@ -92,39 +90,6 @@ class PythonObjectJsonToMongo(PythonObjectJson):
                 f"be either 12 bytes long or a 24-character hexadecimal string."
             )
             sys.exit(1)
-
-    def serialize(self) -> Dict[str, Any]:
-        """Create a serializable dictionary from the class instance that excludes MongoDB-related attributes.
-
-        Returns:
-            dict[str, Any]: Serializable dictionary representing the class instance without MongoDB-related attributes.
-
-        """
-        return serialize(self, list(self._base_subclasses().values()), ["mongo_"])
-
-    def deserialize(self, serializable_dict: Dict[str, Any]) -> Any:
-        """Load data to a class instance from a serializable dictionary and add in MongoDB-related attributes.
-
-        Args:
-            serializable_dict (dict[str, Any]): Serializable dictionary representing the class instance.
-
-        Returns:
-            Any: Class instance deserialized from data dictionary including MongoDB-related attributes.
-
-        """
-        extra_instance_attributes = {
-            "mongo_host": self.mongo_host,
-            "mongo_port": self.mongo_port,
-            "mongo_database": self.mongo_database,
-            "mongo_user": self.mongo_user,
-            "mongo_password": self.mongo_password,
-        }
-        return deserialize(
-            serializable_dict,
-            self._base_subclasses(),
-            base_class_instance=self,
-            extra_instance_atts=extra_instance_attributes,
-        )
 
     def save_to_mongo(
         self, mongo_collection: str, mongo_document_id: Optional[Union[ObjectId, bytes, str]] = None

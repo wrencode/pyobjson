@@ -36,7 +36,7 @@
           <img src="../wrencode-logo.svg" class="logo" alt="Logo"/>
         </a>
         <div class="version">
-          v6.2.0
+          v6.2.1
         </div><div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
       <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
@@ -57,6 +57,8 @@
     <li class="toctree-l2"><a class="reference internal" href="#initial-deployment">Initial Deployment</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#subsequent-deployment">Subsequent Deployment</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#troubleshooting">Troubleshooting</a>
     </li>
     </ul>
                 </li>
@@ -112,6 +114,7 @@
 <ul>
 <li><a href="#initial-deployment">Initial Deployment</a></li>
 <li><a href="#subsequent-deployment">Subsequent Deployment</a></li>
+<li><a href="#troubleshooting">Troubleshooting</a></li>
 </ul>
 <div class="hide-next-element"></div>
 
@@ -270,6 +273,14 @@ git<span class="w"> </span>push
 <ul>
 <li><em>(Optional if releasing a major version)</em> Go to the <a href="https://github.com/wrencode/pyobjson/releases">Releases</a> page, click <code>Draft a new release</code>, select the latest major version tag, set the title to <code>Release vX.X.X</code>, enter release notes, and click <code>Publish release</code>.</li>
 </ul>
+<hr />
+<p><a name="troubleshooting"></a></p>
+<h3 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h3>
+<p>If you encounter an error using <code>uv</code> that looks something like:</p>
+<div class="codehilite"><pre><span></span><code>warning:<span class="w"> </span><span class="sb">`</span><span class="nv">VIRTUAL_ENV</span><span class="o">=</span>/path/to/project/virtualenv/.venv-python_3.13.1<span class="sb">`</span><span class="w"> </span>does<span class="w"> </span>not<span class="w"> </span>match<span class="w"> </span>the<span class="w"> </span>project<span class="w"> </span>environment<span class="w"> </span>path<span class="w"> </span><span class="sb">`</span>.venv-python_3.13.1<span class="sb">`</span><span class="w"> </span>and<span class="w"> </span>will<span class="w"> </span>be<span class="w"> </span>ignored
+</code></pre></div>
+
+<p>Then delete the virtual environment (<code>rm -rf .venv-python_3.13.1</code>) and recreate it.</p>
               
             </div>
           </div><footer>

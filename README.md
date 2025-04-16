@@ -1,5 +1,3 @@
-from pyobjson import PythonObjectJson
-
 # pyobjson - Python Object JSON Tool
 
 Utility library for serializing/deserializing custom Python objects to/from JSON.

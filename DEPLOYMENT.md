@@ -10,6 +10,7 @@
 
 * [Initial Deployment](#initial-deployment)
 * [Subsequent Deployment](#subsequent-deployment)
+* [Troubleshooting](#troubleshooting)
 
 <div class="hide-next-element"></div>
 
@@ -143,3 +144,14 @@ git push
 ```
 
 * *(Optional if releasing a major version)* Go to the [Releases](https://github.com/wrencode/pyobjson/releases) page, click `Draft a new release`, select the latest major version tag, set the title to `Release vX.X.X`, enter release notes, and click `Publish release`.
+
+---
+
+<a name="troubleshooting"></a>
+### Troubleshooting
+
+If you encounter an error using `uv` that looks something like:
+```shell
+warning: `VIRTUAL_ENV=/path/to/project/virtualenv/.venv-python_3.13.1` does not match the project environment path `.venv-python_3.13.1` and will be ignored
+```
+Then delete the virtual environment (`rm -rf .venv-python_3.13.1`) and recreate it.
